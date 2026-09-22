@@ -1,5 +1,5 @@
 <meta charset="UTF-8">
-<title>Morningo Product Page</title>
+<title>Morningo — Reserve My Place</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,7 +45,6 @@
   .bg-ink { background: #17150F; }
   .bg-primary { background: #39002A; }
   .bg-primary-soft { background: #EDE0EA; }
-  .bg-primary-mid { background: #5E0045; }
   .text-white { color: #ffffff; }
   .text-gray-400 { color: #9ca3af; }
   .text-gray-500 { color: #6b7280; }
@@ -188,7 +187,7 @@
     text-align: center;
   }
 
-  /* back / close button (nav) */
+  /* back button (nav) */
   .back-button {
     width: 40px;
     height: 40px;
@@ -201,24 +200,12 @@
   }
   .back-button:hover { background: #4B0037; }
 
-  /* nav question pill — persistent top-right trigger for the chat modal */
-  .nav-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 9999px;
-    flex-shrink: 0;
-    transition: background-color 150ms ease;
-  }
-  .nav-pill:hover { background: #4B0037; }
-
   /* logo mark — replaces the text wordmark in the nav and footer. align-self is needed
      because the footer's flex-col parent otherwise stretches it to the full column width,
      ignoring its own aspect ratio. */
   .logo-mark { height: 22px; width: auto; display: block; align-self: flex-start; }
 
-  /* form field, shared by the email capture page and the chat modal */
+  /* form field */
   .field-input {
     width: 100%;
     border: 1px solid #e5e7eb;
@@ -232,6 +219,18 @@
   .field-input::placeholder { color: #9ca3af; }
   .field-input:focus { outline: none; border-color: #39002A; }
   .field-input.invalid { border-color: #b91c1c; }
+
+  /* nav question pill — persistent top-right trigger for the chat modal */
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    transition: background-color 150ms ease;
+  }
+  .nav-pill:hover { background: #D4C0D0; }
 
   /* "Have a question?" chat modal — a real overlay (unlike the privacy page's full-screen
      sheet): dimmed backdrop stays visible behind it, click-outside closes it. Reuses the
@@ -296,7 +295,7 @@
     .sticky-cta { max-width: 1440px; }
     .cta-button { width: 300px; text-align: center; }
     .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
-    #hero-cta-block .cta-caption { margin-left: 0; margin-right: 0; }
+    #capture-form .cta-caption { margin-left: 0; margin-right: 0; }
     .sticky-cta .cta-caption { max-width: 600px; }
     .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
@@ -311,243 +310,48 @@
   }
 </style>
 <div class="bg-black text-white text-xs text-center py-1-5 sticky top-0 z-50 tracking-wide">
-  CONCEPT v3 — mobile only — Hero section, rest to follow
+  CONCEPT — Email Capture page
 </div>
 
 <!-- 1. NAVIGATION -->
 <header class="bg-primary">
-  <div class="max-w-phone mx-auto px-4 py-5 relative">
-    <img src="images/logo.png" alt="Morningo" class="logo-mark">
-    <a href="#" class="chat-trigger nav-pill bg-primary-mid text-white" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); text-decoration:none;" aria-label="Have a question?">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-      <span class="body-sm" style="font-weight:500;">Question</span>
+  <div class="max-w-phone mx-auto px-4 py-5 relative flex items-center justify-center">
+    <a href="product-wireframe-v2.html" class="back-button bg-primary-mid text-white" style="position:absolute; left:16px; top:50%; transform:translateY(-50%);" aria-label="Back to product page">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6l-6 6 6 6"/></svg>
+    </a>
+    <a href="product-wireframe-v2.html" style="display:block;">
+      <img src="images/logo.png" alt="Morningo" class="logo-mark">
     </a>
   </div>
 </header>
 
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
-  <!-- 2. HERO / PRODUCT DETAIL -->
-  <section id="hero" class="md-pt-10">
-
+  <!-- 2. PRODUCT IMAGE + 3. CAPTURE BLOCK -->
+  <section id="capture" class="md-pt-10">
     <div class="split-columns">
-    <div class="hero-media">
-    <!-- mobile: swipeable single-image gallery -->
-    <div id="hero-gallery-mobile">
-    <div class="relative">
-      <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <img src="images/hero-mock.webp" alt="Morningo box, sachet, and prepared drink" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/open-box.webp" alt="Hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/pour.webp" alt="Morningo drink being poured into a glass" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/drink.webp" alt="Prepared Morningo drink surrounded by blackcurrants and ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/sachet.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-      </div>
-      <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
-        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:20%; left:0%;"></div>
-      </div>
-    </div>
-    <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-mock.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/open-box.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/pour.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/drink.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet.webp); background-size:cover; background-position:center;"></button>
-    </div>
-    </div>
-    </div>
-
-    <!-- product detail block -->
-    <div class="flex flex-col gap-8 px-4 pt-3 pb-6">
-
-      <div class="flex flex-col gap-3">
-        <h1 class="headline">Calm focus. All morning, alongside your coffee.</h1>
-        <p class="body-lg">A morning supplement. One sachet designed to smooth your energy, extend your focus, and make the rest of the morning feel like the first hour did.</p>
-      </div>
-
-      <div>
-        <div class="price-row flex items-baseline justify-between gap-3">
-          <span class="card-title">£60</span>
-          <span class="body-lg">28 servings, £2.14 per morning</span>
-        </div>
-        <p class="body-lg mt-1">Flavour: Blackcurrant warmed by ginger</p>
-      </div>
-
-      <div class="flex flex-col gap-3" id="hero-cta-block">
-        <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="hero-cta">
-          Reserve My Place
-        </button>
-        <p class="cta-caption body-sm text-gray-500">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
-      </div>
-
-      <!-- callouts -->
-      <div class="flex flex-col gap-6">
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M12 21c-4-1-8-5-8-11 4 0 8 2 8 6 0-4 4-6 8-6 0 6-4 10-8 11z"/><path d="M12 21V10"/></svg>
-          <p class="body-lg">Vegan</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="8"/><path d="M6 18L18 6"/></svg>
-          <p class="body-lg">No artificial sweeteners</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M9 3h6M10 3v5.5L5.5 17a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 8.5V3"/></svg>
-          <p class="body-lg">Research-led formula</p>
-        </div>
-      </div>
-
-      <!-- accordions -->
-      <div class="divide-y divide-gray-200 border-t border-b border-gray-200">
-        <details class="py-4 group">
-          <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
-            What to expect
-            <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
-          </summary>
-          <p class="body-lg mt-3">Within the first few minutes, a mild warmth. Nothing dramatic. From around thirty minutes, energy building smoothly rather than arriving all at once. No spike, no edge. Just clear and composed through the morning.</p>
-        </details>
-        <details class="py-4 group">
-          <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
-            What's in it
-            <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
-          </summary>
-          <p class="body-lg mt-3">Green tea extract, L-theanine, bilberry extract, magnesium L-threonate, black pepper extract (BioPerine), vitamin B12 and B5.</p>
-        </details>
-        <details class="py-4 group">
-          <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
-            Is it right for me?
-            <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
-          </summary>
-          <p class="body-lg mt-3">Morningo sits alongside your morning coffee, not instead of it. Contains caffeine from green tea extract. The effect builds over time, give it two weeks.</p>
-        </details>
-      </div>
-
-      <a href="#" class="chat-trigger flex items-center justify-center md-justify-start gap-2 body-lg underline text-primary" style="font-weight:500;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-        Have a question? Ask us here.
-      </a>
-    </div>
-    </div>
-  </section>
-
-  <!-- 3. PROBLEM -->
-  <section id="problem" class="pt-section">
-    <div class="split-columns">
-    <img src="images/low-energy-people.webp" alt="Two people looking tired and low on energy" class="photo-frame aspect-4-3 w-full mb-8 md-order-last" style="object-fit:cover;">
+    <!-- Product image: reusing an existing lifestyle shot as a stand-in — not a dedicated capture-page photo -->
+    <img src="images/energy-lady.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="px-4">
       <div class="flex flex-col gap-3">
-        <h2 class="headline-sm">Most mornings start fine. It's the bit after that needs work.</h2>
-        <p class="body-lg">Not a crash. Just a quiet slide in the wrong direction.</p>
+        <h1 class="headline">500 places. First come, first served.</h1>
+        <p class="body-lg">Leave your email. When Morningo is ready to order, you'll be first in line.</p>
       </div>
 
-      <div class="flex flex-col gap-6 mt-8">
-        <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-          <p class="body-lg">The meeting you were physically present for but mentally elsewhere.</p>
-        </div>
-        <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M6 3h9l3 3v15H6z"/><path d="M9 8h3M9 12h6M9 16h6"/></svg>
-          <p class="body-lg">The task you read three times and still had to start again.</p>
-        </div>
-        <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          <p class="body-lg">The hour where you kept starting things and finishing none of them.</p>
-        </div>
-        <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1-1 1-1 2M12 3c0 1-1 1-1 2"/></svg>
-          <p class="body-lg">The afternoon that quietly started at half ten.</p>
-        </div>
-      </div>
-    </div>
-    </div>
-  </section>
-
-  <!-- 4. THE PRODUCT -->
-  <section id="the-product" class="pt-section">
-    <div class="split-columns">
-    <img src="images/energy-lady.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
-
-    <div class="flex flex-col gap-3 px-4">
-      <h2 class="headline-sm">One drink before the morning gets away from you.</h2>
-      <div class="flex flex-col gap-4">
-        <p class="body-lg">Within minutes, a mild warmth. Nothing dramatic. From around thirty minutes, energy building smoothly rather than arriving all at once. No spike, no edge. Just clear and composed through the morning.</p>
-        <p class="body-lg">The longer you take it, the more consistent it becomes. Week one you'll notice. Week three it's just how mornings feel.</p>
-      </div>
-    </div>
-    </div>
-  </section>
-
-  <!-- 5. WHY IT WORKS -->
-  <section id="why-it-works" class="pt-section">
-    <div class="px-6 mb-8">
-      <h2 class="headline-sm">Not more energy. Better energy.</h2>
-    </div>
-
-    <div class="card-carousel flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/tea.webp" alt="Green tea leaves" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
+      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="capture" method="POST" data-netlify="true" novalidate>
+        <input type="hidden" name="form-name" value="capture">
         <div class="flex flex-col gap-2">
-          <h3 class="card-title">Calm energy</h3>
-          <p class="body-sm text-gray-500 italic">Green tea extract + L-theanine</p>
-          <p class="body-lg">Green tea delivers caffeine slowly. L-theanine shapes the response. Not less energy. Just better behaved.</p>
+          <label for="email-input" class="body-sm" style="font-weight:500;">Your email address</label>
+          <input type="email" id="email-input" name="email" class="field-input" placeholder="you@example.com" required>
+          <p class="body-sm" id="email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
         </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/berry-cacao.webp" alt="Blackcurrants and cacao beans" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <h3 class="card-title">Clarity that holds</h3>
-          <p class="body-sm text-gray-500 italic">Bilberry anthocyanins</p>
-          <p class="body-lg">Anthocyanins support circulation. More oxygen arriving where you need it, through the hours that matter.</p>
-        </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/bvits.webp" alt="Sunflower seeds and grains" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <h3 class="card-title">Built to last</h3>
-          <p class="body-sm text-gray-500 italic">Magnesium L-threonate + B vitamins</p>
-          <p class="body-lg">The form of magnesium that reaches the brain, not just the body. B vitamins supporting how your cells produce energy. Better on day fifteen than day one.</p>
-        </div>
-      </div>
+        <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="capture-cta">
+          Reserve My Place
+        </button>
+        <p class="cta-caption body-sm text-gray-500">One email, when we're ready. Nothing else. <a href="privacy.html" class="underline">Privacy notice</a></p>
+      </form>
     </div>
-  </section>
-
-  <!-- 6. SOCIAL PROOF -->
-  <section id="social-proof" class="pt-section">
-    <div class="px-6 mb-8">
-      <h2 class="headline-sm">They tried it. Here's what they said.</h2>
-    </div>
-
-    <div class="card-carousel flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Didn't expect to notice much difference. Two weeks in and the 10am slump just isn't happening the way it was."</p>
-          <p class="body-sm text-gray-500 italic">Sarah M. — Project manager, Bristol</p>
-        </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"I was sceptical. I'm less sceptical now. Mornings feel more consistent."</p>
-          <p class="body-sm text-gray-500 italic">James T. — Freelance consultant, London</p>
-        </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Calm is the right word. Not a buzz. Just steady."</p>
-          <p class="body-sm text-gray-500 italic">Rachel K. — Entrepreneur, Manchester</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -569,13 +373,6 @@
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
   </div>
 </footer>
-
-<div id="sticky-cta" class="sticky-cta">
-  <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="sticky-cta-button">
-    Reserve My Place
-  </button>
-  <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
-</div>
 
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
@@ -631,8 +428,6 @@
 </div>
 
 <script>
-  document.querySelectorAll('.overflow-x-auto').forEach(el => { el.scrollLeft = 0; });
-
   // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
   // just being unavailable — fall back to an in-memory value so consent still works for this page load.
   var cookieConsent = (function() {
@@ -641,57 +436,6 @@
       get() { try { return localStorage.getItem('morningo-cookie-consent'); } catch (e) { return memory; } },
       set(value) { try { localStorage.setItem('morningo-cookie-consent', value); } catch (e) { memory = value; } },
     };
-  })();
-
-  (function() {
-    const gallery = document.getElementById('hero-gallery');
-    const tiles = Array.from(document.querySelectorAll('.hero-tile'));
-    const fill = document.getElementById('hero-progress-fill');
-    const count = tiles.length;
-
-    function setActive(index) {
-      tiles.forEach((tile, i) => {
-        tile.classList.toggle('tile-active', i === index);
-        tile.classList.toggle('opacity-50', i !== index);
-      });
-      fill.style.left = (index * 100 / count) + '%';
-    }
-
-    tiles.forEach((tile, i) => {
-      tile.addEventListener('click', () => {
-        gallery.scrollTo({ left: i * gallery.clientWidth, behavior: 'smooth' });
-      });
-    });
-
-    gallery.addEventListener('scroll', () => {
-      const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-      setActive(Math.min(Math.max(index, 0), count - 1));
-    });
-
-    gallery.scrollLeft = 0;
-    setActive(0);
-  })();
-
-  (function() {
-    const heroCtaBlock = document.getElementById('hero-cta-block');
-    const stickyBar = document.getElementById('sticky-cta');
-    const footer = document.querySelector('footer');
-    if (!heroCtaBlock || !stickyBar) return;
-
-    function updateStickyVisibility() {
-      const heroRect = heroCtaBlock.getBoundingClientRect();
-      const pastHeroButton = heroRect.bottom < 0;
-      const reachedFooter = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
-      const consentDecided = !!cookieConsent.get();
-      stickyBar.classList.toggle('visible', pastHeroButton && !reachedFooter && consentDecided);
-    }
-
-    window.addEventListener('scroll', updateStickyVisibility, { passive: true });
-    window.addEventListener('resize', updateStickyVisibility);
-    window.addEventListener('load', updateStickyVisibility);
-    updateStickyVisibility();
-
-    window.updateStickyVisibility = updateStickyVisibility;
   })();
 
   (function() {
@@ -705,7 +449,6 @@
     function decide(value) {
       cookieConsent.set(value);
       banner.classList.remove('visible');
-      if (window.updateStickyVisibility) window.updateStickyVisibility();
     }
 
     if (!cookieConsent.get()) {
@@ -720,10 +463,33 @@
   })();
 
   (function() {
-    // Wires both "Reserve My Place" CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
-    ['hero-cta', 'sticky-cta-button'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => { window.location.href = 'email-capture.html'; });
+    const form = document.getElementById('capture-form');
+    const input = document.getElementById('email-input');
+    const error = document.getElementById('email-error');
+    if (!form) return;
+
+    function showValidity(valid) {
+      input.classList.toggle('invalid', !valid);
+      error.style.display = valid ? 'none' : 'block';
+    }
+
+    input.addEventListener('input', () => {
+      if (input.classList.contains('invalid') && input.checkValidity()) showValidity(true);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const valid = input.checkValidity();
+      showValidity(valid);
+      if (!valid) { input.focus(); return; }
+
+      // Concept stage only: this page isn't deployed to Netlify yet, so there's nowhere for a
+      // real POST to go. The form above already carries the attributes Netlify needs
+      // (data-netlify="true", name="capture", hidden form-name field) to detect and handle it
+      // for real once deployed — Netlify then does the actual submit + redirect natively, and
+      // this client-side redirect becomes unnecessary. Until then, this simulates the
+      // "successful submission" path so the thank-you page can be reviewed.
+      window.location.href = 'thank-you.html';
     });
   })();
 
@@ -746,8 +512,6 @@
     const thanks = document.getElementById('chat-thanks');
     if (!sheet) return;
 
-    // Cycling status text next to the loading dots, styled after the "thinking" state in an
-    // AI chat interface — the whole point of this modal is to feel live, even though it isn't.
     const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
     let loadingTimer = null;
 

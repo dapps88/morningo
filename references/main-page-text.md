@@ -42,10 +42,10 @@ Calm focus. All morning, alongside your coffee.
 A morning supplement. One sachet designed to smooth your energy, extend your focus, and make the rest of the morning feel like the first hour did.
 
 **Flavour**
-Dark Berry & Warm Spice
+Blackcurrant warmed by ginger
 
 **Price**
-£[X] · 28 servings
+£60 · 28 servings · £2.14 per morning
 
 **Reassurance**
 No payment now. You'll be first to know when we're ready.

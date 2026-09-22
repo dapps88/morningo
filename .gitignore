@@ -1,1 +1,8 @@
 .DS_Store
+
+# Raw/source images are large (multi-MB) and only used locally as input to
+# scripts/optimize-images.sh — the optimized output that pages actually
+# reference lives in assets/web-optimized/ and concepts/images/, which are
+# small and stay tracked. Logo.png is tiny and kept as-is (source == usable).
+assets/web images/*.png
+!assets/web images/Logo.png

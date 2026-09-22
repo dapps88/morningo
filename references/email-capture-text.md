@@ -18,7 +18,7 @@ Read this file in full before writing any code.
 
 6. Product photo on the capture page is a placeholder. Mark clearly in code. Do not use stock images.
 
-7. No navigation on either page. No links back to the product page. Logo only, plus the standard site footer (privacy policy link), which appears identically on all four pages per brief.md.
+7. On both pages, the logo wordmark links back to the product page. The capture page additionally has a circular back button, top left, doing the same thing. Neither page has any other navigation or links besides these. Both also carry the standard site footer (privacy policy link), which appears identically on all four pages per brief.md.
 
 8. Page order is locked. Build sections in the sequence they appear below.
 
@@ -39,9 +39,9 @@ Morningo wordmark. Same treatment as the product page.
 **Job**
 Visual continuity from the product page. The reader should see the same object they just left.
 
-Product sachet image. Placeholder — same asset as product page hero.
+Product sachet image. For now, reusing an existing lifestyle shot from the product page (the woman drinking Morningo) as a stand-in — not a dedicated capture-page photo.
 
-Mark in code: `<!-- Product image: placeholder — replace with final sachet photography -->`
+Mark in code: `<!-- Product image: reusing an existing lifestyle shot as a stand-in — not a dedicated capture-page photo -->`
 
 ---
 
@@ -96,6 +96,6 @@ We'll be in touch the moment Morningo is ready to order. One email. That's all.
 
 Nothing on this list should be invented or assumed. Each must be replaced before launch.
 
-- [ ] Product image — capture page Section 2
+- [ ] Product image — capture page Section 2, currently a reused lifestyle shot, not a dedicated one
 - [ ] Privacy notice page — `/privacy` (separate brief, not in scope here)
 - [ ] Analytics IDs — GA4 Measurement ID and Facebook Pixel ID must be present in `analytics.js` before conversion events will fire

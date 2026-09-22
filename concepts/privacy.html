@@ -1,0 +1,662 @@
+<meta charset="UTF-8">
+<title>Morningo — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; background: #ffffff; color: #17150F; margin: 0; }
+  h1, h2, h3, h4, p { margin: 0; }
+  svg { display: block; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
+  ul { margin: 0; }
+
+  /* type tokens — fluid between 375px and 1440px viewport width */
+  .headline { font-size: clamp(32px, calc(27px + 1.31vw), 46px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
+  .headline-sm { font-size: clamp(26px, calc(22px + 0.94vw), 36px); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
+  .card-title { font-size: clamp(20px, calc(18.6px + 0.38vw), 24px); font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; }
+  .body-lg { font-size: clamp(16px, calc(15px + 0.19vw), 18px); font-weight: 400; line-height: 1.45; color: #585858; }
+  .body-sm { font-size: 14px; font-weight: 400; line-height: 1.45; }
+  @media (min-width: 768px) {
+    .headline { letter-spacing: -0.025em; }
+  }
+  .text-2xl { font-size: 24px; }
+  .text-base { font-size: 16px; }
+  .text-sm { font-size: 14px; }
+  .text-xs { font-size: 12px; }
+  .leading-none { line-height: 1; }
+  .font-medium { font-weight: 500; }
+  .font-normal { font-weight: 400; }
+  .font-semibold { font-weight: 600; }
+  .italic { font-style: italic; }
+  .uppercase { text-transform: uppercase; }
+  .tracking-tight { letter-spacing: -0.02em; }
+  .tracking-wide { letter-spacing: 0.05em; }
+  .underline { text-decoration: underline; }
+  .text-center { text-align: center; }
+  .cursor-pointer { cursor: pointer; }
+  .list-none { list-style: none; }
+
+  /* colors */
+  .bg-black { background: #000000; }
+  .bg-white { background: #ffffff; }
+  .bg-white-40 { background: rgba(255,255,255,0.4); }
+  .bg-gray-100 { background: #f3f4f6; }
+  .bg-ink { background: #17150F; }
+  .bg-primary { background: #39002A; }
+  .bg-primary-soft { background: #EDE0EA; }
+  .bg-primary-mid { background: #5E0045; }
+  .text-white { color: #ffffff; }
+  .text-gray-400 { color: #9ca3af; }
+  .text-gray-500 { color: #6b7280; }
+  .text-ink { color: #17150F; }
+  .text-primary { color: #39002A; }
+  .border-gray-200 { border-color: #e5e7eb; }
+  .border-t { border-top: 1px solid #e5e7eb; }
+  .border-b { border-bottom: 1px solid #e5e7eb; }
+  .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  .divide-y > * + * { border-top: 1px solid #e5e7eb; }
+
+  /* layout */
+  .flex { display: flex; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .items-baseline { align-items: baseline; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .shrink-0 { flex-shrink: 0; }
+  .relative { position: relative; }
+  .absolute { position: absolute; }
+  .sticky { position: sticky; }
+  .top-0 { top: 0; }
+  .bottom-4 { bottom: 16px; }
+  .left-50 { left: 50%; }
+  .translate-x-neg50 { transform: translateX(-50%); }
+  .z-50 { z-index: 50; }
+  .overflow-hidden { overflow: hidden; }
+  .overflow-x-auto { overflow-x: auto; }
+  .rounded-full { border-radius: 9999px; }
+  .rounded-lg { border-radius: 12px; }
+  .rounded-sm { border-radius: 3px; }
+  .opacity-50 { opacity: 0.5; }
+  .tile-active { box-shadow: 0 0 0 1px #17150F; }
+
+  /* sizing */
+  .w-full { width: 100%; }
+  .w-16 { width: 83px; }
+  .w-28 { width: 112px; }
+  .w-76pct { width: 76%; }
+  .max-w-phone { max-width: 430px; }
+  @media (min-width: 768px) {
+    .max-w-phone { max-width: 1440px; border-left: none; border-right: none; padding-left: 40px; padding-right: 40px; }
+  }
+  .min-h-screen { min-height: 100vh; }
+  .h-full { height: 100%; }
+  .h-1-5 { height: 6px; }
+  .aspect-4-3 { aspect-ratio: 4 / 3; }
+  .aspect-4-5 { aspect-ratio: 4 / 5; }
+
+  /* spacing */
+  .gap-2 { gap: 8px; }
+  .gap-3 { gap: 12px; }
+  .gap-4 { gap: 16px; }
+  .gap-6 { gap: 24px; }
+  .gap-8 { gap: 32px; }
+  .mx-auto { margin-left: auto; margin-right: auto; }
+  .mb-8 { margin-bottom: 32px; }
+  .mt-1 { margin-top: 5px; }
+  .mt-3 { margin-top: 12px; }
+  .mt-8 { margin-top: 32px; }
+  .mt-section-gap { margin-top: clamp(80px, calc(127px - 3.29vw), 115px); }
+  .pt-section { padding-top: clamp(80px, calc(127px - 3.29vw), 115px); }
+  .px-4 { padding-left: 16px; padding-right: 16px; }
+  .px-6 { padding-left: 24px; padding-right: 24px; }
+  .px-8 { padding-left: 32px; padding-right: 32px; }
+  .py-1-5 { padding-top: 6px; padding-bottom: 6px; }
+  .py-4 { padding-top: 16px; padding-bottom: 16px; }
+  .py-5 { padding-top: 20px; padding-bottom: 20px; }
+  .pt-3 { padding-top: 12px; }
+  .pt-4 { padding-top: 16px; }
+  .pt-6 { padding-top: 24px; }
+  .pb-3 { padding-bottom: 12px; }
+  .pb-6 { padding-bottom: 24px; }
+  .pb-12 { padding-bottom: 48px; }
+  .pl-6 { padding-left: 24px; }
+  .pr-6 { padding-right: 24px; }
+  .scroll-pl-6 { scroll-padding-left: 24px; }
+  .scroll-pr-6 { scroll-padding-right: 24px; }
+
+  /* scroll / carousel */
+  .snap-x.snap-mandatory { scroll-snap-type: x mandatory; }
+  .snap-x.snap-proximity { scroll-snap-type: x proximity; }
+  .snap-start { scroll-snap-align: start; }
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* accordion */
+  details summary { list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  .accordion-icon::before { content: "+"; }
+  details.group[open] .accordion-icon::before { content: "\2212"; }
+
+  /* sticky CTA */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 430px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    padding: 16px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(100%);
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 40;
+  }
+  .sticky-cta.visible { transform: translateY(0); }
+
+  /* cookie banner */
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #EAE7E1;
+    border-top: 1px solid #d8d5cf;
+    padding: 20px 0;
+    transform: translateY(100%);
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 50;
+  }
+  .cookie-banner.visible { transform: translateY(0); }
+  .cookie-banner-inner { display: flex; flex-direction: column; gap: 16px; }
+  .cookie-banner-actions { display: flex; gap: 12px; }
+  .cookie-btn {
+    flex: 1;
+    background: #17150F;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 9999px;
+    text-align: center;
+  }
+
+  /* back / close button (nav) */
+  .back-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 150ms ease;
+  }
+  .back-button:hover { background: #4B0037; }
+
+  /* nav question pill — persistent top-right trigger for the chat modal */
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    transition: background-color 150ms ease;
+  }
+  .nav-pill:hover { background: #4B0037; }
+
+  /* logo mark — replaces the text wordmark in the nav and footer. align-self is needed
+     because the footer's flex-col parent otherwise stretches it to the full column width,
+     ignoring its own aspect ratio. */
+  .logo-mark { height: 22px; width: auto; display: block; align-self: flex-start; }
+
+  /* form field, used by the chat modal */
+  .field-input {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    color: #17150F;
+    background: #ffffff;
+  }
+  .field-input::placeholder { color: #9ca3af; }
+  .field-input:focus { outline: none; border-color: #39002A; }
+  .field-input.invalid { border-color: #b91c1c; }
+
+  /* "Have a question?" chat modal — sits outside #page-sheet in the DOM (see markup) since
+     that element's own transform would otherwise become the containing block for anything
+     fixed-position nested inside it. Same dimmed-backdrop overlay pattern as every other page. */
+  .chat-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(23,21,15,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+    z-index: 60;
+  }
+  .chat-backdrop.visible { opacity: 1; pointer-events: auto; }
+  .chat-sheet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 32px);
+    max-width: 430px;
+    max-height: 85vh;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    overflow-y: auto;
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease;
+    z-index: 61;
+  }
+  .chat-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+  .chat-textarea {
+    width: 100%;
+    min-height: 110px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    color: #17150F;
+    resize: none;
+  }
+  .chat-textarea::placeholder { color: #9ca3af; }
+  .chat-textarea:focus { outline: none; border-color: #39002A; }
+  .chat-textarea:disabled { opacity: 1; color: #17150F; background: #ffffff; }
+  .chat-loading { display: flex; align-items: center; gap: 10px; }
+  .chat-dot { width: 6px; height: 6px; border-radius: 9999px; background: #39002A; animation: chat-pulse 1s ease-in-out infinite; }
+  .chat-dot:nth-child(2) { animation-delay: 0.15s; }
+  .chat-dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes chat-pulse { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+  /* long-form document list (Your rights, data processors) */
+  .doc-list { padding-left: 20px; }
+  .doc-list li + li { margin-top: 8px; }
+
+  /* full-screen sheet takeover — this page slides up from the base of the viewport on
+     load and back down on close, rather than sitting in normal document flow like the
+     other pages. It's a real standalone page, not a modal: no backdrop, no shared state
+     with whatever page linked here. */
+  .page-sheet {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translateY(100%);
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .page-sheet.visible { transform: translateY(0); }
+
+  /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
+  .hero-media { min-width: 0; }
+  .cta-button { width: 100%; }
+  .cta-caption { }
+  @media (min-width: 768px) {
+    .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .md-order-last { order: 2; }
+    .md-justify-start { justify-content: flex-start; }
+    .md-pt-10 { padding-top: 40px; }
+    .sticky-cta { max-width: 1440px; }
+    .cta-button { width: 300px; text-align: center; }
+    .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
+    .sticky-cta .cta-caption { max-width: 600px; }
+    .price-row { justify-content: flex-start; }
+    .card-carousel { overflow-x: visible; gap: 24px; }
+    .card-carousel-item { width: auto; flex: 1 1 0; }
+    .photo-frame { border-radius: 12px; overflow: hidden; }
+    .cookie-banner-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; }
+    .cookie-banner-actions { flex-shrink: 0; }
+    .cookie-btn { flex: none; }
+    .chat-sheet { max-width: 480px; }
+    .logo-mark { height: 28.6px; }
+    .chat-sheet .cta-button { width: 100%; }
+  }
+</style>
+
+<div id="page-sheet" class="page-sheet">
+
+<div class="bg-black text-white text-xs text-center py-1-5 sticky top-0 z-50 tracking-wide">
+  CONCEPT — Privacy Policy page
+</div>
+
+<!-- 1. NAVIGATION (logo only, no nav CTA — rule 4. Close button replaces the back button's arrow with an X) -->
+<header class="bg-primary">
+  <div class="max-w-phone mx-auto px-4 py-5 relative flex items-center justify-center">
+    <a href="product-wireframe-v2.html" id="close-button" class="back-button bg-primary-mid text-white" style="position:absolute; left:16px; top:50%; transform:translateY(-50%);" aria-label="Close privacy policy">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </a>
+    <a href="product-wireframe-v2.html" style="display:block;">
+      <img src="images/logo.png" alt="Morningo" class="logo-mark">
+    </a>
+    <a href="#" class="chat-trigger nav-pill bg-primary-mid text-white" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); text-decoration:none;" aria-label="Have a question?">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
+      <span class="body-sm" style="font-weight:500;">Question</span>
+    </a>
+  </div>
+</header>
+
+<div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
+
+  <!-- 2. POLICY DOCUMENT -->
+  <section class="md-pt-10 px-4 pb-12">
+
+    <div class="flex flex-col gap-3">
+      <h1 class="headline">Privacy Policy</h1>
+      <p class="body-sm text-gray-500">Last updated: [date]</p>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Who we are</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">This site is operated by [your full legal name], based in the United Kingdom.</p>
+        <p class="body-lg">If you have any questions about this policy or how we handle your data, contact us at [email address].</p>
+        <p class="body-lg">Our ICO registration number is [number].</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">What we collect and why</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">When you register your interest via this site, we collect your email address. We use it for one purpose only: to let you know if and when Morningo launches. We do not send marketing emails, newsletters, or any other promotional content, and we will not build an ongoing mailing list from it. We collect nothing else.</p>
+        <p class="body-lg">When you visit this site, we may also collect anonymised usage data and advertising measurement data through cookies, if you have given your consent. See the Cookies section below for details.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Legal basis for processing</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">We process your email address on the basis of your consent, given when you submit the registration form.</p>
+        <p class="body-lg">We process cookie and tracking data on the basis of your consent, given when you accept cookies via the banner on this site.</p>
+        <p class="body-lg">You can withdraw consent at any time. See Your Rights below.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">The Meta Pixel</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">This site uses the Meta Pixel, a piece of code provided by Meta Platforms Ireland Ltd. When you accept cookies, the Meta Pixel loads and may set cookies in your browser. This allows Meta to measure the effectiveness of our advertising and to help us reach people with similar interests through Facebook and Instagram.</p>
+        <p class="body-lg">Meta may use data collected through the Pixel in accordance with their own Data Policy, available at facebook.com/privacy/policy.</p>
+        <p class="body-lg">To manage how Meta uses your data for advertising, visit your Meta Ad Preferences at facebook.com/adpreferences.</p>
+        <p class="body-lg">We do not use the Meta Pixel to collect data from anyone we know to be under the age of 13.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Google Analytics</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">This site uses Google Analytics 4 (GA4), provided by Google LLC. When you accept cookies, GA4 may set cookies in your browser to help us understand how visitors find and use this site. This data is anonymised and aggregated. It does not identify you personally.</p>
+        <p class="body-lg">Google's privacy policy is available at policies.google.com/privacy.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Who we share your data with</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">We do not sell your data. We do not share your email address with third parties for their own marketing purposes.</p>
+        <p class="body-lg">The following services process data on our behalf as data processors:</p>
+        <ul class="body-lg doc-list">
+          <li>Netlify — hosts this site and receives form submissions (netlify.com/privacy)</li>
+          <li>Google — analytics via GA4 (policies.google.com/privacy)</li>
+          <li>Meta — advertising measurement via Meta Pixel (facebook.com/privacy/policy)</li>
+        </ul>
+        <p class="body-lg">Each operates under their own privacy policy and is contractually required to handle your data appropriately.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">International data transfers</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">Some of our data processors are based outside the UK. Where this is the case, we ensure transfers are covered by appropriate safeguards, including the UK-US Data Bridge where applicable.</p>
+      </div>
+    </div>
+
+    <div id="cookies" class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Cookies</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">Cookies are small text files saved to your browser by websites you visit.</p>
+        <p class="body-lg">This site uses two types:</p>
+        <p class="body-lg">Strictly necessary cookies — required for the site to function. Set regardless of your preference. No personal data is collected through these.</p>
+        <p class="body-lg">Analytics and advertising cookies — set by GA4 and the Meta Pixel. Only loaded if you accept cookies when prompted. You can withdraw consent at any time by clearing your browser cookies or adjusting your browser settings.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">How long we keep your data</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">We will keep your email address for up to 24 months from the date you register, or until you ask us to delete it, whichever is sooner.</p>
+        <p class="body-lg">To stop receiving communications from us, or to ask us to delete your data, contact us at [email address].</p>
+        <p class="body-lg">Cookie data held by Google and Meta is subject to their own retention policies.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Your rights</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">Under UK GDPR, you have the right to:</p>
+        <ul class="body-lg doc-list">
+          <li>Access the personal data we hold about you</li>
+          <li>Ask us to correct inaccurate data</li>
+          <li>Ask us to delete your data</li>
+          <li>Withdraw consent at any time, without affecting any processing carried out before withdrawal</li>
+          <li>Lodge a complaint with the Information Commissioner's Office at ico.org.uk</li>
+        </ul>
+        <p class="body-lg">To exercise any of these rights, email us at [email address]. We will respond within 30 days.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h2 class="headline-sm">Changes to this policy</h2>
+      <div class="flex flex-col gap-4 mt-3">
+        <p class="body-lg">If we update this policy, we will change the date at the top of this page.</p>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-ink text-white mt-section-gap">
+  <div class="max-w-phone mx-auto px-6 pt-section pb-12">
+    <div class="flex flex-col gap-3">
+      <img src="images/logo.png" alt="Morningo" class="logo-mark">
+      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
+    </div>
+
+    <div class="flex flex-col gap-3 mt-8">
+      <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
+      <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+    </div>
+
+    <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
+  </div>
+</footer>
+
+</div>
+
+<!-- "Have a question?" chat modal — deliberately OUTSIDE #page-sheet: that element has its
+     own transform, which would become the containing block for anything fixed-position
+     nested inside it and break this modal's full-viewport positioning. Reused verbatim
+     across all four pages otherwise. -->
+<div id="chat-backdrop" class="chat-backdrop"></div>
+<div id="chat-sheet" class="chat-sheet">
+  <div class="flex justify-between items-center">
+    <h3 class="card-title">Have a question?</h3>
+    <a href="#" id="chat-close" class="back-button bg-primary-mid text-white" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </a>
+  </div>
+
+  <form id="chat-form" class="flex flex-col gap-3 mt-8">
+    <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-send">Send Message</button>
+  </form>
+
+  <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
+    <div class="flex gap-1">
+      <span class="chat-dot"></span><span class="chat-dot"></span><span class="chat-dot"></span>
+    </div>
+    <span id="chat-loading-text" class="body-sm text-gray-500">Reading your question&hellip;</span>
+  </div>
+
+  <div id="chat-reply" class="mt-6" style="display:none;">
+    <p class="body-lg">We don't have the answer to that right now. Please leave your email and we'll get back to you.</p>
+
+    <form id="chat-email-form" class="flex flex-col gap-3 mt-8">
+      <div class="flex flex-col gap-2">
+        <label for="chat-email" class="body-sm" style="font-weight:500;">Your email address</label>
+        <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
+        <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
+      </div>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-email-send">Send Message</button>
+    </form>
+  </div>
+
+  <div id="chat-thanks" class="flex flex-col items-center gap-3 mt-8 pb-4" style="display:none;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#39002A" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>
+    <p class="body-lg text-center">Thank you, your message has been sent. We'll get back to you as soon as we can.</p>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const sheet = document.getElementById('page-sheet');
+    const closeBtn = document.getElementById('close-button');
+
+    // Double rAF, not setTimeout: guarantees the hidden (translateY 100%) state is painted
+    // first so the slide-up transition reliably plays — same pattern as the cookie banner
+    // and sticky CTA reveals elsewhere in this project.
+    requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('visible')));
+
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      sheet.classList.remove('visible');
+      const fallbackHref = closeBtn.getAttribute('href');
+      setTimeout(() => {
+        // Prefer real back-navigation (so you land exactly where you clicked "Privacy Policy"
+        // from) when we arrived from elsewhere on this site; otherwise fall back to the product page.
+        if (document.referrer && document.referrer.indexOf(location.origin) === 0) {
+          history.back();
+        } else {
+          window.location.href = fallbackHref;
+        }
+      }, 450);
+    });
+  })();
+
+  (function() {
+    // "Have a question?" chat modal. Not a real chat — a single canned reply designed to
+    // capture the question + an email address together. See morningo-page-builder skill.
+    const backdrop = document.getElementById('chat-backdrop');
+    const chatSheet = document.getElementById('chat-sheet');
+    const closeBtn = document.getElementById('chat-close');
+    const form = document.getElementById('chat-form');
+    const questionInput = document.getElementById('chat-question');
+    const sendBtn = document.getElementById('chat-send');
+    const loading = document.getElementById('chat-loading');
+    const loadingText = document.getElementById('chat-loading-text');
+    const reply = document.getElementById('chat-reply');
+    const emailForm = document.getElementById('chat-email-form');
+    const emailInput = document.getElementById('chat-email');
+    const emailError = document.getElementById('chat-email-error');
+    const emailSendBtn = document.getElementById('chat-email-send');
+    const thanks = document.getElementById('chat-thanks');
+    if (!chatSheet) return;
+
+    const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
+    let loadingTimer = null;
+
+    function resetChat() {
+      clearInterval(loadingTimer);
+      questionInput.value = '';
+      questionInput.disabled = false;
+      sendBtn.style.display = '';
+      loading.style.display = 'none';
+      form.style.display = '';
+      reply.style.display = 'none';
+      emailInput.value = '';
+      emailInput.disabled = false;
+      emailInput.classList.remove('invalid');
+      emailError.style.display = 'none';
+      emailSendBtn.style.display = '';
+      thanks.style.display = 'none';
+    }
+
+    function openChat(e) {
+      if (e) e.preventDefault();
+      resetChat();
+      backdrop.classList.add('visible');
+      requestAnimationFrame(() => requestAnimationFrame(() => chatSheet.classList.add('visible')));
+    }
+    function closeChat(e) {
+      if (e) e.preventDefault();
+      chatSheet.classList.remove('visible');
+      backdrop.classList.remove('visible');
+    }
+    document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
+    closeBtn.addEventListener('click', closeChat);
+    backdrop.addEventListener('click', closeChat);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      questionInput.disabled = true;
+      sendBtn.style.display = 'none';
+      loading.style.display = 'flex';
+
+      let i = 0;
+      loadingText.textContent = loadingPhrases[0];
+      loadingTimer = setInterval(() => {
+        i = (i + 1) % loadingPhrases.length;
+        loadingText.textContent = loadingPhrases[i];
+      }, 1100);
+
+      setTimeout(() => {
+        clearInterval(loadingTimer);
+        loading.style.display = 'none';
+        form.style.display = 'none';
+        reply.style.display = 'block';
+      }, 2800);
+    });
+
+    emailInput.addEventListener('input', () => {
+      if (emailInput.classList.contains('invalid') && emailInput.checkValidity()) {
+        emailInput.classList.remove('invalid');
+        emailError.style.display = 'none';
+      }
+    });
+
+    emailForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const valid = emailInput.checkValidity();
+      emailInput.classList.toggle('invalid', !valid);
+      emailError.style.display = valid ? 'none' : 'block';
+      if (!valid) { emailInput.focus(); return; }
+
+      // Concept stage only: real build submits { question, email } together to Netlify
+      // Forms here (same mechanism as the capture page — see brief.md).
+      // The thank-you state takes over the whole modal — question, reply, and email field
+      // all clear away, leaving just the confirmation centered on its own.
+      form.style.display = 'none';
+      reply.style.display = 'none';
+      thanks.style.display = 'flex';
+    });
+  })();
+</script>
