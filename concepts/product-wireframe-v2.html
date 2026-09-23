@@ -140,24 +140,21 @@
   details.group[open] .accordion-icon::before { content: "\2212"; }
 
   /* sticky CTA */
+  /* full-bleed like the nav/footer: the bar itself spans the true viewport width, an inner
+     max-w-phone wrapper keeps the button/caption centered on the normal content column. */
   .sticky-cta {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    max-width: 430px;
-    margin: 0 auto;
     background: #ffffff;
     border-top: 1px solid #e5e7eb;
-    padding: 16px 16px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     transform: translateY(100%);
     transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 40;
   }
   .sticky-cta.visible { transform: translateY(0); }
+  .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 20px; }
 
   /* cookie banner */
   .cookie-banner {
@@ -217,6 +214,7 @@
      because the footer's flex-col parent otherwise stretches it to the full column width,
      ignoring its own aspect ratio. */
   .logo-mark { height: 22px; width: auto; display: block; align-self: flex-start; }
+  footer .logo-mark { height: 33px; }
 
   /* form field, shared by the email capture page and the chat modal */
   .field-input {
@@ -284,6 +282,19 @@
   .chat-dot:nth-child(3) { animation-delay: 0.3s; }
   @keyframes chat-pulse { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
 
+  /* "2 hours decide the day" full-bleed band. Black is full-viewport-width (breaks out
+     of max-w-phone, same technique as the nav/footer); the image itself stays locked to
+     the site's normal content-grid width inside it, never stretched to fill the viewport. */
+  .intrigue-frame { position: relative; overflow: hidden; background: #000000; }
+  .intrigue-image { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center; display: block; }
+  .intrigue-overlay { position: absolute; inset: 0; display: flex; align-items: flex-start; justify-content: center; padding: 64px 24px 0; }
+  .intrigue-fade {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1), transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .intrigue-fade.visible { opacity: 1; transform: translateY(0); }
+
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
   .cta-button { width: 100%; }
@@ -293,11 +304,11 @@
     .md-order-last { order: 2; }
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
-    .sticky-cta { max-width: 1440px; }
+    .sticky-cta-inner { max-width: 1440px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
     .cta-button { width: 300px; text-align: center; }
     .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
     #hero-cta-block .cta-caption { margin-left: 0; margin-right: 0; }
-    .sticky-cta .cta-caption { max-width: 600px; }
+    .sticky-cta-inner .cta-caption { max-width: 600px; }
     .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
     .card-carousel-item { width: auto; flex: 1 1 0; }
@@ -307,7 +318,13 @@
     .cookie-btn { flex: none; }
     .chat-sheet { max-width: 480px; }
     .logo-mark { height: 28.6px; }
+    footer .logo-mark { height: 42.9px; }
     .chat-sheet .cta-button { width: 100%; }
+    .intrigue-image { aspect-ratio: 21 / 9; }
+    .intrigue-overlay { padding-top: 48px; }
+  }
+  @media (max-width: 767px) {
+    #problem { padding-top: 0; }
   }
 </style>
 <div class="bg-black text-white text-xs text-center py-1-5 sticky top-0 z-50 tracking-wide">
@@ -325,7 +342,7 @@
   </div>
 </header>
 
-<div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
+<div class="max-w-phone mx-auto border-x border-gray-200">
 
   <!-- 2. HERO / PRODUCT DETAIL -->
   <section id="hero" class="md-pt-10">
@@ -428,7 +445,25 @@
     </div>
   </section>
 
-  <!-- 3. PROBLEM -->
+</div>
+
+<!-- 3. START READY -->
+<section id="start-ready" class="pt-section">
+  <div style="background:#000000;">
+    <div class="max-w-phone mx-auto">
+      <div class="intrigue-frame">
+        <img src="images/wide-glass.webp" alt="A prepared Morningo drink in a glass against a dark background" class="intrigue-image">
+        <div class="intrigue-overlay">
+          <h2 class="headline-sm intrigue-fade text-white text-center">2 hours decide the day,<br>Start ready.</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
+
+  <!-- 4. PROBLEM -->
   <section id="problem" class="pt-section">
     <div class="split-columns">
     <img src="images/low-energy-people.webp" alt="Two people looking tired and low on energy" class="photo-frame aspect-4-3 w-full mb-8 md-order-last" style="object-fit:cover;">
@@ -461,7 +496,7 @@
     </div>
   </section>
 
-  <!-- 4. THE PRODUCT -->
+  <!-- 5. THE PRODUCT -->
   <section id="the-product" class="pt-section">
     <div class="split-columns">
     <img src="images/energy-lady.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
@@ -476,7 +511,7 @@
     </div>
   </section>
 
-  <!-- 5. WHY IT WORKS -->
+  <!-- 6. WHY IT WORKS -->
   <section id="why-it-works" class="pt-section">
     <div class="px-6 mb-8">
       <h2 class="headline-sm">Not more energy. Better energy.</h2>
@@ -512,7 +547,7 @@
     </div>
   </section>
 
-  <!-- 6. SOCIAL PROOF -->
+  <!-- 7. SOCIAL PROOF -->
   <section id="social-proof" class="pt-section">
     <div class="px-6 mb-8">
       <h2 class="headline-sm">They tried it. Here's what they said.</h2>
@@ -571,10 +606,12 @@
 </footer>
 
 <div id="sticky-cta" class="sticky-cta">
-  <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="sticky-cta-button">
-    Reserve My Place
-  </button>
-  <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
+  <div class="sticky-cta-inner">
+    <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="sticky-cta-button">
+      Reserve My Place
+    </button>
+    <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
+  </div>
 </div>
 
 <div id="cookie-banner" class="cookie-banner">
@@ -717,6 +754,31 @@
 
     acceptBtn.addEventListener('click', () => decide('accepted'));
     rejectBtn.addEventListener('click', () => decide('declined'));
+  })();
+
+  (function() {
+    // "2 hours decide the day" headline fade-in — reveals once, the first time the
+    // section scrolls into view, and never again. Safe to use IntersectionObserver here
+    // (unlike the sticky CTA / cookie banner, see working method note on this) since this
+    // section sits below the fold — the automatic first check on observe() correctly
+    // reports "not yet visible" instead of racing font-load on a check that matters
+    // immediately on page load.
+    const fadeEl = document.querySelector('.intrigue-fade');
+    if (fadeEl) {
+      if (!('IntersectionObserver' in window)) {
+        fadeEl.classList.add('visible');
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              fadeEl.classList.add('visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        io.observe(fadeEl);
+      }
+    }
   })();
 
   (function() {

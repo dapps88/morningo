@@ -100,7 +100,17 @@ The effect builds over time. Give it two weeks before you decide.
 
 ---
 
-### SECTION 2: PROBLEM
+### SECTION 2: START READY
+
+**Job**
+A single full-bleed visual beat between the product detail block and the Problem section. Locked black background, product photography, one short line of copy. No CTA, no sell — just a moment of intrigue before the page moves into the problem.
+
+**Headline**
+2 hours decide the day, Start ready.
+
+---
+
+### SECTION 3: PROBLEM
 
 **Job**
 Make the reader feel the mid-morning focus fade before anything is sold. Recognition first, product never. They should feel seen, not lectured.
@@ -119,7 +129,7 @@ Not a crash. Just a quiet slide in the wrong direction.
 
 ---
 
-### SECTION 3: THE PRODUCT
+### SECTION 4: THE PRODUCT
 
 **Job**
 Make the ritual feel real and intentional. The reader pictures themselves doing this tomorrow morning. One considered act that sets the tone for the day.
@@ -134,7 +144,7 @@ The longer you take it, the more consistent it becomes. Week one you'll notice. 
 
 ---
 
-### SECTION 4: WHY IT WORKS
+### SECTION 5: WHY IT WORKS
 
 **Job**
 Show the reader this product thinks differently about energy. Three mechanisms, each distinct, that together explain why this feels unlike anything else they've tried.
@@ -165,7 +175,7 @@ The form of magnesium that reaches the brain, not just the body. B vitamins supp
 
 ---
 
-### SECTION 5: SOCIAL PROOF
+### SECTION 6: SOCIAL PROOF
 
 **Job**
 Let real people close the argument. Step back and let the quotes do the work. Nothing polished, nothing manufactured.
