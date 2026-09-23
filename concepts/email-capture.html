@@ -46,6 +46,7 @@
   .bg-ink { background: #17150F; }
   .bg-primary { background: #39002A; }
   .bg-primary-soft { background: #EDE0EA; }
+  .bg-primary-mid { background: #5E0045; }
   .text-white { color: #ffffff; }
   .text-gray-400 { color: #9ca3af; }
   .text-gray-500 { color: #6b7280; }
@@ -200,6 +201,7 @@
     transition: background-color 150ms ease;
   }
   .back-button:hover { background: #4B0037; }
+  #chat-close:hover { background: #e5e7eb; }
 
   /* logo mark — replaces the text wordmark in the nav and footer. align-self is needed
      because the footer's flex-col parent otherwise stretches it to the full column width,
@@ -265,6 +267,8 @@
     z-index: 61;
   }
   .chat-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+  #chat-reply { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+  #chat-reply.visible { opacity: 1; transform: translateY(0); }
   .chat-textarea {
     width: 100%;
     min-height: 110px;
@@ -394,7 +398,7 @@
 <div id="chat-sheet" class="chat-sheet">
   <div class="flex justify-between items-center">
     <h3 class="card-title">Have a question?</h3>
-    <a href="#" id="chat-close" class="back-button bg-primary-mid text-white" aria-label="Close">
+    <a href="#" id="chat-close" class="back-button bg-gray-100 text-ink" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </a>
   </div>
@@ -515,6 +519,22 @@
     const thanks = document.getElementById('chat-thanks');
     if (!sheet) return;
 
+    // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
+    // don't reflow when the on-screen keyboard opens, so the Send button can end up hidden behind
+    // it. Recenter and cap the sheet's height to the actual visible (non-keyboard) area instead.
+    function keepSheetInView() {
+      if (!sheet.classList.contains('visible')) return;
+      const vv = window.visualViewport;
+      if (!vv) return;
+      sheet.style.top = (vv.offsetTop + vv.height / 2) + 'px';
+      sheet.style.maxHeight = Math.max(vv.height - 32, 200) + 'px';
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', keepSheetInView);
+      window.visualViewport.addEventListener('scroll', keepSheetInView);
+    }
+    sheet.addEventListener('focusin', () => requestAnimationFrame(keepSheetInView));
+
     const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
     let loadingTimer = null;
 
@@ -526,6 +546,7 @@
       loading.style.display = 'none';
       form.style.display = '';
       reply.style.display = 'none';
+      reply.classList.remove('visible');
       emailInput.value = '';
       emailInput.disabled = false;
       emailInput.classList.remove('invalid');
@@ -539,11 +560,14 @@
       resetChat();
       backdrop.classList.add('visible');
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('visible')));
+      keepSheetInView();
     }
     function closeChat(e) {
       if (e) e.preventDefault();
       sheet.classList.remove('visible');
       backdrop.classList.remove('visible');
+      sheet.style.top = '';
+      sheet.style.maxHeight = '';
     }
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
@@ -567,6 +591,7 @@
         loading.style.display = 'none';
         form.style.display = 'none';
         reply.style.display = 'block';
+        requestAnimationFrame(() => requestAnimationFrame(() => reply.classList.add('visible')));
       }, 2800);
     });
 
@@ -590,6 +615,7 @@
       // all clear away, leaving just the confirmation centered on its own.
       form.style.display = 'none';
       reply.style.display = 'none';
+      reply.classList.remove('visible');
       thanks.style.display = 'flex';
     });
   })();
