@@ -290,7 +290,7 @@
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
-  .cta-button { width: 100%; }
+  .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
     .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -380,7 +380,7 @@
 
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-send">Send Message</button>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send Message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -399,7 +399,7 @@
         <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-email-send">Send Message</button>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send Message</button>
     </form>
   </div>
 
