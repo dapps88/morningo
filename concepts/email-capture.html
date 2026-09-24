@@ -224,6 +224,34 @@
   .field-input:focus { outline: none; border-color: #39002A; }
   .field-input.invalid { border-color: #b91c1c; }
 
+  /* Queue row: 12 person icons showing real sign-ups (In), the visitor's own
+     place (You), and remaining Open slots. Decorative (aria-hidden), so its
+     entrance animation is layered on top of an already-correct static state —
+     reduced motion (or a JS failure) just shows that final state directly. */
+  .queue-row { display: flex; align-items: flex-end; justify-content: space-between; height: 31px; position: relative; }
+  .queue-icon { position: relative; display: flex; align-items: flex-end; justify-content: center; width: 20px; flex-shrink: 0; }
+  .queue-icon svg { display: block; width: 100%; height: auto; }
+  .queue-icon--open svg circle, .queue-icon--open svg path { fill: #e0dade; }
+  .queue-icon--in svg circle, .queue-icon--in svg path { fill: #3a0030; }
+  .queue-icon--you { width: 28px; }
+  .queue-icon--you svg { width: 28px; }
+  .queue-icon--you.is-outline svg circle, .queue-icon--you.is-outline svg path { fill: #ffffff; stroke: #3a0030; stroke-width: 1.5; }
+  .queue-icon--you.is-filled svg circle, .queue-icon--you.is-filled svg path { fill: #3a0030; stroke: none; }
+  .queue-ring { position: absolute; left: 50%; top: 50%; width: 44.8px; height: 44.8px; margin-left: -22.4px; margin-top: -22.4px; border-radius: 50%; background: #3a0030; opacity: 0; pointer-events: none; }
+
+  @keyframes queue-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes queue-rise-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes queue-pulse { 0% { transform: scale(0.6); opacity: 0.18; } 100% { transform: scale(1.3); opacity: 0; } }
+  @keyframes queue-settle { from { transform: scale(0.8); } to { transform: scale(1); } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .queue-animated .queue-icon--open { opacity: 0; animation: queue-fade-in 300ms ease-out both; }
+    .queue-animated .queue-icon--in { opacity: 0; animation: queue-rise-in 450ms ease-out both; }
+    .queue-animated .queue-icon--you { opacity: 0; animation: queue-fade-in 500ms ease-out both; }
+    .queue-animated .queue-ring { animation: queue-pulse 2800ms ease-out infinite; }
+    .queue-ring.ring-paused { animation-play-state: paused; opacity: 0; }
+  }
+
   /* nav question pill — persistent top-right trigger for the chat modal */
   .nav-pill {
     display: flex;
@@ -342,9 +370,11 @@
 
     <div class="px-4">
       <div class="flex flex-col gap-3">
-        <h1 class="headline">500 places. First come, first served.</h1>
-        <p class="body-lg">Leave your email. When Morningo is ready to order, you'll be first in line.</p>
+        <h1 class="headline" id="capture-headline">Get a place in the first batch.</h1>
+        <p class="body-lg" id="capture-subcopy">Morningo isn't on sale yet. Places are offered in the order people join.</p>
       </div>
+
+      <div id="queue-row" class="queue-row mt-8" aria-hidden="true"></div>
 
       <form class="flex flex-col gap-3 mt-8" id="capture-form" name="capture" method="POST" data-netlify="true" novalidate>
         <input type="hidden" name="form-name" value="capture">
@@ -354,9 +384,9 @@
           <p class="body-sm" id="email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
         </div>
         <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="capture-cta">
-          Reserve my place
+          Get first access
         </button>
-        <p class="cta-caption body-sm text-gray-500">One email, when we're ready. Nothing else. <a href="privacy.html" class="underline">Privacy notice</a></p>
+        <p class="cta-caption body-sm text-gray-500">No payment. We'll email when your place opens, and may ask what brought you here. <a href="privacy.html" class="underline">Privacy notice</a></p>
       </form>
     </div>
     </div>
@@ -618,5 +648,107 @@
       reply.classList.remove('visible');
       thanks.style.display = 'flex';
     });
+  })();
+
+  (function() {
+    // Number of REAL sign-ups to show as dark icons (0 to 10).
+    // Update by hand from the Netlify Forms submission count.
+    // NEVER set this higher than the real number of submissions.
+    const SIGNED_UP = 0;
+
+    const TOTAL_SLOTS = 12;
+    const N = Math.max(0, Math.min(10, SIGNED_UP));
+
+    const row = document.getElementById('queue-row');
+    const emailInput = document.getElementById('email-input');
+    if (!row) return;
+
+    const ICON_SVG = '<svg width="20" height="22" viewBox="-1 -1 22 24"><circle cx="10" cy="6" r="4.5"></circle><path d="M1 22C1 15 5 12 10 12C15 12 19 15 19 22Z"></path></svg>';
+
+    const icons = [];
+    let ring = null;
+
+    for (let i = 0; i < TOTAL_SLOTS; i++) {
+      const span = document.createElement('span');
+      if (i < N) {
+        span.className = 'queue-icon queue-icon--in';
+      } else if (i === N) {
+        span.className = 'queue-icon queue-icon--you is-outline';
+        span.id = 'queue-you';
+        const ringEl = document.createElement('span');
+        ringEl.className = 'queue-ring';
+        ringEl.id = 'queue-ring';
+        span.appendChild(ringEl);
+        ring = ringEl;
+      } else {
+        span.className = 'queue-icon queue-icon--open';
+      }
+      span.insertAdjacentHTML('beforeend', ICON_SVG);
+      row.appendChild(span);
+      icons.push(span);
+    }
+
+    // Confirmation state — built to spec, but NOT wired into the live submit
+    // flow: that still redirects to thank-you.html (see the capture-form submit
+    // handler above). Call window.__showQueueConfirmation() to trigger it once
+    // the in-page route is chosen instead of the redirect.
+    window.__showQueueConfirmation = function() {
+      if (ring) {
+        ring.style.animation = 'none';
+        ring.style.opacity = '0';
+      }
+      const you = document.getElementById('queue-you');
+      if (you) {
+        you.classList.remove('is-outline');
+        you.classList.add('is-filled');
+        you.style.animation = 'queue-settle 500ms ease-out';
+      }
+      const headline = document.getElementById('capture-headline');
+      const subcopy = document.getElementById('capture-subcopy');
+      const form = document.getElementById('capture-form');
+      if (headline) headline.textContent = "You're in.";
+      if (subcopy) subcopy.textContent = "We'll email you when your place opens.";
+      if (form) {
+        form.style.transition = 'opacity 300ms ease';
+        form.style.opacity = '0';
+        setTimeout(() => { form.style.display = 'none'; }, 300);
+      }
+    };
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return; // final static state above is already correct — nothing to animate
+
+    const STEP = N > 8 ? 100 : 140;
+    const GREY_DURATION = 300;
+    const DARK_DURATION = 450;
+    const PAUSE = 400;
+    const PULSE_DELAY_AFTER_YOU = 600;
+
+    const lastDarkStart = N > 0 ? 300 + (N - 1) * STEP : null;
+    const lastDarkFinish = N > 0 ? lastDarkStart + DARK_DURATION : GREY_DURATION;
+    const youStart = lastDarkFinish + PAUSE;
+    const pulseStart = youStart + PULSE_DELAY_AFTER_YOU;
+
+    row.classList.add('queue-animated');
+
+    icons.forEach((el, i) => {
+      if (i < N) {
+        el.style.animationDelay = (300 + i * STEP) + 'ms';
+      } else if (i === N) {
+        el.style.animationDelay = youStart + 'ms';
+      } else {
+        el.style.animationDelay = '0ms';
+      }
+    });
+
+    if (ring) {
+      ring.style.animationDelay = pulseStart + 'ms';
+    }
+
+    // Optional polish: hide the pulse while the visitor is typing their email.
+    if (emailInput && ring) {
+      emailInput.addEventListener('focus', () => ring.classList.add('ring-paused'));
+      emailInput.addEventListener('blur', () => ring.classList.remove('ring-paused'));
+    }
   })();
 </script>
