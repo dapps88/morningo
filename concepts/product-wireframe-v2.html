@@ -159,6 +159,7 @@
   }
   .sticky-cta.visible { transform: translateY(0); }
   .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 8px; }
+  .sticky-cta-group { display: contents; }
 
   /* cookie banner */
   .cookie-banner {
@@ -316,6 +317,8 @@
     .cta-caption { max-width: none; margin-left: auto; margin-right: auto; }
     #hero-cta-block .cta-caption { margin-left: 0; margin-right: 0; }
     .sticky-cta-inner .cta-caption { max-width: none; }
+    .sticky-cta-group { display: inline-flex; flex-direction: column; align-items: stretch; }
+    .sticky-cta-group .cta-caption { margin-left: 0; margin-right: 0; }
     .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
     .card-carousel-item { width: auto; flex: 1 1 0; }
@@ -624,10 +627,12 @@
 
 <div id="sticky-cta" class="sticky-cta">
   <div class="sticky-cta-inner">
-    <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="sticky-cta-button">
-      Get first access
-    </button>
-    <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. We'll email you when your place opens.</p>
+    <div class="sticky-cta-group">
+      <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="sticky-cta-button">
+        Get first access
+      </button>
+      <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. We'll email you when your place opens.</p>
+    </div>
   </div>
 </div>
 
