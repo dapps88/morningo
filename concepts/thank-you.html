@@ -330,23 +330,24 @@
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
   <!-- 2. CONFIRMATION BLOCK -->
-  <section id="confirmation" class="pt-section px-4 pb-12">
-    <div class="flex flex-col gap-3">
-      <h1 class="headline">You're in.</h1>
-      <p class="body-lg">We'll email you when your place opens.</p>
-    </div>
+  <section id="confirmation" class="pt-section">
+    <div class="split-columns">
+    <img src="images/sachet.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
-    <div class="mt-8">
-      <button type="button" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="share-button" style="width:100%;">
-        Share Morningo with friends
-      </button>
-      <div class="flex items-center gap-2 mt-3" style="border:1px solid #e5e7eb; border-radius:12px; padding:4px 4px 4px 16px;">
-        <span id="share-link-text" class="body-sm text-gray-500" style="flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">[SHARE LINK]</span>
-        <button type="button" id="copy-link-button" class="body-sm font-medium" style="background:#F3F4F6; color:#17150F; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; gap:6px;" aria-label="Copy share link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
-          <span id="copy-button-label">Copy</span>
+    <div class="px-4">
+      <div class="flex flex-col gap-3">
+        <h1 class="headline">You're in.</h1>
+        <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
+      </div>
+
+      <div class="mt-8">
+        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">[SHARE LINK]</span>
+        <button type="button" id="copy-link-button" class="cta-button bg-primary text-white py-4 px-8 rounded-full mt-3" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" aria-label="Copy share link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+          <span id="copy-button-label">Copy link</span>
         </button>
       </div>
+    </div>
     </div>
   </section>
 
@@ -583,14 +584,14 @@
   })();
 
   (function() {
-    // Share / copy-link block. [SHARE LINK] is a placeholder — see brief.md-style
-    // bracket convention used elsewhere on this site (e.g. £[X]) — swap for the real
-    // production URL once one exists.
-    var shareButton = document.getElementById('share-button');
+    // Copy-link block. [SHARE LINK] is a placeholder — see brief.md-style
+    // bracket convention used elsewhere on this site (e.g. £[X]) — swap for the
+    // real production URL once one exists. "Copy link" is the page's primary
+    // action (no separate share button).
     var copyButton = document.getElementById('copy-link-button');
     var copyLabel = document.getElementById('copy-button-label');
     var shareLinkText = document.getElementById('share-link-text');
-    if (!shareButton || !copyButton) return;
+    if (!copyButton) return;
 
     var shareUrl = shareLinkText.textContent;
     var copyResetTimer = null;
@@ -611,7 +612,7 @@
       var showCopied = function() {
         clearTimeout(copyResetTimer);
         copyLabel.textContent = 'Copied';
-        copyResetTimer = setTimeout(function() { copyLabel.textContent = 'Copy'; }, 1800);
+        copyResetTimer = setTimeout(function() { copyLabel.textContent = 'Copy link'; }, 1800);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(shareUrl).then(showCopied, function() {
@@ -625,13 +626,5 @@
     }
 
     copyButton.addEventListener('click', copyLink);
-
-    shareButton.addEventListener('click', function() {
-      if (navigator.share) {
-        navigator.share({ title: 'Morningo', text: 'Share Morningo with friends', url: shareUrl }).catch(function() {});
-      } else {
-        copyLink();
-      }
-    });
   })();
 </script>
