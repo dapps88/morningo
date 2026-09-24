@@ -225,31 +225,33 @@
   .field-input.invalid { border-color: #b91c1c; }
 
   /* Queue row: 12 person icons. A decorative, fixed sequence (not tied to real
-     sign-up data) — every icon is present from load; the first few "fill" from
-     grey to plum one at a time, like a stepper/progress-dots reaching its
-     current step, ending on the You icon, which then pulses continuously.
-     Icons past You stay flat grey and never animate. Aria-hidden throughout. */
+     sign-up data) — every icon is present from load. Icons 1-5 fill with a
+     rising plum wipe, bottom to top, one after another, left to right (a
+     grey/outline base layer sits underneath a plum copy clipped by an
+     animated clip-path inset — the same "color rising through a shape" idea
+     as a liquid-fill/gauge reveal). The 6th (You, bigger, outline base) fills
+     last and then pulses continuously. Icons past You stay flat grey and
+     never animate. Runs once on load, aria-hidden throughout. */
   .queue-row { display: flex; align-items: flex-end; justify-content: space-between; height: 31px; position: relative; }
-  .queue-icon { position: relative; display: flex; align-items: flex-end; justify-content: center; width: 20px; flex-shrink: 0; }
-  .queue-icon svg { display: block; width: 100%; height: auto; }
-  .queue-icon svg circle, .queue-icon svg path { fill: #e0dade; }
-  .queue-icon--in.is-filled svg circle, .queue-icon--in.is-filled svg path { fill: #3a0030; }
-  .queue-icon--you { width: 28px; }
-  .queue-icon--you svg { width: 28px; }
-  .queue-icon--you svg circle, .queue-icon--you svg path { fill: #ffffff; stroke: #3a0030; stroke-width: 1.5; }
-  .queue-icon--you.is-filled svg circle, .queue-icon--you.is-filled svg path { fill: #3a0030; stroke: none; }
+  .queue-icon { position: relative; width: 20px; height: 22px; flex-shrink: 0; }
+  .queue-icon--you { width: 28px; height: 30.8px; }
+  .queue-icon-base, .queue-icon-fill { position: absolute; inset: 0; display: block; }
+  .queue-icon-base svg, .queue-icon-fill svg { display: block; width: 100%; height: 100%; }
+  .queue-icon-base svg circle, .queue-icon-base svg path { fill: #e0dade; }
+  .queue-icon--you .queue-icon-base svg circle, .queue-icon--you .queue-icon-base svg path { fill: #ffffff; stroke: #3a0030; stroke-width: 1.5; }
+  .queue-icon-fill svg circle, .queue-icon-fill svg path { fill: #3a0030; }
+  .queue-icon-fill { clip-path: inset(100% 0 0 0); }
   .queue-ring { position: absolute; left: 50%; top: 50%; width: 44.8px; height: 44.8px; margin-left: -22.4px; margin-top: -22.4px; border-radius: 50%; background: #3a0030; opacity: 0; pointer-events: none; }
 
   @keyframes queue-pulse { 0% { transform: scale(0.6); opacity: 0.18; } 100% { transform: scale(1.3); opacity: 0; } }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* Each fillable icon's color/stroke morph is a plain transition, staggered
-       by transition-delay (set inline per icon, CSS-custom-property style) —
-       gentle Material-standard easing rather than a linear "race". */
-    .queue-icon--in svg circle, .queue-icon--in svg path,
-    .queue-icon--you svg circle, .queue-icon--you svg path {
-      transition: fill 550ms cubic-bezier(0.4, 0, 0.2, 1), stroke 550ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    /* clip-path's inset() moving from 100% (fully hidden) to 0% (fully
+       revealed) is what draws the rising wipe; transition-delay (set per
+       icon in JS) staggers left to right, gentle Material-standard easing
+       rather than a linear race. */
+    .queue-icon-fill { transition: clip-path 700ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .queue-icon-fill.is-revealed { clip-path: inset(0% 0 0 0); }
     .queue-animated .queue-ring { animation: queue-pulse 2800ms ease-out infinite; }
     .queue-ring.ring-paused { animation-play-state: paused; opacity: 0; }
   }
@@ -654,48 +656,57 @@
 
   (function() {
     // Decorative queue row: fixed, same for every visitor, not tied to real
-    // sign-up data. 5 icons fill grey -> plum one after another, then the
-    // 6th (You, bigger, starts as an outline) fills last and pulses forever.
-    // Total time from load to You finishing its fill: 2000ms (adjust FILL_MS
-    // below to retime it). Icons after You never animate.
+    // sign-up data. Icons 1-5 fill with a rising plum wipe (bottom to top,
+    // via an animated clip-path inset on a plum copy layered over a grey/
+    // outline base — a gauge/liquid-fill reveal, not a flat color swap),
+    // one after another, left to right. The 6th (You, bigger, outline base)
+    // fills last and then pulses forever. Icons past You never animate.
+    // Runs once. Retime by adjusting FILL_DURATION / STEP below.
     const TOTAL_SLOTS = 12;
     const FILLED_IN_COUNT = 5;
     const YOU_INDEX = FILLED_IN_COUNT; // 6th icon (0-indexed): the middle of 12
 
-    const TOTAL_TIME_TO_YOU = 2000; // ms, load -> You fully filled
-    const FILL_DURATION = 550;      // ms, each icon's own color-morph
-    const STEP = (TOTAL_TIME_TO_YOU - FILL_DURATION) / YOU_INDEX; // even stagger
+    const FILL_DURATION = 700; // ms, each icon's own rising-wipe reveal (matches the CSS transition below)
+    const STEP = 380;          // ms between each icon's reveal starting (overlaps FILL_DURATION for a smooth, connected feel rather than a race)
     const PULSE_DELAY_AFTER_YOU = 0; // pulse starts the instant You finishes filling
 
     const row = document.getElementById('queue-row');
     const emailInput = document.getElementById('email-input');
     if (!row) return;
 
-    const ICON_SVG = '<svg width="20" height="22" viewBox="-1 -1 22 24"><circle cx="10" cy="6" r="4.5"></circle><path d="M1 22C1 15 5 12 10 12C15 12 19 15 19 22Z"></path></svg>';
+    const ICON_SVG = '<svg viewBox="-1 -1 22 24"><circle cx="10" cy="6" r="4.5"></circle><path d="M1 22C1 15 5 12 10 12C15 12 19 15 19 22Z"></path></svg>';
 
     const icons = [];
+    const fills = [];
     let ring = null;
     let youIcon = null;
+    let youFill = null;
 
     for (let i = 0; i < TOTAL_SLOTS; i++) {
       const span = document.createElement('span');
+      let html = '<span class="queue-icon-base">' + ICON_SVG + '</span>';
+      if (i <= YOU_INDEX) {
+        html += '<span class="queue-icon-fill">' + ICON_SVG + '</span>';
+      }
       if (i < YOU_INDEX) {
         span.className = 'queue-icon queue-icon--in';
       } else if (i === YOU_INDEX) {
         span.className = 'queue-icon queue-icon--you';
         span.id = 'queue-you';
         youIcon = span;
-        const ringEl = document.createElement('span');
-        ringEl.className = 'queue-ring';
-        ringEl.id = 'queue-ring';
-        span.appendChild(ringEl);
-        ring = ringEl;
+        html += '<span class="queue-ring" id="queue-ring"></span>';
       } else {
         span.className = 'queue-icon queue-icon--open';
       }
-      span.insertAdjacentHTML('beforeend', ICON_SVG);
+      span.innerHTML = html;
       row.appendChild(span);
       icons.push(span);
+      if (i <= YOU_INDEX) {
+        const fillEl = span.querySelector('.queue-icon-fill');
+        fills.push(fillEl);
+        if (i === YOU_INDEX) youFill = fillEl;
+      }
+      if (i === YOU_INDEX) ring = span.querySelector('.queue-ring');
     }
 
     // Confirmation state — built to spec, but NOT wired into the live submit
@@ -707,8 +718,8 @@
         ring.style.animation = 'none';
         ring.style.opacity = '0';
       }
+      if (youFill) youFill.classList.add('is-revealed');
       if (youIcon) {
-        youIcon.classList.add('is-filled');
         youIcon.style.transition = 'transform 500ms ease-out';
         youIcon.style.transform = 'scale(0.8)';
         requestAnimationFrame(() => requestAnimationFrame(() => { youIcon.style.transform = 'scale(1)'; }));
@@ -727,30 +738,28 @@
 
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
-      // Show the final state instantly: no fill morph, no pulse.
-      icons.forEach((el, i) => { if (i <= YOU_INDEX) el.classList.add('is-filled'); });
+      // Show the final state instantly: no wipe, no pulse.
+      fills.forEach((fillEl) => { fillEl.style.clipPath = 'inset(0% 0 0 0)'; });
       return;
     }
 
-    const pulseStart = TOTAL_TIME_TO_YOU + PULSE_DELAY_AFTER_YOU;
+    const totalTimeToYou = YOU_INDEX * STEP + FILL_DURATION;
+    const pulseStart = totalTimeToYou + PULSE_DELAY_AFTER_YOU;
 
     row.classList.add('queue-animated');
 
-    icons.forEach((el, i) => {
-      if (i > YOU_INDEX) return; // Open icons past You: static grey, no transition set
-      const shapes = el.querySelectorAll('svg circle, svg path');
-      const delay = Math.round(i * STEP) + 'ms';
-      shapes.forEach((shape) => { shape.style.transitionDelay = delay; });
+    fills.forEach((fillEl, i) => {
+      fillEl.style.transitionDelay = (i * STEP) + 'ms';
     });
 
     if (ring) {
       ring.style.animationDelay = pulseStart + 'ms';
     }
 
-    // Kick off every fill on the next frame so the initial grey/outline state
+    // Kick off every wipe on the next frame so the initial hidden clip-path
     // is guaranteed to paint first and the transition actually plays.
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      icons.forEach((el, i) => { if (i <= YOU_INDEX) el.classList.add('is-filled'); });
+      fills.forEach((fillEl) => { fillEl.classList.add('is-revealed'); });
     }));
 
     // Optional polish: hide the pulse while the visitor is typing their email.
