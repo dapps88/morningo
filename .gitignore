@@ -6,3 +6,10 @@
 # small and stay tracked. Logo.png is tiny and kept as-is (source == usable).
 assets/web images/*.png
 !assets/web images/Logo.png
+
+# Local Netlify folder
+.netlify
+
+# Retired hero-video sandbox: local only, never published.
+concepts/hero-video-test.html
+concepts/test-media/
