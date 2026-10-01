@@ -1,0 +1,52 @@
+{
+  "project": "Morningo",
+  "canonical_dir": "concepts",
+  "entry_page": "product-wireframe-v2.html",
+  "pages": [
+    "product-wireframe-v2.html",
+    "email-capture.html",
+    "thank-you.html",
+    "privacy.html"
+  ],
+  "page_labels": {
+    "product-wireframe-v2.html": "Product page",
+    "email-capture.html": "Email capture",
+    "thank-you.html": "Thank you",
+    "privacy.html": "Privacy policy"
+  },
+  "asset_dirs": ["images", "video"],
+  "preview": {
+    "port": 8744,
+    "url": "http://localhost:8744/product-wireframe-v2.html",
+    "command": "python3 scripts/dev-server.py 8744 concepts",
+    "notes": "Start it in the Terminal panel: the Desktop app's own server launcher cannot read ~/Desktop. It stops whenever the app restarts."
+  },
+  "test_link": {
+    "kind": "claude-artifact",
+    "title": "Morningo Product Page",
+    "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public."
+  },
+  "rules_docs": [
+    "references/cookie-banner.md",
+    "references/main-page-text.md",
+    "references/privacy-policy.md",
+    "brief.md",
+    ".claude/skills/morningo-page-builder/SKILL.md"
+  ],
+  "ignore": [
+    "assets",
+    "concepts/hero-video-test.html",
+    "concepts/test-media"
+  ],
+  "git": {
+    "remote": "origin",
+    "branch": "main",
+    "push": "ask-every-time"
+  },
+  "notes": [
+    "Converted images: originals live in assets/web images, converted WebP in assets/web-optimized, and the copies the pages actually load in concepts/images. Filenames are lowercase.",
+    "Pages link to each other with bare filenames (email-capture.html, thank-you.html, privacy.html, product-wireframe-v2.html), so the test link must serve all four under those names.",
+    "hero-video-test.html and concepts/test-media are a retired sandbox. Do not update them.",
+    "Read .claude/skills/morningo-page-builder/SKILL.md before any typography, spacing or colour change."
+  ]
+}
