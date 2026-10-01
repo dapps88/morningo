@@ -76,17 +76,28 @@ The longer you take it, the more consistent it becomes. Week one you'll notice. 
 
 #### Accordion 2: What's in it
 
-**Active ingredients**
-- Green tea extract — delivers caffeine more slowly and smoothly than coffee.
-- L-theanine — shapes the response so energy arrives calm rather than sharp.
-- Bilberry extract — supports circulation and oxygen delivery.
-- Magnesium L-threonate — the form of magnesium that reaches the brain, not just the body.
-- Black pepper extract (BioPerine) — helps every other ingredient absorb properly.
-- Vitamin B12 and B5 — supports how your cells produce energy.
+*Updated 2026-10-01 (owner-supplied copy, replaces the earlier ingredient list). Below the list, the page keeps the callout rows (Vegan, No artificial sweeteners, Research-led formula, Gluten free); their wording is awaiting confirmation against the new formula.*
 
-**Other ingredients**
-- Natural flavouring
-- Sunflower lecithin
+**Heading**
+Each sachet contains
+
+**Group heading**
+Active ingredients
+
+- Green tea extract, 160mg — Gives 80mg of caffeine. Caffeine helps to increase alertness.
+- L-theanine, 150mg — The amino acid tea has and coffee doesn't, alongside the caffeine.
+- Rhodiola rosea root extract, 300mg (3% rosavins) — A cold-climate root, studied for mental fatigue under stress. Give it two weeks.
+- Blackcurrant extract, 300mg (35% anthocyanins) — The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.
+- Ginger root extract, 300mg — A gentle warmth in the first few minutes, so you know it's started.
+- Vitamin B12 (methylcobalamin), 5mg (200% of your daily reference) — Contributes to the reduction of tiredness and fatigue.
+- Vitamin B5 (pantothenic acid), 6mg (100% of your daily reference) — Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.
+
+**Group heading**
+Other ingredients
+
+- Sunflower lecithin — Mixes the powder smoothly and makes the froth on top.
+- Citrus fibre — Gives the drink its body. Made from citrus peel.
+- Natural flavouring — Rounds out the blackcurrant and ginger flavour.
 
 ---
 
@@ -146,32 +157,72 @@ The longer you take it, the more consistent it becomes. Week one you'll notice. 
 
 ### SECTION 5: WHY IT WORKS
 
+> Replaced 2026-10-01 with the owner's new copy: five cards plus footnotes. The old three cards (Calm energy, Clarity that holds, Built to last) are gone. The Job line below is from the earlier version.
+
 **Job**
 Show the reader this product thinks differently about energy. Three mechanisms, each distinct, that together explain why this feels unlike anything else they've tried.
 
 **Headline**
-Not more energy. Better energy.
+Steady isn't an accident.
+
+**Subline**
+A handful of good ingredients, properly dosed. Not a sprinkle of forty.
+
+**Carousel**
+Exactly 5 cards, in this order, scrolling horizontally (on desktop as well as phones).
 
 ---
 
-#### Card 1: Calm energy
+#### Card 1: Alert, not wired¹
 *Green tea extract + L-theanine*
 
-Green tea delivers caffeine slowly. L-theanine shapes the response. Not less energy. Just better behaved.
+Caffeine for alertness, plus L-theanine, the amino acid tea has and coffee doesn't.
+
+*Photo: green tea leaves*
 
 ---
 
-#### Card 2: Clarity that holds
-*Bilberry anthocyanins*
+#### Card 2: Dark berry, clear head
+*Blackcurrant anthocyanins*
 
-Anthocyanins support circulation. More oxygen arriving where you need it, through the hours that matter.
+The pigment that turns blackcurrants almost black. Studied for blood flow and the brain, over weeks.
+
+*Photo: [placeholder]*
 
 ---
 
-#### Card 3: Built to last
-*Magnesium L-threonate + B vitamins*
+#### Card 3: A warm start
+*Ginger root*
 
-The form of magnesium that reaches the brain, not just the body. B vitamins supporting how your cells produce energy. Better on day fifteen than day one.
+There for one reason: a gentle warmth in the first few minutes, so you know it's started.
+
+*Photo: [placeholder]*
+
+---
+
+#### Card 4: Better with time
+*Rhodiola rosea*
+
+A cold-climate root, studied for mental fatigue under stress. Give it two weeks.
+
+*Photo: [placeholder]*
+
+---
+
+#### Card 5: Feel less tired²
+*Vitamin B12 + B5*
+
+Help your body release energy from food. B12 at 200% of your daily reference, B5 at 100%.
+
+*Photo: seeds and grains (stand-in for the vitamins)*
+
+---
+
+**Footnotes** (directly below the carousel, small text; the markers in the card titles point to these)
+
+¹ Caffeine helps to increase alertness.
+
+² Vitamin B12 and pantothenic acid (B5) contribute to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.
 
 ---
 

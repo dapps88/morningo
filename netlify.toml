@@ -1,0 +1,3 @@
+# Netlify build settings. The site is plain static HTML in concepts/, with no build step.
+[build]
+  publish = "concepts"

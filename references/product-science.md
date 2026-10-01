@@ -183,6 +183,8 @@ Here's the honest version of what happens when someone takes this in the morning
 
 **Adaptogens (Ashwagandha, Rhodiola):** Legitimate mechanisms but cumulative rather than acute. Better suited to a separate evening or recovery product. Left out of the morning formula.
 
+> **Update 2026-10-01 (owner decision):** the formula has changed. Rhodiola rosea and ginger root are now in the formula, as shown in the "Why it works" section of main-page-text.md. This list, the ingredient write-ups and the Formula Summary below have not been updated yet and are out of date on this point. The product page's "What's in it" accordion has been updated to the new list (green tea, L-theanine, Rhodiola, blackcurrant, ginger, B12, B5; lecithin, citrus fibre, natural flavouring); bilberry, magnesium L-threonate and BioPerine are no longer listed there.
+
 **Synthetic caffeine:** Faster absorbed, harder crash, less clean on a label.
 
 ---

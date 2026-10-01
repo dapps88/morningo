@@ -179,6 +179,7 @@
     flex: 1;
     background: #17150F;
     color: #ffffff;
+    border: 1px solid #17150F;   /* same border on both buttons so the filled and outline versions are exactly the same size */
     padding: 10px 20px;
     font-size: 13px;
     font-weight: 600;
@@ -187,6 +188,7 @@
     border-radius: 9999px;
     text-align: center;
   }
+  .cookie-btn-outline { background: transparent; color: #17150F; }
 
   /* back button (nav) */
   .back-button {
@@ -200,6 +202,7 @@
     transition: background-color 150ms ease;
   }
   .back-button:hover { background: #4B0037; }
+  #chat-close:hover { background: #e5e7eb; }
 
   /* logo mark — replaces the text wordmark in the nav and footer. align-self is needed
      because the footer's flex-col parent otherwise stretches it to the full column width,
@@ -265,6 +268,8 @@
     z-index: 61;
   }
   .chat-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+  #chat-reply { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+  #chat-reply.visible { opacity: 1; transform: translateY(0); }
   .chat-textarea {
     width: 100%;
     min-height: 110px;
@@ -279,6 +284,7 @@
   .chat-textarea::placeholder { color: #9ca3af; }
   .chat-textarea:focus { outline: none; border-color: #39002A; }
   .chat-textarea:disabled { opacity: 1; color: #17150F; background: #ffffff; }
+  .cta-button:disabled { opacity: 0.6; cursor: default; }
   .chat-loading { display: flex; align-items: center; gap: 10px; }
   .chat-dot { width: 6px; height: 6px; border-radius: 9999px; background: #39002A; animation: chat-pulse 1s ease-in-out infinite; }
   .chat-dot:nth-child(2) { animation-delay: 0.15s; }
@@ -287,7 +293,7 @@
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
-  .cta-button { width: 100%; }
+  .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
     .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -327,10 +333,24 @@
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
   <!-- 2. CONFIRMATION BLOCK -->
-  <section id="confirmation" class="md-pt-10 px-4 pb-12">
-    <div class="flex flex-col gap-3">
-      <h1 class="headline">You're in.</h1>
-      <p class="body-lg">We'll be in touch the moment Morningo is ready to order. One email. That's all.</p>
+  <section id="confirmation" class="md-pt-10">
+    <div class="split-columns">
+    <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+
+    <div class="px-4">
+      <div class="flex flex-col gap-3">
+        <h1 class="headline">You're in.</h1>
+        <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
+      </div>
+
+      <div class="mt-8">
+        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">[SHARE LINK]</span>
+        <button type="button" id="copy-link-button" class="cta-button bg-primary text-white py-4 px-8 rounded-full mt-3" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" aria-label="Copy share link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+          <span id="copy-button-label">Copy link</span>
+        </button>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -356,10 +376,10 @@
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies, including the Meta Pixel, to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
-        <button class="cookie-btn" id="cookie-reject">Reject cookies</button>
       </div>
     </div>
   </div>
@@ -370,14 +390,14 @@
 <div id="chat-sheet" class="chat-sheet">
   <div class="flex justify-between items-center">
     <h3 class="card-title">Have a question?</h3>
-    <a href="#" id="chat-close" class="back-button bg-primary-mid text-white" aria-label="Close">
+    <a href="#" id="chat-close" class="back-button bg-gray-100 text-ink" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </a>
   </div>
 
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-send">Send Message</button>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -396,7 +416,8 @@
         <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-email-send">Send Message</button>
+      <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -405,6 +426,37 @@
     <p class="body-lg text-center">Thank you, your message has been sent. We'll get back to you as soon as we can.</p>
   </div>
 </div>
+
+<!-- Netlify Forms detection: the question modal submits by JavaScript, so Netlify needs this static copy of the
+     form in the HTML at deploy time to know the "question" form exists. Keep its fields in step with the modal script. -->
+<form id="question-form" name="question" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question">
+  <input type="hidden" name="subject" value="Morningo QUESTION: someone needs an answer">
+  <input type="hidden" name="page" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
+  <input type="email" name="email">
+</form>
+
+<script>
+  // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
+  // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
+  // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
+  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
+  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
+  // host must fail loudly, never pretend to succeed.
+  window.morningoPostForm = function (data) {
+    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+      console.info('[Morningo] form send simulated on this host (no form handler here)');
+      return new Promise(function (resolve) { setTimeout(resolve, 500); });
+    }
+    return fetch('thank-you.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).then(function (res) { if (!res.ok) throw new Error('Form POST failed: ' + res.status); });
+  };
+</script>
 
 <script>
   // Concept stage: real build fires the Facebook Pixel "Lead" event and the GA4 conversion event
@@ -463,10 +515,29 @@
     const emailError = document.getElementById('chat-email-error');
     const emailSendBtn = document.getElementById('chat-email-send');
     const thanks = document.getElementById('chat-thanks');
+    const sendError = document.getElementById('chat-send-error');
+    const questionForm = document.getElementById('question-form');
     if (!sheet) return;
+
+    // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
+    // don't reflow when the on-screen keyboard opens, so the Send button can end up hidden behind
+    // it. Recenter and cap the sheet's height to the actual visible (non-keyboard) area instead.
+    function keepSheetInView() {
+      if (!sheet.classList.contains('visible')) return;
+      const vv = window.visualViewport;
+      if (!vv) return;
+      sheet.style.top = (vv.offsetTop + vv.height / 2) + 'px';
+      sheet.style.maxHeight = Math.max(vv.height - 32, 200) + 'px';
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', keepSheetInView);
+      window.visualViewport.addEventListener('scroll', keepSheetInView);
+    }
+    sheet.addEventListener('focusin', () => requestAnimationFrame(keepSheetInView));
 
     const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
     let loadingTimer = null;
+    let sendId = 0; // bumped on every send and every reset, so a late reply from an old send is ignored
 
     function resetChat() {
       clearInterval(loadingTimer);
@@ -476,11 +547,16 @@
       loading.style.display = 'none';
       form.style.display = '';
       reply.style.display = 'none';
+      reply.classList.remove('visible');
       emailInput.value = '';
       emailInput.disabled = false;
       emailInput.classList.remove('invalid');
       emailError.style.display = 'none';
       emailSendBtn.style.display = '';
+      emailSendBtn.disabled = false;
+      emailSendBtn.textContent = 'Send message';
+      sendError.style.display = 'none';
+      sendId++;
       thanks.style.display = 'none';
     }
 
@@ -489,11 +565,14 @@
       resetChat();
       backdrop.classList.add('visible');
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('visible')));
+      keepSheetInView();
     }
     function closeChat(e) {
       if (e) e.preventDefault();
       sheet.classList.remove('visible');
       backdrop.classList.remove('visible');
+      sheet.style.top = '';
+      sheet.style.maxHeight = '';
     }
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
@@ -517,6 +596,7 @@
         loading.style.display = 'none';
         form.style.display = 'none';
         reply.style.display = 'block';
+        requestAnimationFrame(() => requestAnimationFrame(() => reply.classList.add('visible')));
       }, 2800);
     });
 
@@ -529,18 +609,82 @@
 
     emailForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (emailSendBtn.disabled) return;
       const valid = emailInput.checkValidity();
       emailInput.classList.toggle('invalid', !valid);
       emailError.style.display = valid ? 'none' : 'block';
       if (!valid) { emailInput.focus(); return; }
 
-      // Concept stage only: real build submits { question, email } together to Netlify
-      // Forms here (same mechanism as the capture page — see brief.md).
-      // The thank-you state takes over the whole modal — question, reply, and email field
-      // all clear away, leaving just the confirmation centered on its own.
-      form.style.display = 'none';
-      reply.style.display = 'none';
-      thanks.style.display = 'flex';
+      // Submits { question, email } together as one entry in the "question" Netlify form (#question-form is the
+      // static copy Netlify detects). The thank-you state only appears once the send has really succeeded; on
+      // failure the visitor stays on the email step with an error and can retry.
+      const data = new FormData(questionForm);
+      data.set('question', questionInput.value.trim());
+      data.set('email', emailInput.value.trim());
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      const attempt = ++sendId;
+      sendError.style.display = 'none';
+      emailSendBtn.disabled = true;
+      emailSendBtn.textContent = 'Sending…';
+      window.morningoPostForm(data).then(() => {
+        if (attempt !== sendId) return;
+        // The thank-you state takes over the whole modal — question, reply, and email field
+        // all clear away, leaving just the confirmation centered on its own.
+        form.style.display = 'none';
+        reply.style.display = 'none';
+        reply.classList.remove('visible');
+        thanks.style.display = 'flex';
+      }).catch(() => {
+        if (attempt !== sendId) return;
+        sendError.style.display = 'block';
+        emailSendBtn.disabled = false;
+        emailSendBtn.textContent = 'Send message';
+      });
     });
+  })();
+
+  (function() {
+    // Copy-link block. [SHARE LINK] is a placeholder — see brief.md-style
+    // bracket convention used elsewhere on this site (e.g. £[X]) — swap for the
+    // real production URL once one exists. "Copy link" is the page's primary
+    // action (no separate share button).
+    var copyButton = document.getElementById('copy-link-button');
+    var copyLabel = document.getElementById('copy-button-label');
+    var shareLinkText = document.getElementById('share-link-text');
+    if (!copyButton) return;
+
+    var shareUrl = shareLinkText.textContent;
+    var copyResetTimer = null;
+
+    function fallbackCopy(text) {
+      var temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.focus();
+      temp.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(temp);
+    }
+
+    function copyLink() {
+      var showCopied = function() {
+        clearTimeout(copyResetTimer);
+        copyLabel.textContent = 'Copied';
+        copyResetTimer = setTimeout(function() { copyLabel.textContent = 'Copy link'; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(showCopied, function() {
+          fallbackCopy(shareUrl);
+          showCopied();
+        });
+      } else {
+        fallbackCopy(shareUrl);
+        showCopied();
+      }
+    }
+
+    copyButton.addEventListener('click', copyLink);
   })();
 </script>

@@ -37,6 +37,22 @@
   .text-center { text-align: center; }
   .cursor-pointer { cursor: pointer; }
   .list-none { list-style: none; }
+  .doc-list { padding-left: 20px; }
+  .doc-list li + li { margin-top: 8px; }
+
+  /* "What's in it" panel. Three title levels, all one family, weight and colour doing the work (no size jumps, so nothing
+     in the panel out-shouts the 16px accordion title above it):
+       lead-in heading   .ingredients-heading     16px 600 ink          "Each sachet contains"
+       group heading     .ingredient-group-title  14px 500 grey + hairline   "Active ingredients"
+       ingredient        dt: name 500 ink, dose 400 body grey; dd: one line of explanation in body grey */
+  .ingredients-heading { color: #17150F; font-weight: 600; }
+  .ingredient-group { margin-top: 28px; }
+  .ingredient-group-title { font-size: 14px; font-weight: 500; line-height: 1.45; color: #6b7280; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .ingredient-list { margin: 16px 0 0; padding: 0; }
+  .ingredient-list > div + div { margin-top: 20px; }
+  .ingredient-list dt { color: #17150F; font-weight: 500; }
+  .ingredient-list dt .ingredient-dose { color: #585858; font-weight: 400; }
+  .ingredient-list dd { margin: 2px 0 0; }
 
   /* colors */
   .bg-black { background: #000000; }
@@ -108,9 +124,11 @@
   .mb-8 { margin-bottom: 32px; }
   .mt-1 { margin-top: 5px; }
   .mt-3 { margin-top: 12px; }
+  .mt-6 { margin-top: 24px; }
   .mt-8 { margin-top: 32px; }
   .mt-section-gap { margin-top: clamp(80px, calc(127px - 3.29vw), 115px); }
   .pt-section { padding-top: clamp(80px, calc(127px - 3.29vw), 115px); }
+  .pb-section { padding-bottom: clamp(80px, calc(127px - 3.29vw), 115px); }
   .px-4 { padding-left: 16px; padding-right: 16px; }
   .px-6 { padding-left: 24px; padding-right: 24px; }
   .px-8 { padding-left: 32px; padding-right: 32px; }
@@ -151,11 +169,12 @@
     background: #ffffff;
     border-top: 1px solid #e5e7eb;
     transform: translateY(100%);
-    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 600ms cubic-bezier(0.16, 0.8, 0.28, 1);
     z-index: 40;
   }
   .sticky-cta.visible { transform: translateY(0); }
-  .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 20px; }
+  .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 8px; }
+  .sticky-cta-group { display: contents; }
 
   /* cookie banner */
   .cookie-banner {
@@ -177,6 +196,7 @@
     flex: 1;
     background: #17150F;
     color: #ffffff;
+    border: 1px solid #17150F;   /* same border on both buttons so the filled and outline versions are exactly the same size */
     padding: 10px 20px;
     font-size: 13px;
     font-weight: 600;
@@ -185,6 +205,7 @@
     border-radius: 9999px;
     text-align: center;
   }
+  .cookie-btn-outline { background: transparent; color: #17150F; }
 
   /* back / close button (nav) */
   .back-button {
@@ -198,6 +219,7 @@
     transition: background-color 150ms ease;
   }
   .back-button:hover { background: #4B0037; }
+  #chat-close:hover { background: #e5e7eb; }
 
   /* nav question pill — persistent top-right trigger for the chat modal */
   .nav-pill {
@@ -263,6 +285,8 @@
     z-index: 61;
   }
   .chat-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+  #chat-reply { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+  #chat-reply.visible { opacity: 1; transform: translateY(0); }
   .chat-textarea {
     width: 100%;
     min-height: 110px;
@@ -277,6 +301,7 @@
   .chat-textarea::placeholder { color: #9ca3af; }
   .chat-textarea:focus { outline: none; border-color: #39002A; }
   .chat-textarea:disabled { opacity: 1; color: #17150F; background: #ffffff; }
+  .cta-button:disabled { opacity: 0.6; cursor: default; }
   .chat-loading { display: flex; align-items: center; gap: 10px; }
   .chat-dot { width: 6px; height: 6px; border-radius: 9999px; background: #39002A; animation: chat-pulse 1s ease-in-out infinite; }
   .chat-dot:nth-child(2) { animation-delay: 0.15s; }
@@ -298,7 +323,7 @@
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
-  .cta-button { width: 100%; }
+  .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
     .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -306,10 +331,12 @@
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
     .sticky-cta-inner { max-width: 1440px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
-    .cta-button { width: 300px; text-align: center; }
-    .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
+    .cta-button { width: 100%; text-align: center; }
+    .cta-caption { max-width: none; margin-left: auto; margin-right: auto; }
     #hero-cta-block .cta-caption { margin-left: 0; margin-right: 0; }
-    .sticky-cta-inner .cta-caption { max-width: 600px; }
+    .sticky-cta-inner .cta-caption { max-width: none; }
+    .sticky-cta-group { display: inline-flex; flex-direction: column; align-items: stretch; }
+    .sticky-cta-group .cta-caption { margin-left: 0; margin-right: 0; }
     .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
     .card-carousel-item { width: auto; flex: 1 1 0; }
@@ -324,8 +351,27 @@
     .intrigue-image { aspect-ratio: 21 / 9; }
     .intrigue-overlay { padding-top: 48px; }
   }
+  /* Card carousels marked card-carousel--scroll (the "Steady isn't an accident" ingredients and the "47+ versions" reviews) keep
+     fixed-size 300px cards that scroll sideways on desktop, so both sections show cards at the same size however many there are.
+     Without the modifier the cards share the row equally and shrink every time one is added. The scrollbar stays hidden (no-scrollbar). */
+  @media (min-width: 768px) {
+    .card-carousel--scroll { overflow-x: auto; }
+    .card-carousel--scroll .card-carousel-item { flex: 0 0 300px; width: 300px; }
+  }
   @media (max-width: 767px) {
     #problem { padding-top: 0; }
+    /* "The first hours set the day" band, mobile only: a little taller (extra black above the picture), the headline sits
+       higher so there is clear space above the glass, and the picture is nudged so the glass is centred on the screen
+       (the glass is centred 52.3% of the way across wide-glass2.webp, so a plain centre crop leaves it right of middle). */
+    .intrigue-frame { padding-top: 36px; }
+    .intrigue-overlay { padding-top: 34px; }
+    .intrigue-image { object-position: 54.1% 50%; }
+  }
+  @media (max-width: 342px) {
+    /* very narrow phones: the first headline line no longer fits and wraps to a third line, so the band gets extra black
+       above the picture to keep the same clear space over the glass, and the wrapped lines are balanced (no lone "day."). */
+    .intrigue-frame { padding-top: 64px; }
+    .intrigue-fade { text-wrap: balance; }
   }
 </style>
 <div class="bg-black text-white text-xs text-center py-1-5 sticky top-0 z-50 tracking-wide">
@@ -354,22 +400,29 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <img src="images/hero-mock.webp" alt="Morningo box, sachet, and prepared drink" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <!-- Slide 1: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
+             after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
+        <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="position:relative; overflow:hidden; background:#1b1714;">
+          <img id="hero-video-poster" src="images/hero-poster.webp" fetchpriority="high" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+          <video id="hero-video" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0;" muted playsinline preload="none" aria-hidden="true">
+            <source data-src="video/hero-drink.mp4" type="video/mp4">
+          </video>
+        </div>
+        <img src="images/hero-mock-2.webp" alt="Morningo box, sachet, and prepared drink" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
         <img src="images/open-box.webp" alt="Hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/pour.webp" alt="Morningo drink being poured into a glass" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/drink.webp" alt="Prepared Morningo drink surrounded by blackcurrants and ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/sachet.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
       </div>
       <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
         <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:20%; left:0%;"></div>
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-mock.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/open-box.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/pour.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/drink.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View video 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-mock-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/open-box.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-2.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
@@ -379,37 +432,24 @@
 
       <div class="flex flex-col gap-3">
         <h1 class="headline">Calm focus. All morning, alongside your coffee.</h1>
-        <p class="body-lg">A morning supplement. One sachet designed to smooth your energy, extend your focus, and make the rest of the morning feel like the first hour did.</p>
+        <p class="body-lg">Get the morning off to a proper start. One sachet in a glass of water, first thing, so the hours after feel like the first one did.</p>
       </div>
 
       <div>
-        <div class="price-row flex items-baseline justify-between gap-3">
-          <span class="card-title">£60</span>
-          <span class="body-lg">28 servings, £2.14 per morning</span>
+        <div class="price-row flex items-baseline justify-start gap-3">
+          <span class="card-title font-semibold">£60</span>
+          <span class="body-lg">28 servings</span>
         </div>
         <p class="body-lg mt-1">Flavour: Blackcurrant warmed by ginger</p>
       </div>
 
       <div class="flex flex-col gap-3" id="hero-cta-block">
-        <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="hero-cta">
-          Reserve My Place
+        <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="hero-cta">
+          Get first access
         </button>
-        <p class="cta-caption body-sm text-gray-500">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
-      </div>
-
-      <!-- callouts -->
-      <div class="flex flex-col gap-6">
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M12 21c-4-1-8-5-8-11 4 0 8 2 8 6 0-4 4-6 8-6 0 6-4 10-8 11z"/><path d="M12 21V10"/></svg>
-          <p class="body-lg">Vegan</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="8"/><path d="M6 18L18 6"/></svg>
-          <p class="body-lg">No artificial sweeteners</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M9 3h6M10 3v5.5L5.5 17a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 8.5V3"/></svg>
-          <p class="body-lg">Research-led formula</p>
+        <div class="bg-gray-100 rounded-lg px-4 py-4">
+          <p class="body-lg font-semibold">Limited first release. Not on sale yet.</p>
+          <p class="cta-caption body-sm text-gray-500 mt-1">No payment now. We'll email you when your place opens.</p>
         </div>
       </div>
 
@@ -427,14 +467,92 @@
             What's in it
             <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
           </summary>
-          <p class="body-lg mt-3">Green tea extract, L-theanine, bilberry extract, magnesium L-threonate, black pepper extract (BioPerine), vitamin B12 and B5.</p>
+          <h3 class="body-lg ingredients-heading mt-3">Each sachet contains</h3>
+
+          <div class="ingredient-group">
+            <h4 class="ingredient-group-title">Active ingredients</h4>
+            <dl class="ingredient-list body-lg">
+              <div>
+                <dt>Green tea extract<span class="ingredient-dose">, 160mg</span></dt>
+                <dd>Gives 80mg of caffeine. Caffeine helps to increase alertness.</dd>
+              </div>
+              <div>
+                <dt>L-theanine<span class="ingredient-dose">, 150mg</span></dt>
+                <dd>The amino acid tea has and coffee doesn't, alongside the caffeine.</dd>
+              </div>
+              <div>
+                <dt>Rhodiola rosea root extract<span class="ingredient-dose">, 300mg (3% rosavins)</span></dt>
+                <dd>A cold-climate root, studied for mental fatigue under stress. Give it two weeks.</dd>
+              </div>
+              <div>
+                <dt>Blackcurrant extract<span class="ingredient-dose">, 300mg (35% anthocyanins)</span></dt>
+                <dd>The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.</dd>
+              </div>
+              <div>
+                <dt>Ginger root extract<span class="ingredient-dose">, 300mg</span></dt>
+                <dd>A gentle warmth in the first few minutes, so you know it's started.</dd>
+              </div>
+              <div>
+                <dt>Vitamin B12 (methylcobalamin)<span class="ingredient-dose">, 5mg (200% of your daily reference)</span></dt>
+                <dd>Contributes to the reduction of tiredness and fatigue.</dd>
+              </div>
+              <div>
+                <dt>Vitamin B5 (pantothenic acid)<span class="ingredient-dose">, 6mg (100% of your daily reference)</span></dt>
+                <dd>Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="ingredient-group">
+            <h4 class="ingredient-group-title">Other ingredients</h4>
+            <dl class="ingredient-list body-lg">
+              <div>
+                <dt>Sunflower lecithin</dt>
+                <dd>Mixes the powder smoothly and makes the froth on top.</dd>
+              </div>
+              <div>
+                <dt>Citrus fibre</dt>
+                <dd>Gives the drink its body. Made from citrus peel.</dd>
+              </div>
+              <div>
+                <dt>Natural flavouring</dt>
+                <dd>Rounds out the blackcurrant and ginger flavour.</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="flex flex-col gap-6 mt-8">
+            <div class="flex items-center gap-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M12 21c-4-1-8-5-8-11 4 0 8 2 8 6 0-4 4-6 8-6 0 6-4 10-8 11z"/><path d="M12 21V10"/></svg>
+              <p class="body-lg">Vegan</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="8"/><path d="M6 18L18 6"/></svg>
+              <p class="body-lg">No artificial sweeteners</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M9 3h6M10 3v5.5L5.5 17a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 8.5V3"/></svg>
+              <p class="body-lg">Research-led formula</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M12 20V4"/><path d="M12 7l-3-2M12 7l3-2M12 11l-3-2M12 11l3-2M12 15l-3-2M12 15l3-2"/><path d="M4 4l16 16"/></svg>
+              <p class="body-lg">Gluten free</p>
+            </div>
+          </div>
         </details>
         <details class="py-4 group">
           <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
             Is it right for me?
             <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
           </summary>
-          <p class="body-lg mt-3">Morningo sits alongside your morning coffee, not instead of it. Contains caffeine from green tea extract. The effect builds over time, give it two weeks.</p>
+          <p class="body-lg mt-3">For you if the hours between your first coffee and lunch feel harder than they need to.</p>
+          <p class="body-lg mt-3">Not for you if:</p>
+          <ul class="body-lg doc-list mt-3">
+            <li>You want a hit. It won't kick in like a double espresso, and it isn't meant to.</li>
+            <li>You want a verdict after one sachet. It builds over time, so give it two weeks.</li>
+            <li>You're sensitive to caffeine. It contains 75mg, from green tea extract. Factor that in.</li>
+          </ul>
+          <p class="body-lg mt-3">Have it with your coffee, or without.</p>
         </details>
       </div>
 
@@ -449,13 +567,13 @@
 </div>
 
 <!-- 3. START READY -->
-<section id="start-ready" class="pt-section">
+<section id="start-ready" class="pt-section pb-section">
   <div style="background:#000000;">
     <div class="max-w-phone mx-auto">
       <div class="intrigue-frame">
-        <img src="images/wide-glass.webp" alt="A prepared Morningo drink in a glass against a dark background" class="intrigue-image">
+        <img src="images/wide-glass2.webp" alt="A prepared Morningo drink in a glass against a dark background" class="intrigue-image">
         <div class="intrigue-overlay">
-          <h2 class="headline-sm intrigue-fade text-white text-center">2 hours decide the day,<br>Start ready.</h2>
+          <h2 class="headline-sm intrigue-fade text-white text-center">The first hours set the day.<br>Start them properly.</h2>
         </div>
       </div>
     </div>
@@ -500,7 +618,7 @@
   <!-- 5. THE PRODUCT -->
   <section id="the-product" class="pt-section">
     <div class="split-columns">
-    <img src="images/energy-lady.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+    <img src="images/energy-lady-2.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="flex flex-col gap-3 px-4">
       <h2 class="headline-sm">One drink before the morning gets away from you.</h2>
@@ -515,53 +633,89 @@
   <!-- 6. WHY IT WORKS -->
   <section id="why-it-works" class="pt-section">
     <div class="px-6 mb-8">
-      <h2 class="headline-sm">Not more energy. Better energy.</h2>
+      <div class="flex flex-col gap-3">
+        <h2 class="headline-sm">Steady isn't an accident.</h2>
+        <p class="body-lg">A handful of good ingredients, properly dosed. Not a sprinkle of forty.</p>
+      </div>
     </div>
 
-    <div class="card-carousel flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
+    <div class="card-carousel card-carousel--scroll flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
       <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
         <img src="images/tea.webp" alt="Green tea leaves" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
         <div class="flex flex-col gap-2">
-          <h3 class="card-title">Calm energy</h3>
+          <h3 class="card-title">Alert, not wired¹</h3>
           <p class="body-sm text-gray-500 italic">Green tea extract + L-theanine</p>
-          <p class="body-lg">Green tea delivers caffeine slowly. L-theanine shapes the response. Not less energy. Just better behaved.</p>
+          <p class="body-lg">Caffeine for alertness, plus L-theanine, the amino acid tea has and coffee doesn't.</p>
         </div>
       </div>
 
       <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/berry-cacao.webp" alt="Blackcurrants and cacao beans" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
+        <img src="images/blackcurrant.webp" alt="Ripe blackcurrants, one cut open to show the deep red inside" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
         <div class="flex flex-col gap-2">
-          <h3 class="card-title">Clarity that holds</h3>
-          <p class="body-sm text-gray-500 italic">Bilberry anthocyanins</p>
-          <p class="body-lg">Anthocyanins support circulation. More oxygen arriving where you need it, through the hours that matter.</p>
+          <h3 class="card-title">Dark berry, clear head</h3>
+          <p class="body-sm text-gray-500 italic">Blackcurrant anthocyanins</p>
+          <p class="body-lg">The pigment that turns blackcurrants almost black. Studied for blood flow and the brain, over weeks.</p>
+        </div>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
+        <img src="images/ginger.webp" alt="Fresh ginger root and sliced ginger in low light" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
+        <div class="flex flex-col gap-2">
+          <h3 class="card-title">A warm start</h3>
+          <p class="body-sm text-gray-500 italic">Ginger root</p>
+          <p class="body-lg">There for one reason: a gentle warmth in the first few minutes, so you know it's started.</p>
+        </div>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
+        <img src="images/rhodiola.webp" alt="Rhodiola rosea plant with yellow flower heads and pale green leaves" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
+        <div class="flex flex-col gap-2">
+          <h3 class="card-title">Better with time</h3>
+          <p class="body-sm text-gray-500 italic">Rhodiola rosea</p>
+          <p class="body-lg">A cold-climate root, studied for mental fatigue under stress. Give it two weeks.</p>
         </div>
       </div>
 
       <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
         <img src="images/bvits.webp" alt="Sunflower seeds and grains" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
         <div class="flex flex-col gap-2">
-          <h3 class="card-title">Built to last</h3>
-          <p class="body-sm text-gray-500 italic">Magnesium L-threonate + B vitamins</p>
-          <p class="body-lg">The form of magnesium that reaches the brain, not just the body. B vitamins supporting how your cells produce energy. Better on day fifteen than day one.</p>
+          <h3 class="card-title">Feel less tired²</h3>
+          <p class="body-sm text-gray-500 italic">Vitamin B12 + B5</p>
+          <p class="body-lg">Help your body release energy from food. B12 at 200% of your daily reference, B5 at 100%.</p>
         </div>
       </div>
+    </div>
+
+    <!-- footnotes for the superscript markers in the card titles -->
+    <div class="px-6 mt-6 flex flex-col gap-2">
+      <p class="body-sm text-gray-500">¹ Caffeine helps to increase alertness.</p>
+      <p class="body-sm text-gray-500">² Vitamin B12 and pantothenic acid (B5) contribute to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.</p>
     </div>
   </section>
 
   <!-- 7. SOCIAL PROOF -->
   <section id="social-proof" class="pt-section">
     <div class="px-6 mb-8">
-      <h2 class="headline-sm">They tried it. Here's what they said.</h2>
+      <div class="flex flex-col gap-3">
+        <h2 class="headline-sm">47+ versions to get here. Then we let people try it.</h2>
+        <p class="body-lg">A small group's been trying it. Here's what they're telling us so far.</p>
+      </div>
     </div>
 
-    <div class="card-carousel flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
+    <div class="card-carousel card-carousel--scroll flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
       <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
+        <img src="images/loic.webp" alt="Loic" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
         <div class="flex flex-col gap-2">
-          <p class="body-lg">"Didn't expect to notice much difference. Two weeks in and the 10am slump just isn't happening the way it was."</p>
-          <p class="body-sm text-gray-500 italic">Sarah M. — Project manager, Bristol</p>
+          <p class="body-lg">"I've been pleasantly surprised how I'm feeling more 'on' in the morning"</p>
+          <p class="body-sm text-gray-500 italic">Loic</p>
+        </div>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
+        <img src="images/dan.webp" alt="Dan holding a prepared Morningo drink" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
+        <div class="flex flex-col gap-2">
+          <p class="body-lg">"Two weeks in and the 10am slump just isn't happening."</p>
+          <p class="body-sm text-gray-500 italic">Dan</p>
         </div>
       </div>
 
@@ -608,20 +762,22 @@
 
 <div id="sticky-cta" class="sticky-cta">
   <div class="sticky-cta-inner">
-    <button class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="sticky-cta-button">
-      Reserve My Place
-    </button>
-    <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. You'll be first to know when we're ready. Get in early, numbers are limited.</p>
+    <div class="sticky-cta-group">
+      <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="sticky-cta-button">
+        Get first access
+      </button>
+      <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. We'll email you when your place opens.</p>
+    </div>
   </div>
 </div>
 
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies, including the Meta Pixel, to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
-        <button class="cookie-btn" id="cookie-reject">Reject cookies</button>
       </div>
     </div>
   </div>
@@ -632,14 +788,14 @@
 <div id="chat-sheet" class="chat-sheet">
   <div class="flex justify-between items-center">
     <h3 class="card-title">Have a question?</h3>
-    <a href="#" id="chat-close" class="back-button bg-primary-mid text-white" aria-label="Close">
+    <a href="#" id="chat-close" class="back-button bg-gray-100 text-ink" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </a>
   </div>
 
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-send">Send Message</button>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -658,7 +814,8 @@
         <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-email-send">Send Message</button>
+      <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -667,6 +824,37 @@
     <p class="body-lg text-center">Thank you, your message has been sent. We'll get back to you as soon as we can.</p>
   </div>
 </div>
+
+<!-- Netlify Forms detection: the question modal submits by JavaScript, so Netlify needs this static copy of the
+     form in the HTML at deploy time to know the "question" form exists. Keep its fields in step with the modal script. -->
+<form id="question-form" name="question" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question">
+  <input type="hidden" name="subject" value="Morningo QUESTION: someone needs an answer">
+  <input type="hidden" name="page" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
+  <input type="email" name="email">
+</form>
+
+<script>
+  // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
+  // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
+  // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
+  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
+  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
+  // host must fail loudly, never pretend to succeed.
+  window.morningoPostForm = function (data) {
+    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+      console.info('[Morningo] form send simulated on this host (no form handler here)');
+      return new Promise(function (resolve) { setTimeout(resolve, 500); });
+    }
+    return fetch('thank-you.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).then(function (res) { if (!res.ok) throw new Error('Form POST failed: ' + res.status); });
+  };
+</script>
 
 <script>
   document.querySelectorAll('.overflow-x-auto').forEach(el => { el.scrollLeft = 0; });
@@ -807,12 +995,31 @@
     const emailError = document.getElementById('chat-email-error');
     const emailSendBtn = document.getElementById('chat-email-send');
     const thanks = document.getElementById('chat-thanks');
+    const sendError = document.getElementById('chat-send-error');
+    const questionForm = document.getElementById('question-form');
     if (!sheet) return;
+
+    // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
+    // don't reflow when the on-screen keyboard opens, so the Send button can end up hidden behind
+    // it. Recenter and cap the sheet's height to the actual visible (non-keyboard) area instead.
+    function keepSheetInView() {
+      if (!sheet.classList.contains('visible')) return;
+      const vv = window.visualViewport;
+      if (!vv) return;
+      sheet.style.top = (vv.offsetTop + vv.height / 2) + 'px';
+      sheet.style.maxHeight = Math.max(vv.height - 32, 200) + 'px';
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', keepSheetInView);
+      window.visualViewport.addEventListener('scroll', keepSheetInView);
+    }
+    sheet.addEventListener('focusin', () => requestAnimationFrame(keepSheetInView));
 
     // Cycling status text next to the loading dots, styled after the "thinking" state in an
     // AI chat interface — the whole point of this modal is to feel live, even though it isn't.
     const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
     let loadingTimer = null;
+    let sendId = 0; // bumped on every send and every reset, so a late reply from an old send is ignored
 
     function resetChat() {
       clearInterval(loadingTimer);
@@ -822,11 +1029,16 @@
       loading.style.display = 'none';
       form.style.display = '';
       reply.style.display = 'none';
+      reply.classList.remove('visible');
       emailInput.value = '';
       emailInput.disabled = false;
       emailInput.classList.remove('invalid');
       emailError.style.display = 'none';
       emailSendBtn.style.display = '';
+      emailSendBtn.disabled = false;
+      emailSendBtn.textContent = 'Send message';
+      sendError.style.display = 'none';
+      sendId++;
       thanks.style.display = 'none';
     }
 
@@ -835,11 +1047,14 @@
       resetChat();
       backdrop.classList.add('visible');
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('visible')));
+      keepSheetInView();
     }
     function closeChat(e) {
       if (e) e.preventDefault();
       sheet.classList.remove('visible');
       backdrop.classList.remove('visible');
+      sheet.style.top = '';
+      sheet.style.maxHeight = '';
     }
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
@@ -863,6 +1078,7 @@
         loading.style.display = 'none';
         form.style.display = 'none';
         reply.style.display = 'block';
+        requestAnimationFrame(() => requestAnimationFrame(() => reply.classList.add('visible')));
       }, 2800);
     });
 
@@ -875,18 +1091,131 @@
 
     emailForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (emailSendBtn.disabled) return;
       const valid = emailInput.checkValidity();
       emailInput.classList.toggle('invalid', !valid);
       emailError.style.display = valid ? 'none' : 'block';
       if (!valid) { emailInput.focus(); return; }
 
-      // Concept stage only: real build submits { question, email } together to Netlify
-      // Forms here (same mechanism as the capture page — see brief.md).
-      // The thank-you state takes over the whole modal — question, reply, and email field
-      // all clear away, leaving just the confirmation centered on its own.
-      form.style.display = 'none';
-      reply.style.display = 'none';
-      thanks.style.display = 'flex';
+      // Submits { question, email } together as one entry in the "question" Netlify form (#question-form is the
+      // static copy Netlify detects). The thank-you state only appears once the send has really succeeded; on
+      // failure the visitor stays on the email step with an error and can retry.
+      const data = new FormData(questionForm);
+      data.set('question', questionInput.value.trim());
+      data.set('email', emailInput.value.trim());
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      const attempt = ++sendId;
+      sendError.style.display = 'none';
+      emailSendBtn.disabled = true;
+      emailSendBtn.textContent = 'Sending…';
+      window.morningoPostForm(data).then(() => {
+        if (attempt !== sendId) return;
+        // The thank-you state takes over the whole modal — question, reply, and email field
+        // all clear away, leaving just the confirmation centered on its own.
+        form.style.display = 'none';
+        reply.style.display = 'none';
+        reply.classList.remove('visible');
+        thanks.style.display = 'flex';
+      }).catch(() => {
+        if (attempt !== sendId) return;
+        sendError.style.display = 'block';
+        emailSendBtn.disabled = false;
+        emailSendBtn.textContent = 'Send message';
+      });
     });
+  })();
+</script>
+
+<script>
+  // Hero video (gallery slide 1). The poster image underneath is what loads and paints first. The video has no source until
+  // the page has finished loading, stays invisible until it is really playing, and only starts once the browser says it can
+  // play the whole clip without stalling. If it can't (slow connection, stall, error) the visitor just keeps the poster.
+  (function() {
+    const video = document.getElementById('hero-video');
+    if (!video || !('IntersectionObserver' in window)) return;
+
+    const HOLD_MS = 1500;      // rest on the final frame at the end of the clip
+    const FADE_MS = 800;       // then dissolve back to the poster (= the first frame) before restarting
+    const FADE_IN_MS = 250;    // video appearing over its identical poster
+    const STALL_MS = 1200;     // stuck buffering this long mid-play: give up and show the poster
+    const NO_DATA_MS = 4000;   // nothing downloaded after this long: try play() anyway (iOS Safari won't buffer until asked)
+
+    // Poster only (video never downloaded) for reduced motion, data-saver, or a 2G-or-slower connection.
+    // Chrome/Android report connection type; other browsers rely on the stall guard below.
+    const conn = navigator.connection || {};
+    const slowConnection = ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || conn.saveData === true || slowConnection) return;
+
+    let attached = false, inView = false;
+    let ready = false;       // the browser predicts the whole clip can play through without stalling
+    let stallTimer;
+    let phase = 'playing';   // 'playing' | 'holding' | 'fading': the loop timers own playback outside 'playing'
+
+    function setOpacity(value, duration) {
+      video.style.transitionProperty = 'opacity';
+      video.style.transitionTimingFunction = 'ease-in-out';
+      video.style.transitionDuration = duration + 'ms';
+      video.style.opacity = value;
+    }
+
+    function sync() {
+      if (!attached || !ready || phase !== 'playing') return;
+      if (inView && !document.hidden) video.play().catch(() => {});
+      else video.pause();
+    }
+
+    video.addEventListener('canplaythrough', () => { ready = true; sync(); });
+
+    // The video only becomes visible once it is actually playing.
+    video.addEventListener('playing', () => {
+      clearTimeout(stallTimer);
+      if (phase === 'playing') setOpacity(1, FADE_IN_MS);
+    });
+
+    // Stalled mid-play, or errored: fade back to the poster instead of leaving a frozen frame, and try again from the
+    // start when the browser next reports it can play through.
+    function backToPoster() {
+      clearTimeout(stallTimer);
+      ready = false;
+      video.pause();
+      setOpacity(0, FADE_MS);
+      if (!video.error) video.currentTime = 0;
+    }
+    video.addEventListener('waiting', () => {
+      if (phase !== 'playing' || video.paused) return;
+      clearTimeout(stallTimer);
+      stallTimer = setTimeout(backToPoster, STALL_MS);
+    });
+    video.addEventListener('error', backToPoster);
+
+    // End of clip: rest on the last frame, dissolve to the poster, then start over.
+    video.addEventListener('ended', () => {
+      phase = 'holding';
+      setTimeout(() => {
+        phase = 'fading';
+        setOpacity(0, FADE_MS);
+        setTimeout(() => {
+          video.currentTime = 0;
+          phase = 'playing';
+          sync();
+        }, FADE_MS);
+      }, HOLD_MS);
+    });
+
+    function attach() {
+      if (attached) return;
+      attached = true;
+      video.querySelectorAll('source[data-src]').forEach(s => { s.src = s.dataset.src; });
+      video.preload = 'auto';
+      video.load();
+      setTimeout(() => { if (!ready && video.readyState < 2) { ready = true; sync(); } }, NO_DATA_MS);
+    }
+
+    // Play only while at least half the video is on screen (e.g. it pauses once swiped to another slide).
+    new IntersectionObserver(entries => { inView = entries[0].isIntersecting; sync(); }, { threshold: 0.5 }).observe(video);
+    document.addEventListener('visibilitychange', sync);
+
+    const start = () => ('requestIdleCallback' in window ? requestIdleCallback(attach, { timeout: 2000 }) : setTimeout(attach, 200));
+    if (document.readyState === 'complete') start(); else addEventListener('load', start);
   })();
 </script>

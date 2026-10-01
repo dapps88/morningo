@@ -46,6 +46,7 @@
   .bg-ink { background: #17150F; }
   .bg-primary { background: #39002A; }
   .bg-primary-soft { background: #EDE0EA; }
+  .bg-primary-mid { background: #5E0045; }
   .text-white { color: #ffffff; }
   .text-gray-400 { color: #9ca3af; }
   .text-gray-500 { color: #6b7280; }
@@ -179,6 +180,7 @@
     flex: 1;
     background: #17150F;
     color: #ffffff;
+    border: 1px solid #17150F;   /* same border on both buttons so the filled and outline versions are exactly the same size */
     padding: 10px 20px;
     font-size: 13px;
     font-weight: 600;
@@ -187,6 +189,7 @@
     border-radius: 9999px;
     text-align: center;
   }
+  .cookie-btn-outline { background: transparent; color: #17150F; }
 
   /* back button (nav) */
   .back-button {
@@ -200,6 +203,7 @@
     transition: background-color 150ms ease;
   }
   .back-button:hover { background: #4B0037; }
+  #chat-close:hover { background: #e5e7eb; }
 
   /* logo mark — replaces the text wordmark in the nav and footer. align-self is needed
      because the footer's flex-col parent otherwise stretches it to the full column width,
@@ -221,6 +225,38 @@
   .field-input::placeholder { color: #9ca3af; }
   .field-input:focus { outline: none; border-color: #39002A; }
   .field-input.invalid { border-color: #b91c1c; }
+
+  /* Queue row: 12 person icons. A decorative, fixed sequence (not tied to real
+     sign-up data) — every icon is present from load. Icons 1-5 fill with a
+     rising plum wipe, bottom to top, one after another, left to right (a
+     grey/outline base layer sits underneath a plum copy clipped by an
+     animated clip-path inset — the same "color rising through a shape" idea
+     as a liquid-fill/gauge reveal). The 6th (You, bigger, outline base) fills
+     last and then pulses continuously. Icons past You stay flat grey and
+     never animate. Runs once on load, aria-hidden throughout. */
+  .queue-row { display: flex; align-items: flex-end; justify-content: space-between; height: 31px; position: relative; }
+  .queue-icon { position: relative; width: 20px; height: 22px; flex-shrink: 0; }
+  .queue-icon--you { width: 28px; height: 30.8px; }
+  .queue-icon-base, .queue-icon-fill { position: absolute; inset: 0; display: block; }
+  .queue-icon-base svg, .queue-icon-fill svg { display: block; width: 100%; height: 100%; }
+  .queue-icon-base svg circle, .queue-icon-base svg path { fill: #e0dade; }
+  .queue-icon--you .queue-icon-base svg circle, .queue-icon--you .queue-icon-base svg path { fill: #ffffff; stroke: #3a0030; stroke-width: 1.5; }
+  .queue-icon-fill svg circle, .queue-icon-fill svg path { fill: #3a0030; }
+  .queue-icon-fill { clip-path: inset(100% 0 0 0); }
+  .queue-ring { position: absolute; left: 50%; top: 50%; width: 44.8px; height: 44.8px; margin-left: -22.4px; margin-top: -22.4px; border-radius: 50%; background: #3a0030; opacity: 0; pointer-events: none; }
+
+  @keyframes queue-pulse { 0% { transform: scale(0.6); opacity: 0.18; } 100% { transform: scale(1.3); opacity: 0; } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* clip-path's inset() moving from 100% (fully hidden) to 0% (fully
+       revealed) is what draws the rising wipe; transition-delay (set per
+       icon in JS) staggers left to right, gentle Material-standard easing
+       rather than a linear race. */
+    .queue-icon-fill { transition: clip-path 700ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .queue-icon-fill.is-revealed { clip-path: inset(0% 0 0 0); }
+    .queue-animated .queue-ring { animation: queue-pulse 1400ms ease-out infinite; }
+    .queue-ring.ring-paused { animation-play-state: paused; opacity: 0; }
+  }
 
   /* nav question pill — persistent top-right trigger for the chat modal */
   .nav-pill {
@@ -265,6 +301,8 @@
     z-index: 61;
   }
   .chat-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+  #chat-reply { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+  #chat-reply.visible { opacity: 1; transform: translateY(0); }
   .chat-textarea {
     width: 100%;
     min-height: 110px;
@@ -279,6 +317,7 @@
   .chat-textarea::placeholder { color: #9ca3af; }
   .chat-textarea:focus { outline: none; border-color: #39002A; }
   .chat-textarea:disabled { opacity: 1; color: #17150F; background: #ffffff; }
+  .cta-button:disabled { opacity: 0.6; cursor: default; }
   .chat-loading { display: flex; align-items: center; gap: 10px; }
   .chat-dot { width: 6px; height: 6px; border-radius: 9999px; background: #39002A; animation: chat-pulse 1s ease-in-out infinite; }
   .chat-dot:nth-child(2) { animation-delay: 0.15s; }
@@ -287,7 +326,7 @@
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
-  .cta-button { width: 100%; }
+  .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
     .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -295,8 +334,8 @@
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
     .sticky-cta { max-width: 1440px; }
-    .cta-button { width: 300px; text-align: center; }
-    .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
+    .cta-button { width: 100%; text-align: center; }
+    .cta-caption { max-width: none; margin-left: auto; margin-right: auto; }
     #capture-form .cta-caption { margin-left: 0; margin-right: 0; }
     .sticky-cta .cta-caption { max-width: 600px; }
     .price-row { justify-content: flex-start; }
@@ -334,25 +373,32 @@
   <section id="capture" class="md-pt-10">
     <div class="split-columns">
     <!-- Product image: reusing an existing lifestyle shot as a stand-in — not a dedicated capture-page photo -->
-    <img src="images/energy-lady.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+    <img src="images/energy-lady-2.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="px-4">
       <div class="flex flex-col gap-3">
-        <h1 class="headline">500 places. First come, first served.</h1>
-        <p class="body-lg">Leave your email. When Morningo is ready to order, you'll be first in line.</p>
+        <h1 class="headline" id="capture-headline">Get a place in the first batch.</h1>
+        <p class="body-lg" id="capture-subcopy">We're not on sale yet, but we're already saving places in the order people join.</p>
       </div>
 
-      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="capture" method="POST" data-netlify="true" novalidate>
-        <input type="hidden" name="form-name" value="capture">
+      <div id="queue-row" class="queue-row mt-8" aria-hidden="true"></div>
+
+      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="signup">
+        <input type="hidden" name="subject" value="Morningo SIGN-UP: new subscriber">
+        <p aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+          <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
         <div class="flex flex-col gap-2">
           <label for="email-input" class="body-sm" style="font-weight:500;">Your email address</label>
           <input type="email" id="email-input" name="email" class="field-input" placeholder="you@example.com" required>
           <p class="body-sm" id="email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
         </div>
-        <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="capture-cta">
-          Reserve My Place
+        <p class="body-sm" id="capture-send-error" style="color:#b91c1c; display:none;">Something went wrong saving your place. Please try again.</p>
+        <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="capture-cta">
+          Get first access
         </button>
-        <p class="cta-caption body-sm text-gray-500">One email, when we're ready. Nothing else. <a href="privacy.html" class="underline">Privacy notice</a></p>
+        <p class="cta-caption body-sm text-gray-500">No payment. We'll email when your place opens, and may ask what brought you here. <a href="privacy.html" class="underline">Privacy notice</a></p>
       </form>
     </div>
     </div>
@@ -380,10 +426,10 @@
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies, including the Meta Pixel, to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
-        <button class="cookie-btn" id="cookie-reject">Reject cookies</button>
       </div>
     </div>
   </div>
@@ -394,14 +440,14 @@
 <div id="chat-sheet" class="chat-sheet">
   <div class="flex justify-between items-center">
     <h3 class="card-title">Have a question?</h3>
-    <a href="#" id="chat-close" class="back-button bg-primary-mid text-white" aria-label="Close">
+    <a href="#" id="chat-close" class="back-button bg-gray-100 text-ink" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </a>
   </div>
 
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-send">Send Message</button>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -420,7 +466,8 @@
         <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 text-sm font-semibold uppercase tracking-wide rounded-full" id="chat-email-send">Send Message</button>
+      <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -429,6 +476,37 @@
     <p class="body-lg text-center">Thank you, your message has been sent. We'll get back to you as soon as we can.</p>
   </div>
 </div>
+
+<!-- Netlify Forms detection: the question modal submits by JavaScript, so Netlify needs this static copy of the
+     form in the HTML at deploy time to know the "question" form exists. Keep its fields in step with the modal script. -->
+<form id="question-form" name="question" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question">
+  <input type="hidden" name="subject" value="Morningo QUESTION: someone needs an answer">
+  <input type="hidden" name="page" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
+  <input type="email" name="email">
+</form>
+
+<script>
+  // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
+  // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
+  // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
+  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
+  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
+  // host must fail loudly, never pretend to succeed.
+  window.morningoPostForm = function (data) {
+    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+      console.info('[Morningo] form send simulated on this host (no form handler here)');
+      return new Promise(function (resolve) { setTimeout(resolve, 500); });
+    }
+    return fetch('thank-you.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).then(function (res) { if (!res.ok) throw new Error('Form POST failed: ' + res.status); });
+  };
+</script>
 
 <script>
   // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
@@ -469,7 +547,15 @@
     const form = document.getElementById('capture-form');
     const input = document.getElementById('email-input');
     const error = document.getElementById('email-error');
+    const cta = document.getElementById('capture-cta');
+    const sendError = document.getElementById('capture-send-error');
     if (!form) return;
+    const ctaLabel = cta.textContent.trim();
+
+    // Coming back with the browser's Back button can restore this page frozen mid-send; reset the button.
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) { cta.disabled = false; cta.textContent = ctaLabel; }
+    });
 
     function showValidity(valid) {
       input.classList.toggle('invalid', !valid);
@@ -486,13 +572,20 @@
       showValidity(valid);
       if (!valid) { input.focus(); return; }
 
-      // Concept stage only: this page isn't deployed to Netlify yet, so there's nowhere for a
-      // real POST to go. The form above already carries the attributes Netlify needs
-      // (data-netlify="true", name="capture", hidden form-name field) to detect and handle it
-      // for real once deployed — Netlify then does the actual submit + redirect natively, and
-      // this client-side redirect becomes unnecessary. Until then, this simulates the
-      // "successful submission" path so the thank-you page can be reviewed.
-      window.location.href = 'thank-you.html';
+      // Posts to the "signup" Netlify form (see window.morningoPostForm) and only moves on to the thank-you page once
+      // the submission has really gone through; on failure the visitor stays here with an error and can retry.
+      // The Lead tracking event fires on thank-you.html load, so it only ever counts submissions that succeeded.
+      if (cta.disabled) return;
+      sendError.style.display = 'none';
+      cta.disabled = true;
+      cta.textContent = 'Saving your place…';
+      window.morningoPostForm(new FormData(form))
+        .then(() => { window.location.href = 'thank-you.html'; })
+        .catch(() => {
+          sendError.style.display = 'block';
+          cta.disabled = false;
+          cta.textContent = ctaLabel;
+        });
     });
   })();
 
@@ -513,10 +606,29 @@
     const emailError = document.getElementById('chat-email-error');
     const emailSendBtn = document.getElementById('chat-email-send');
     const thanks = document.getElementById('chat-thanks');
+    const sendError = document.getElementById('chat-send-error');
+    const questionForm = document.getElementById('question-form');
     if (!sheet) return;
+
+    // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
+    // don't reflow when the on-screen keyboard opens, so the Send button can end up hidden behind
+    // it. Recenter and cap the sheet's height to the actual visible (non-keyboard) area instead.
+    function keepSheetInView() {
+      if (!sheet.classList.contains('visible')) return;
+      const vv = window.visualViewport;
+      if (!vv) return;
+      sheet.style.top = (vv.offsetTop + vv.height / 2) + 'px';
+      sheet.style.maxHeight = Math.max(vv.height - 32, 200) + 'px';
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', keepSheetInView);
+      window.visualViewport.addEventListener('scroll', keepSheetInView);
+    }
+    sheet.addEventListener('focusin', () => requestAnimationFrame(keepSheetInView));
 
     const loadingPhrases = ['Reading your question…', 'Checking what we know…', 'Getting the team…'];
     let loadingTimer = null;
+    let sendId = 0; // bumped on every send and every reset, so a late reply from an old send is ignored
 
     function resetChat() {
       clearInterval(loadingTimer);
@@ -526,11 +638,16 @@
       loading.style.display = 'none';
       form.style.display = '';
       reply.style.display = 'none';
+      reply.classList.remove('visible');
       emailInput.value = '';
       emailInput.disabled = false;
       emailInput.classList.remove('invalid');
       emailError.style.display = 'none';
       emailSendBtn.style.display = '';
+      emailSendBtn.disabled = false;
+      emailSendBtn.textContent = 'Send message';
+      sendError.style.display = 'none';
+      sendId++;
       thanks.style.display = 'none';
     }
 
@@ -539,11 +656,14 @@
       resetChat();
       backdrop.classList.add('visible');
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('visible')));
+      keepSheetInView();
     }
     function closeChat(e) {
       if (e) e.preventDefault();
       sheet.classList.remove('visible');
       backdrop.classList.remove('visible');
+      sheet.style.top = '';
+      sheet.style.maxHeight = '';
     }
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
@@ -567,6 +687,7 @@
         loading.style.display = 'none';
         form.style.display = 'none';
         reply.style.display = 'block';
+        requestAnimationFrame(() => requestAnimationFrame(() => reply.classList.add('visible')));
       }, 2800);
     });
 
@@ -579,18 +700,152 @@
 
     emailForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (emailSendBtn.disabled) return;
       const valid = emailInput.checkValidity();
       emailInput.classList.toggle('invalid', !valid);
       emailError.style.display = valid ? 'none' : 'block';
       if (!valid) { emailInput.focus(); return; }
 
-      // Concept stage only: real build submits { question, email } together to Netlify
-      // Forms here (same mechanism as the capture page — see brief.md).
-      // The thank-you state takes over the whole modal — question, reply, and email field
-      // all clear away, leaving just the confirmation centered on its own.
-      form.style.display = 'none';
-      reply.style.display = 'none';
-      thanks.style.display = 'flex';
+      // Submits { question, email } together as one entry in the "question" Netlify form (#question-form is the
+      // static copy Netlify detects). The thank-you state only appears once the send has really succeeded; on
+      // failure the visitor stays on the email step with an error and can retry.
+      const data = new FormData(questionForm);
+      data.set('question', questionInput.value.trim());
+      data.set('email', emailInput.value.trim());
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      const attempt = ++sendId;
+      sendError.style.display = 'none';
+      emailSendBtn.disabled = true;
+      emailSendBtn.textContent = 'Sending…';
+      window.morningoPostForm(data).then(() => {
+        if (attempt !== sendId) return;
+        // The thank-you state takes over the whole modal — question, reply, and email field
+        // all clear away, leaving just the confirmation centered on its own.
+        form.style.display = 'none';
+        reply.style.display = 'none';
+        reply.classList.remove('visible');
+        thanks.style.display = 'flex';
+      }).catch(() => {
+        if (attempt !== sendId) return;
+        sendError.style.display = 'block';
+        emailSendBtn.disabled = false;
+        emailSendBtn.textContent = 'Send message';
+      });
     });
+  })();
+
+  (function() {
+    // Decorative queue row: fixed, same for every visitor, not tied to real
+    // sign-up data. Icons 1-5 fill with a rising plum wipe (bottom to top,
+    // via an animated clip-path inset on a plum copy layered over a grey/
+    // outline base — a gauge/liquid-fill reveal, not a flat color swap),
+    // one after another, left to right. The 6th (You, bigger, outline base)
+    // fills last and then pulses forever. Icons past You never animate.
+    // Runs once. Retime by adjusting FILL_DURATION / STEP below.
+    const TOTAL_SLOTS = 12;
+    const FILLED_IN_COUNT = 5;
+    const YOU_INDEX = FILLED_IN_COUNT; // 6th icon (0-indexed): the middle of 12
+
+    const FILL_DURATION = 700; // ms, each icon's own rising-wipe reveal (matches the CSS transition below)
+    const STEP = 380;          // ms between each icon's reveal starting (overlaps FILL_DURATION for a smooth, connected feel rather than a race)
+    const PULSE_DELAY_AFTER_YOU = 0; // pulse starts the instant You finishes filling
+
+    const row = document.getElementById('queue-row');
+    const emailInput = document.getElementById('email-input');
+    if (!row) return;
+
+    const ICON_SVG = '<svg viewBox="-1 -1 22 24"><circle cx="10" cy="6" r="4.5"></circle><path d="M1 22C1 15 5 12 10 12C15 12 19 15 19 22Z"></path></svg>';
+
+    const icons = [];
+    const fills = [];
+    let ring = null;
+    let youIcon = null;
+    let youFill = null;
+
+    for (let i = 0; i < TOTAL_SLOTS; i++) {
+      const span = document.createElement('span');
+      let html = '<span class="queue-icon-base">' + ICON_SVG + '</span>';
+      if (i <= YOU_INDEX) {
+        html += '<span class="queue-icon-fill">' + ICON_SVG + '</span>';
+      }
+      if (i < YOU_INDEX) {
+        span.className = 'queue-icon queue-icon--in';
+      } else if (i === YOU_INDEX) {
+        span.className = 'queue-icon queue-icon--you';
+        span.id = 'queue-you';
+        youIcon = span;
+        html += '<span class="queue-ring" id="queue-ring"></span>';
+      } else {
+        span.className = 'queue-icon queue-icon--open';
+      }
+      span.innerHTML = html;
+      row.appendChild(span);
+      icons.push(span);
+      if (i <= YOU_INDEX) {
+        const fillEl = span.querySelector('.queue-icon-fill');
+        fills.push(fillEl);
+        if (i === YOU_INDEX) youFill = fillEl;
+      }
+      if (i === YOU_INDEX) ring = span.querySelector('.queue-ring');
+    }
+
+    // Confirmation state — built to spec, but NOT wired into the live submit
+    // flow: that still redirects to thank-you.html (see the capture-form submit
+    // handler above). Call window.__showQueueConfirmation() to trigger it once
+    // the in-page route is chosen instead of the redirect.
+    window.__showQueueConfirmation = function() {
+      if (ring) {
+        ring.style.animation = 'none';
+        ring.style.opacity = '0';
+      }
+      if (youFill) youFill.classList.add('is-revealed');
+      if (youIcon) {
+        youIcon.style.transition = 'transform 500ms ease-out';
+        youIcon.style.transform = 'scale(0.8)';
+        requestAnimationFrame(() => requestAnimationFrame(() => { youIcon.style.transform = 'scale(1)'; }));
+      }
+      const headline = document.getElementById('capture-headline');
+      const subcopy = document.getElementById('capture-subcopy');
+      const form = document.getElementById('capture-form');
+      if (headline) headline.textContent = "You're in.";
+      if (subcopy) subcopy.textContent = "We'll email you when your place opens.";
+      if (form) {
+        form.style.transition = 'opacity 300ms ease';
+        form.style.opacity = '0';
+        setTimeout(() => { form.style.display = 'none'; }, 300);
+      }
+    };
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      // Show the final state instantly: no wipe, no pulse.
+      fills.forEach((fillEl) => { fillEl.style.clipPath = 'inset(0% 0 0 0)'; });
+      return;
+    }
+
+    const totalTimeToYou = YOU_INDEX * STEP + FILL_DURATION;
+    const pulseStart = totalTimeToYou + PULSE_DELAY_AFTER_YOU;
+
+    row.classList.add('queue-animated');
+
+    fills.forEach((fillEl, i) => {
+      fillEl.style.transitionDelay = (i * STEP) + 'ms';
+    });
+
+    if (ring) {
+      ring.style.animationDelay = pulseStart + 'ms';
+    }
+
+    // Kick off every wipe on the next frame so the initial hidden clip-path
+    // is guaranteed to paint first and the transition actually plays.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      fills.forEach((fillEl) => { fillEl.classList.add('is-revealed'); });
+    }));
+
+    // Optional polish: hide the pulse while the visitor is typing their email.
+    if (emailInput && ring) {
+      emailInput.addEventListener('focus', () => ring.classList.add('ring-paused'));
+      emailInput.addEventListener('blur', () => ring.classList.remove('ring-paused'));
+    }
   })();
 </script>

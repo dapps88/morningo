@@ -3,7 +3,7 @@
 ## Banner Copy
 
 **Body**
-We use analytics and advertising cookies, including the Meta Pixel, to understand how this site is used and measure our ads.
+We use analytics and advertising cookies to understand how this site is used and measure our ads.
 
 **Actions**
 - Primary button: Accept cookies
@@ -32,3 +32,13 @@ We use analytics and advertising cookies, including the Meta Pixel, to understan
 - Do not fire any pixel or analytics tag before consent is registered
 - Do not add a "by continuing you agree" fallback
 - Do not reword the body copy — the Meta Pixel disclosure and purpose naming are required for PECR and Meta Business Tools compliance
+
+---
+
+## Owner decisions (2026-09-30)
+
+These two decisions were made by the site owner and override the matching rules above. The rules are left in place so the reasoning stays visible.
+
+1. **Banner body copy:** "including the Meta Pixel" was removed from the banner. The Meta Pixel is still named in full in the privacy policy (privacy.html, and references/privacy-policy.md), which the "Learn more" link points to. This overrides "Do not reword the body copy".
+2. **Reject button style:** Reject is an outline button (transparent background, black text, black outline) and sits on the left, with the filled Accept button on the right. This overrides rule 2 ("visually equal") and the "different visual weights" line under Do Not.
+
