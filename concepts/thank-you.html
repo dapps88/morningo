@@ -438,11 +438,13 @@
   // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
   // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
   // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
-  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
-  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
-  // host must fail loudly, never pretend to succeed.
+  // always succeeds, which keeps the review flow clickable. Netlify preview and branch links (anything--morningo.netlify.app)
+  // are simulated too, because a real send from them lands in the live submissions list and emails the owner. Every
+  // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
+  // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
+  // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }
@@ -656,7 +658,7 @@
     if (!copyButton) return;
 
     var HOME_PAGE = 'product-wireframe-v2.html';
-    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname);
+    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname);
     var shareUrl = isTestHost ? new URL(HOME_PAGE, location.href).href : location.origin + '/';
     shareLinkText.textContent = shareUrl;
     var copyResetTimer = null;
