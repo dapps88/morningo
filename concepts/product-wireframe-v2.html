@@ -374,10 +374,6 @@
     .intrigue-fade { text-wrap: balance; }
   }
 </style>
-<div class="bg-black text-white text-xs text-center py-1-5 sticky top-0 z-50 tracking-wide">
-  CONCEPT v3 — mobile only — Hero section, rest to follow
-</div>
-
 <!-- 1. NAVIGATION -->
 <header class="bg-primary">
   <div class="max-w-phone mx-auto px-4 py-5 relative">
@@ -829,7 +825,7 @@
      form in the HTML at deploy time to know the "question" form exists. Keep its fields in step with the modal script. -->
 <form id="question-form" name="question" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="question">
-  <input type="hidden" name="subject" value="Morningo QUESTION: someone needs an answer">
+  <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
@@ -1104,6 +1100,10 @@
       data.set('question', questionInput.value.trim());
       data.set('email', emailInput.value.trim());
       data.set('page', location.pathname.split('/').pop() || 'index');
+      // The notification email's subject is this field, so put the start of the question in it: it shows up in the
+      // inbox list without opening the email. Whitespace is flattened so a multi-line question stays one line.
+      const preview = questionInput.value.replace(/\s+/g, ' ').trim();
+      data.set('subject', '❓ Morningo QUESTION: ' + (preview.length > 70 ? preview.slice(0, 69).trimEnd() + '…' : preview));
       const attempt = ++sendId;
       sendError.style.display = 'none';
       emailSendBtn.disabled = true;
