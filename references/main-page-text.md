@@ -39,10 +39,14 @@ This is the product detail block. It sits above the fold with the product image.
 Calm focus. All morning, alongside your coffee.
 
 **Sub-copy**
-A morning supplement. One sachet designed to smooth your energy, extend your focus, and make the rest of the morning feel like the first hour did.
+> Updated 2026-10-02 (owner-supplied copy, replaces the earlier line).
+
+Keep your morning exactly as it is. Just add one sachet, stirred into a glass of water, first thing.
 
 **Flavour**
-Blackcurrant warmed by ginger
+> Updated 2026-10-02 (owner chose this wording; "with" matches the sachet artwork).
+
+Dark blackcurrant, warmed with ginger
 
 **Price**
 £60 · 28 servings · £2.14 per morning
@@ -89,7 +93,7 @@ Active ingredients
 - Rhodiola rosea root extract, 300mg (3% rosavins) — A cold-climate root, studied for mental fatigue under stress. Give it two weeks.
 - Blackcurrant extract, 300mg (35% anthocyanins) — The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.
 - Ginger root extract, 300mg — A gentle warmth in the first few minutes, so you know it's started.
-- Vitamin B12 (methylcobalamin), 5mg (200% of your daily reference) — Contributes to the reduction of tiredness and fatigue.
+- Vitamin B12 (methylcobalamin), 5µg (200% of your daily reference) — Contributes to the reduction of tiredness and fatigue.
 - Vitamin B5 (pantothenic acid), 6mg (100% of your daily reference) — Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.
 
 **Group heading**
@@ -113,11 +117,7 @@ The effect builds over time. Give it two weeks before you decide.
 
 ### SECTION 2: START READY
 
-**Job**
-A single full-bleed visual beat between the product detail block and the Problem section. Locked black background, product photography, one short line of copy. No CTA, no sell — just a moment of intrigue before the page moves into the problem.
-
-**Headline**
-2 hours decide the day, Start ready.
+> Removed 2026-10-02 (owner decision). The black full-bleed band with the drink photo ("The first hours set the day. Start them properly.") is no longer on the page. The section numbers below are left as they were. The fade-in on its headline now applies to every H2 on the product page (`.title-fade`).
 
 ---
 
@@ -126,16 +126,17 @@ A single full-bleed visual beat between the product detail block and the Problem
 **Job**
 Make the reader feel the mid-morning focus fade before anything is sold. Recognition first, product never. They should feel seen, not lectured.
 
+> Updated 2026-10-02 (owner-supplied copy, replaces the earlier headline, sub-copy and four bullets). Each bullet keeps a thin outline icon that matches its text: envelope, speech bubble with a question mark, clock showing half ten.
+
 **Headline**
-Most mornings start fine. It's the bit after that needs work.
+Most mornings start fine. They just don't stay that way.
 
 **Sub-copy**
-Not a crash. Just a quiet slide in the wrong direction.
+Not a crash. Just a slide in the wrong direction.
 
 **Bullets**
-- The meeting you were physically present for but mentally elsewhere.
-- The task you read three times and still had to start again.
-- The hour where you kept starting things and finishing none of them.
+- Reading the same email three times.
+- Asking someone to repeat the question.
 - The afternoon that quietly started at half ten.
 
 ---
@@ -149,9 +150,11 @@ Make the ritual feel real and intentional. The reader pictures themselves doing 
 One drink before the morning gets away from you.
 
 **Body**
-Within minutes, a mild warmth. Nothing dramatic. From around thirty minutes, energy building smoothly rather than arriving all at once. No spike, no edge. Just clear and composed through the morning.
+> Updated 2026-10-02 (owner-supplied copy, replaces both earlier paragraphs). The "Within minutes, a mild warmth..." text still lives in the "What to expect" accordion.
 
-The longer you take it, the more consistent it becomes. Week one you'll notice. Week three it's just how mornings feel.
+Give the morning a fair chance.
+
+Week one you'll notice. Week three it's just how mornings feel.
 
 ---
 

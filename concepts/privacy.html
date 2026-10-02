@@ -548,6 +548,13 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
@@ -741,6 +748,7 @@
         reply.style.display = 'none';
         reply.classList.remove('visible');
         thanks.style.display = 'flex';
+        if (window.morningoTrack) window.morningoTrack('question_sent');
       }).catch(() => {
         if (attempt !== sendId) return;
         sendError.style.display = 'block';
@@ -750,3 +758,5 @@
     });
   })();
 </script>
+
+<script src="attribution.js"></script>

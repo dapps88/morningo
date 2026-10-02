@@ -382,6 +382,13 @@
       <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="signup">
         <input type="hidden" name="subject" value="✅ Morningo SIGN-UP: new subscriber">
+        <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+        <input type="hidden" name="utm_source" value="">
+        <input type="hidden" name="utm_medium" value="">
+        <input type="hidden" name="utm_campaign" value="">
+        <input type="hidden" name="utm_content" value="">
+        <input type="hidden" name="utm_term" value="">
+        <input type="hidden" name="ad_id" value="">
         <p aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
           <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
         </p>
@@ -479,6 +486,13 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
@@ -519,7 +533,7 @@
 
   (function() {
     // Concept-stage placeholder: shows/hides the banner and remembers the choice.
-    // Real build should gate actual GA4/Meta Pixel script loading on this same decision (see cookie-banner.md).
+    // analytics.js gates GA4 and the Meta Pixel on this same decision (decide() announces it below).
     const banner = document.getElementById('cookie-banner');
     const acceptBtn = document.getElementById('cookie-accept');
     const rejectBtn = document.getElementById('cookie-reject');
@@ -527,6 +541,8 @@
 
     function decide(value) {
       cookieConsent.set(value);
+      // analytics.js loads Google Analytics / the Meta Pixel only after 'accepted'; this tells it the choice just changed.
+      document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
       banner.classList.remove('visible');
     }
 
@@ -578,7 +594,7 @@
       cta.disabled = true;
       cta.textContent = 'Saving your place…';
       window.morningoPostForm(new FormData(form))
-        .then(() => { window.location.href = 'thank-you.html'; })
+        .then(() => { window.location.href = window.morningoLink ? window.morningoLink('thank-you.html') : 'thank-you.html'; })
         .catch(() => {
           sendError.style.display = 'block';
           cta.disabled = false;
@@ -727,6 +743,7 @@
         reply.style.display = 'none';
         reply.classList.remove('visible');
         thanks.style.display = 'flex';
+        if (window.morningoTrack) window.morningoTrack('question_sent');
       }).catch(() => {
         if (attempt !== sendId) return;
         sendError.style.display = 'block';
@@ -851,3 +868,6 @@
     }
   })();
 </script>
+
+<script src="attribution.js"></script>
+<script src="analytics.js" data-page="capture"></script>

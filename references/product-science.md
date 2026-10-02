@@ -197,7 +197,7 @@ This section is critical. Everything below is referenced to the GB NHC Register 
 
 | Ingredient | Permitted claim territory |
 |---|---|
-| Caffeine (from green tea) | "Contributes to an increase in endurance performance" / "helps increase alertness" (at 75mg per serving) |
+| Caffeine (from green tea) | "Contributes to an increase in endurance performance" / "helps increase alertness" (at 80mg per serving) |
 | Magnesium | "Contributes to normal psychological function" / "contributes to the reduction of tiredness and fatigue" |
 | Vitamin B12 | "Contributes to normal energy-yielding metabolism" / "normal psychological function" / "reduction of tiredness and fatigue" |
 | Vitamin B5 | "Contributes to normal energy-yielding metabolism" / "reduction of tiredness and fatigue" |

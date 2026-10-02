@@ -1,3 +1,11 @@
-# Netlify: the bare site address opens the product page (302, so it can change later).
-# Forms never POST to "/" in this site (they post to thank-you.html), so this cannot interfere with them.
-/  /product-wireframe-v2.html  302
+# Netlify: the product page lives at /home. The file itself stays product-wireframe-v2.html, because the other pages and
+# the local preview link to that filename.
+# 1) The bare site address sends people to /home (302, so it can change later). Query strings (utm_* ad tags) are kept.
+# 2) /home shows the product page and keeps /home in the address bar (200 = rewrite, not redirect).
+# 3) The old filename sends people to /home too (force, because a real file exists there), so the page only ever has one
+#    address. That keeps the "back" links on the other pages and any analytics counting the page as /home.
+# Forms never POST to "/" or /home in this site (they post to thank-you.html), so none of this can interfere with them.
+/                           /home                       302
+/home                       /product-wireframe-v2.html  200
+/product-wireframe-v2.html  /home                       302!
+/product-wireframe-v2       /home                       302!

@@ -429,6 +429,13 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
@@ -457,10 +464,9 @@
 </script>
 
 <script>
-  // Concept stage: real build fires the Facebook Pixel "Lead" event and the GA4 conversion event
-  // right here, on this page's load only — never on form submit, never on the capture page
-  // (see brief.md, "Locked Decisions"). Needs the real GA4 Measurement ID and Facebook Pixel ID
-  // in analytics.js first — see the placeholders log in email-capture-text.md.
+  // The Facebook Pixel "Lead" event and the GA4 conversion event (generate_lead) are fired by analytics.js on this
+  // page's load only — never on form submit, never on the capture page (see brief.md, "Locked Decisions"), and only
+  // once the visitor has accepted cookies. The GA4 and Pixel IDs are at the top of analytics.js.
 
   // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
   // just being unavailable — fall back to an in-memory value so consent still works for this page load.
@@ -474,7 +480,7 @@
 
   (function() {
     // Concept-stage placeholder: shows/hides the banner and remembers the choice.
-    // Real build should gate actual GA4/Meta Pixel script loading on this same decision (see cookie-banner.md).
+    // analytics.js gates GA4 and the Meta Pixel on this same decision (decide() announces it below).
     const banner = document.getElementById('cookie-banner');
     const acceptBtn = document.getElementById('cookie-accept');
     const rejectBtn = document.getElementById('cookie-reject');
@@ -482,6 +488,8 @@
 
     function decide(value) {
       cookieConsent.set(value);
+      // analytics.js loads Google Analytics / the Meta Pixel only after 'accepted'; this tells it the choice just changed.
+      document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
       banner.classList.remove('visible');
     }
 
@@ -636,6 +644,7 @@
         reply.style.display = 'none';
         reply.classList.remove('visible');
         thanks.style.display = 'flex';
+        if (window.morningoTrack) window.morningoTrack('question_sent');
       }).catch(() => {
         if (attempt !== sendId) return;
         sendError.style.display = 'block';
@@ -695,3 +704,6 @@
     copyButton.addEventListener('click', copyLink);
   })();
 </script>
+
+<script src="attribution.js"></script>
+<script src="analytics.js" data-page="thank-you"></script>
