@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Morningo — Privacy Policy</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="consent.js"></script>
+<link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; background: #ffffff; color: #17150F; margin: 0; }
@@ -297,6 +297,12 @@
   /* long-form document list (Your rights, data processors) */
   .doc-list { padding-left: 20px; }
   .doc-list li + li { margin-top: 8px; }
+  /* the cookie list in the Cookies section: one block per cookie, name on top, three short lines under it */
+  .cookie-list { margin: 0; padding: 0; }
+  .cookie-list > div { padding: 16px 0; border-top: 1px solid #e5e7eb; }
+  .cookie-list > div:last-child { border-bottom: 1px solid #e5e7eb; }
+  .cookie-list dt { color: #17150F; font-weight: 500; }
+  .cookie-list dd { margin: 2px 0 0; }
 
   /* full-screen sheet takeover — this page slides up from the base of the viewport on
      load and back down on close, rather than sitting in normal document flow like the
@@ -365,23 +371,24 @@
 
     <div class="flex flex-col gap-3">
       <h1 class="headline">Privacy Policy</h1>
-      <p class="body-sm text-gray-500">Last updated: [date]</p>
+      <p class="body-sm text-gray-500">Last updated: 4 October 2026</p>
     </div>
 
     <div class="mt-8 pt-6 border-t border-gray-200">
       <h2 class="headline-sm">Who we are</h2>
       <div class="flex flex-col gap-4 mt-3">
-        <p class="body-lg">This site is operated by [your full legal name], based in the United Kingdom.</p>
-        <p class="body-lg">If you have any questions about this policy or how we handle your data, contact us at [email address].</p>
-        <p class="body-lg">Our ICO registration number is [number].</p>
+        <p class="body-lg">This site is operated by Daniel Appelbee, based in the United Kingdom.</p>
+        <p class="body-lg">If you have any questions about this policy or how we handle your data, contact us at wearemorningo@gmail.com.</p>
       </div>
     </div>
 
     <div class="mt-8 pt-6 border-t border-gray-200">
       <h2 class="headline-sm">What we collect and why</h2>
       <div class="flex flex-col gap-4 mt-3">
-        <p class="body-lg">When you register your interest via this site, we collect your email address. We use it for one purpose only: to let you know if and when Morningo launches. We do not send marketing emails, newsletters, or any other promotional content, and we will not build an ongoing mailing list from it. We collect nothing else.</p>
-        <p class="body-lg">When you visit this site, we may also collect anonymised usage data and advertising measurement data through cookies, if you have given your consent. See the Cookies section below for details.</p>
+        <p class="body-lg">When you register your interest via this site, we collect your email address. We use it for one purpose only: to let you know if and when Morningo launches. We do not send marketing emails, newsletters, or any other promotional content, and we will not build an ongoing mailing list from it. If you arrived from one of our adverts, we also save which advert and campaign brought you here, along with your email address, so we can see which adverts are working.</p>
+        <p class="body-lg">If you use the "Have a question?" box, we save the question you type when you press Send message, even if you do not add an email address. If you do add your email address, we use it only to reply to you. Please do not include health details or other sensitive personal information in your question.</p>
+        <p class="body-lg">Our host, Netlify, automatically records technical details such as your IP address and browser type when you visit the site or send a form.</p>
+        <p class="body-lg">When you visit this site, we may also collect usage data and advertising measurement data through cookies, if you have given your consent. See the Cookies section below for details.</p>
       </div>
     </div>
 
@@ -390,6 +397,7 @@
       <div class="flex flex-col gap-4 mt-3">
         <p class="body-lg">We process your email address on the basis of your consent, given when you submit the registration form.</p>
         <p class="body-lg">We process cookie and tracking data on the basis of your consent, given when you accept cookies via the banner on this site.</p>
+        <p class="body-lg">We process questions, the advert information saved with them, and technical details on the basis of our legitimate interests in answering questions, understanding which adverts work, and keeping the site secure.</p>
         <p class="body-lg">You can withdraw consent at any time. See Your Rights below.</p>
       </div>
     </div>
@@ -407,7 +415,7 @@
     <div class="mt-8 pt-6 border-t border-gray-200">
       <h2 class="headline-sm">Google Analytics</h2>
       <div class="flex flex-col gap-4 mt-3">
-        <p class="body-lg">This site uses Google Analytics 4 (GA4), provided by Google LLC. When you accept cookies, GA4 may set cookies in your browser to help us understand how visitors find and use this site. This data is anonymised and aggregated. It does not identify you personally.</p>
+        <p class="body-lg">This site uses Google Analytics 4 (GA4), provided by Google LLC. When you accept cookies, GA4 may set cookies in your browser to help us understand how visitors find and use this site. This data is pseudonymised and used in aggregate: it is linked to a random identifier stored in a cookie, not to your name or email address, and we do not use it to identify you.</p>
         <p class="body-lg">Google's privacy policy is available at policies.google.com/privacy.</p>
       </div>
     </div>
@@ -418,9 +426,9 @@
         <p class="body-lg">We do not sell your data. We do not share your email address with third parties for their own marketing purposes.</p>
         <p class="body-lg">The following services process data on our behalf as data processors:</p>
         <ul class="body-lg doc-list">
-          <li>Netlify — hosts this site and receives form submissions (netlify.com/privacy)</li>
-          <li>Google — analytics via GA4 (policies.google.com/privacy)</li>
-          <li>Meta — advertising measurement via Meta Pixel (facebook.com/privacy/policy)</li>
+          <li>Netlify: hosts this site and receives form submissions (netlify.com/privacy)</li>
+          <li>Google: analytics via GA4 (policies.google.com/privacy)</li>
+          <li>Meta: advertising measurement via Meta Pixel (facebook.com/privacy/policy)</li>
         </ul>
         <p class="body-lg">Each operates under their own privacy policy and is contractually required to handle your data appropriately.</p>
       </div>
@@ -438,8 +446,29 @@
       <div class="flex flex-col gap-4 mt-3">
         <p class="body-lg">Cookies are small text files saved to your browser by websites you visit.</p>
         <p class="body-lg">This site uses two types:</p>
-        <p class="body-lg">Strictly necessary cookies — required for the site to function. Set regardless of your preference. No personal data is collected through these.</p>
-        <p class="body-lg">Analytics and advertising cookies — set by GA4 and the Meta Pixel. Only loaded if you accept cookies when prompted. You can withdraw consent at any time by clearing your browser cookies or adjusting your browser settings.</p>
+        <p class="body-lg">Strictly necessary cookies: one cookie that remembers your cookie choice. It is set whichever button you press and lasts 12 months. No personal data is collected through it.</p>
+        <p class="body-lg">Analytics and advertising cookies: set by GA4 and the Meta Pixel. Only loaded if you accept cookies when prompted. You can change your choice at any time using the Cookie settings link in the footer of every page. If you decline after accepting, we remove the analytics and advertising cookies we have set.</p>
+        <!-- The cookies this site sets, one block each so it reads on a phone. Add _fbp and _fbc (Meta, 3 months) when the Meta Pixel is switched on. -->
+        <dl class="cookie-list body-lg">
+          <div>
+            <dt>morningo-consent</dt>
+            <dd>Set by: This site</dd>
+            <dd>What it does: Remembers your cookie choice</dd>
+            <dd>How long: 12 months</dd>
+          </div>
+          <div>
+            <dt>_ga</dt>
+            <dd>Set by: Google Analytics</dd>
+            <dd>What it does: Tells visitors apart so we can count visits</dd>
+            <dd>How long: Up to 2 years (Chrome limits it to about 13 months)</dd>
+          </div>
+          <div>
+            <dt>_ga_33SVXEVNJP</dt>
+            <dd>Set by: Google Analytics</dd>
+            <dd>What it does: Remembers the current visit</dd>
+            <dd>How long: Up to 2 years (Chrome limits it to about 13 months)</dd>
+          </div>
+        </dl>
       </div>
     </div>
 
@@ -447,7 +476,8 @@
       <h2 class="headline-sm">How long we keep your data</h2>
       <div class="flex flex-col gap-4 mt-3">
         <p class="body-lg">We will keep your email address for up to 24 months from the date you register, or until you ask us to delete it, whichever is sooner.</p>
-        <p class="body-lg">To stop receiving communications from us, or to ask us to delete your data, contact us at [email address].</p>
+        <p class="body-lg">We keep questions, and the advert information saved with them, for the same period.</p>
+        <p class="body-lg">To stop receiving communications from us, or to ask us to delete your data, contact us at wearemorningo@gmail.com.</p>
         <p class="body-lg">Cookie data held by Google and Meta is subject to their own retention policies.</p>
       </div>
     </div>
@@ -463,7 +493,7 @@
           <li>Withdraw consent at any time, without affecting any processing carried out before withdrawal</li>
           <li>Lodge a complaint with the Information Commissioner's Office at ico.org.uk</li>
         </ul>
-        <p class="body-lg">To exercise any of these rights, email us at [email address]. We will respond within 30 days.</p>
+        <p class="body-lg">To exercise any of these rights, email us at wearemorningo@gmail.com. We will respond within 30 days.</p>
       </div>
     </div>
 
@@ -489,12 +519,29 @@
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
       <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
   </div>
 </footer>
 
+</div>
+
+<!-- Cookie banner, same copy and buttons as the other pages. The privacy page does NOT show it automatically (it is the page the
+     banner's "Learn more" link opens, so the policy stays readable); it only opens from the footer "Cookie settings" link.
+     Deliberately outside #page-sheet, like the question modal below: that element has its own transform, which would become
+     the containing block for anything fixed-position. -->
+<div id="cookie-banner" class="cookie-banner">
+  <div class="max-w-phone mx-auto px-6">
+    <div class="cookie-banner-inner">
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
+        <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- "Have a question?" chat modal — deliberately OUTSIDE #page-sheet: that element has its
@@ -548,6 +595,7 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
   <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
   <input type="hidden" name="utm_source" value="">
   <input type="hidden" name="utm_medium" value="">
@@ -558,6 +606,23 @@
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
+</form>
+
+<!-- Second Netlify form: the question is saved here the moment "Send message" is pressed, even if the visitor never adds an
+     email. It has no notification email on purpose. The later "question" entry (with the email) carries the same `ref`,
+     so the two can be matched up. Keep its fields in step with saveAsked() in the modal script. -->
+<form id="asked-form" name="question asked-no email" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question asked-no email">
+  <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
 </form>
 
 <script>
@@ -627,6 +692,8 @@
     const thanks = document.getElementById('chat-thanks');
     const sendError = document.getElementById('chat-send-error');
     const questionForm = document.getElementById('question-form');
+    const askedForm = document.getElementById('asked-form');
+    let chatRef = '';
     if (!chatSheet) return;
 
     // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
@@ -651,6 +718,7 @@
 
     function resetChat() {
       clearInterval(loadingTimer);
+      chatRef = Math.random().toString(36).slice(2, 10);   // ties a saved question to the email entry that may follow
       questionInput.value = '';
       questionInput.disabled = false;
       sendBtn.style.display = '';
@@ -684,12 +752,27 @@
       chatSheet.style.top = '';
       chatSheet.style.maxHeight = '';
     }
+    // Saves the question the moment "Send message" is pressed, so it is not lost when the visitor never adds an email.
+    // Goes to the separate "question asked-no email" Netlify form; the later "question" entry (with the email) carries the same ref.
+    // Never blocks or breaks the modal: a failed save is ignored.
+    function saveAsked() {
+      const text = questionInput.value.trim();
+      if (!text || !askedForm) return;
+      const data = new FormData(askedForm);
+      data.set('question', text);
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
+      window.morningoPostForm(data).catch(() => {});
+      if (window.morningoTrack) window.morningoTrack('question_asked');
+    }
+
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
     backdrop.addEventListener('click', closeChat);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      saveAsked();
       questionInput.disabled = true;
       sendBtn.style.display = 'none';
       loading.style.display = 'flex';
@@ -732,6 +815,7 @@
       data.set('question', questionInput.value.trim());
       data.set('email', emailInput.value.trim());
       data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
       // The notification email's subject is this field, so put the start of the question in it: it shows up in the
       // inbox list without opening the email. Whitespace is flattened so a multi-line question stays one line.
       const preview = questionInput.value.replace(/\s+/g, ' ').trim();
@@ -756,6 +840,29 @@
         emailSendBtn.textContent = 'Send message';
       });
     });
+  })();
+</script>
+
+<script>
+  // Cookie settings on the privacy page: saves the choice (consent.js) and, if the visitor declines after accepting earlier,
+  // consent.js removes the Google / Meta cookies. No analytics load on this page, so there is nothing else to start or stop here.
+  (function() {
+    const banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    const cookieConsent = window.morningoConsent || (function() { let memory = null; return { get() { return memory; }, set(value) { memory = value; } }; })();
+    function decide(value) {
+      cookieConsent.set(value);
+      document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
+      banner.classList.remove('visible');
+    }
+    document.getElementById('cookie-accept').addEventListener('click', () => decide('accepted'));
+    document.getElementById('cookie-reject').addEventListener('click', () => decide('declined'));
+    document.querySelectorAll('.cookie-settings-link').forEach(link => link.addEventListener('click', (e) => {
+      e.preventDefault();
+      banner.classList.add('visible');
+      banner.setAttribute('tabindex', '-1');
+      banner.focus({ preventScroll: true });
+    }));
   })();
 </script>
 

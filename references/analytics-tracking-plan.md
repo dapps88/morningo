@@ -26,7 +26,7 @@ utm_source=facebook&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_co
 - An ad without the parameters shows up as "unknown" in Netlify and as direct/none in GA4.
 - Landing URL for ads: `https://morningo.netlify.app/home` (the bare address also works and keeps the tags).
 
-How the tags travel (attribution.js): read from the address bar, added to every link to another page of this site and to the CTA / signup redirects, and written into six hidden fields on both forms: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `ad_id`. Nothing is stored on the visitor's device. The thank-you page's "Copy link" deliberately shares the clean address, never the sharer's ad tags.
+How the tags travel (attribution.js): read from the address bar, added to every link to another page of this site and to the CTA / signup redirects, and written into six hidden fields on both forms: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `ad_id`. Nothing is stored on the visitor's device. The thank-you page's "Copy link" shares the site address tagged `?utm_source=share&utm_medium=link` (added 2026-10-04), never the sharer's own ad tags. So a visit that arrives through a shared link shows in GA4 as source "share / link", and a signup that follows is saved in Netlify with `utm_source=share`. Copies are counted (`share_copy`); whether the link is then actually sent can only be seen from those tagged arrivals.
 
 ## 2. Events (GA4)
 
@@ -41,12 +41,22 @@ All fire only after Accept. Names do not collide with GA4's automatic events (`s
 | `accordion_open` | home | an accordion is opened, once per accordion | `accordion_name` | which details people want |
 | `cta_click` | home | CTA pressed | `cta_location`: hero or sticky | which button works |
 | `question_open` | home, capture, thank-you | "Have a question?" opened | `trigger_location`: header, hero, footer, page | who wants to ask |
-| `question_sent` | home, capture, thank-you | question really sent | none | questions per ad (read the text in Netlify) |
+| `question_asked` | home, capture, thank-you | "Send message" pressed on the first step (question typed, no email yet) | none | how many questions are asked; the text is saved in Netlify, never in GA4 |
+| `question_sent` | home, capture, thank-you | question really sent with an email | none | questions that came with an email |
 | `signup_start` | capture | first click into the email box | none | drop-off between seeing the page and typing |
 | `generate_lead` | thank-you | page load, once per browser tab session | none | THE conversion (also Pixel `Lead`) |
 | `share_copy` | thank-you | Copy link pressed | none | people sharing |
 
 The Pixel also gets its own `PageView` on all three pages. The conversion fires on thank-you load only, never on submit (brief.md, Locked Decisions).
+
+### Where the question text lives (added 2026-10-04)
+
+GA4 only ever gets counts (`question_open`, `question_asked`, `question_sent`), never the text: Google forbids personal data in Analytics and free text can contain it. The text is saved in Netlify Forms:
+
+- **`question asked-no email`**: one entry the moment "Send message" is pressed on the first step, with no email. No notification email is set on it (add one in Netlify if wanted). Fields: `question`, `page`, `ref`, the six ad fields.
+- **`question`**: the existing entry with the email (also notifies the owner). It carries the same `ref`.
+- Match the two on `ref`: a `question asked-no email` entry with no `question` entry sharing its `ref` is a question asked by someone who left no email. Text typed but never sent is deliberately not captured.
+- The first prod deploy after 2026-10-04 registers the new form with Netlify; check it appears under Forms.
 
 ## 3. One-time GA4 setup (the owner does this in the Google Analytics screens)
 
@@ -64,10 +74,16 @@ The Pixel also gets its own `PageView` on all three pages. The conversion fires 
    | Question trigger | `trigger_location` |
 
    Events are collected before this, but the details only show in reports from the moment each dimension exists, so do it now.
+
+   **Done 2026-10-02:** all seven dimensions were created in the Morningo property (account 410350856, property 556942648), scope Event, by driving the owner's signed-in Chrome. GA's Events > Recent events already listed `page_view`, `section_view`, `carousel_slide_view`, `first_visit`, `session_start`, `user_engagement` from the draft test, and Realtime showed `generate_lead` arriving. **Still to do:** star `generate_lead` as a key event (Admin > Data display > Events > Recent events > the star). GA only lists an event there after it has processed it (minutes to hours after the first hit), so it was not starrable yet.
 3. **Nothing to set up for ads:** GA4 reads the `utm_*` values from the page address itself. Use the dimensions "Session manual ad content" (= the ad name), "Session manual campaign" and "Session manual source / medium".
 4. **Check it works:** open the site, press Accept, then GA4 > Reports > Realtime. Your visit should appear within a minute. The warning "Data collection isn't active" on the stream clears after the first hit.
 
 ### Reading it
+
+**Ready-made view (built 2026-10-04):** GA4 > Explore > "Morningo - what people look at" (account 410350856, property 556942648; direct link `https://analytics.google.com/analytics/web/#/analysis/a410350856p556942648/edit/S_Zv4C2XTZa_vtHhssqEjg`). One free-form exploration with four tabs: 1 Gallery and cards (rows Carousel > Slide number > Slide name, filter `carousel_slide_view`), 2 Scroll depth (rows Section, filter `section_view`), 3 Accordions (rows Accordion, filter `accordion_open`), 4 Buttons and questions (rows Event name, filter regex `cta_click|question_open|question_asked|question_sent|signup_start|generate_lead|share_copy`). Values everywhere: Active users and Event count. Rows labelled "(not set)" are events from before the custom dimensions existed (2 Oct 2026). There is also an older untouched exploration named "Free form" that the owner made.
+
+The manual recipes below are only needed if it is ever lost.
 
 - **Funnel per ad:** Explore > Funnel exploration. Steps: `page_view` on /home, `cta_click`, `page_view` on /email-capture.html, `signup_start`, `generate_lead`. Break down by "Session manual ad content".
 - **Carousels:** Explore > Free form. Rows: Carousel, Slide number, Slide name. Values: Event count. Filter: event name = `carousel_slide_view`. The first slide of each carousel is the baseline; the drop to slide 2, 3... shows where people stop.

@@ -14,7 +14,11 @@
     "thank-you.html": "Thank you",
     "privacy.html": "Privacy policy"
   },
-  "asset_dirs": ["images", "video"],
+  "asset_dirs": [
+    "images",
+    "video",
+    "fonts"
+  ],
   "preview": {
     "port": 8744,
     "url": "http://localhost:8744/product-wireframe-v2.html",

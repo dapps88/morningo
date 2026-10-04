@@ -8,15 +8,15 @@
  * Page type comes from the script tag: data-page="home" | "capture" | "thank-you". (The privacy page does not load this file.)
  *
  * TESTING
- *   - Reset the saved cookie choice: run  localStorage.removeItem('morningo-cookie-consent')  in the browser console, reload.
+ *   - Reset the saved cookie choice: run  morningoConsent.clear()  in the browser console, reload (it is the cookie morningo-consent).
  *   - On localhost, file:// and Netlify preview links (anything--morningo.netlify.app) this runs as a DRY RUN: nothing is sent
  *     to Google or Meta. Each event is printed to the console and kept in window.morningoAnalyticsLog instead, so test visits
  *     never pollute the real numbers. To send for real from one of those hosts, add ?mo_analytics=live to the address.
  *
  * EVENTS (names are snake_case; the details are in references/analytics-tracking-plan.md)
- *   home:      section_view, carousel_slide_view, carousel_interact, accordion_open, cta_click, question_open, question_sent
- *   capture:   signup_start, question_open, question_sent
- *   thank-you: generate_lead (plus the Pixel "Lead"), share_copy, question_open, question_sent
+ *   home:      section_view, carousel_slide_view, carousel_interact, accordion_open, cta_click, question_open, question_asked, question_sent
+ *   capture:   signup_start, question_open, question_asked, question_sent
+ *   thank-you: generate_lead (plus the Pixel "Lead"), share_copy, question_open, question_asked, question_sent
  *   Google's own page_view and the Pixel's PageView fire automatically when the tags load, on all three pages.
  *   The lead event fires on thank-you page load only, never on the form submit (brief.md, Locked Decisions).
  */
@@ -26,7 +26,6 @@
   // ---- Settings -----------------------------------------------------------------------------------------------
   var GA_ID = 'G-33SVXEVNJP';   // Google Analytics 4 Measurement ID
   var PIXEL_ID = '';            // Meta Pixel ID (15-16 digits, from Meta Events Manager). Empty = the Pixel is not loaded.
-  var CONSENT_KEY = 'morningo-cookie-consent'; // the key the cookie banner writes: 'accepted' or 'declined'
 
   var script = document.currentScript;
   var page = (script && script.getAttribute('data-page')) || '';
@@ -34,8 +33,8 @@
   var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname);
   var dryRun = isTestHost && !/[?&]mo_analytics=live\b/.test(location.search);
 
-  var consent = null;
-  try { consent = localStorage.getItem(CONSENT_KEY); } catch (e) {}
+  // The saved choice ('accepted' / 'declined', or null) comes from consent.js, the 12-month cookie the banner writes.
+  var consent = window.morningoConsent ? window.morningoConsent.get() : null;
 
   var log = window.morningoAnalyticsLog = [];
 
@@ -241,9 +240,16 @@
     if (page === 'thank-you') { fireLead(); watchShare(); }
   }
 
+  // Withdrawing consent (accepted, then declined): stop sending straight away. consent.js removes the Google/Meta cookies.
+  function stop() {
+    window['ga-disable-' + GA_ID] = true;
+    if (dryRun && started) record('GA4', 'consent withdrawn, sending stopped');
+  }
+
   document.addEventListener('morningo-consent', function (e) {
     consent = e.detail;
-    if (consent === 'accepted') start();
+    if (consent === 'accepted') { window['ga-disable-' + GA_ID] = false; start(); }
+    else stop();
   });
   if (consent === 'accepted') start();
 })();

@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Morningo Product Page</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="consent.js"></script>
+<link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; background: #ffffff; color: #17150F; margin: 0; }
@@ -714,6 +714,7 @@
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
       <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -791,6 +792,7 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
   <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
   <input type="hidden" name="utm_source" value="">
   <input type="hidden" name="utm_medium" value="">
@@ -801,6 +803,23 @@
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
+</form>
+
+<!-- Second Netlify form: the question is saved here the moment "Send message" is pressed, even if the visitor never adds an
+     email. It has no notification email on purpose. The later "question" entry (with the email) carries the same `ref`,
+     so the two can be matched up. Keep its fields in step with saveAsked() in the modal script. -->
+<form id="asked-form" name="question asked-no email" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question asked-no email">
+  <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
 </form>
 
 <script>
@@ -828,15 +847,10 @@
 <script>
   document.querySelectorAll('.overflow-x-auto').forEach(el => { el.scrollLeft = 0; });
 
-  // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
-  // just being unavailable — fall back to an in-memory value so consent still works for this page load.
-  var cookieConsent = (function() {
-    let memory = null;
-    return {
-      get() { try { return localStorage.getItem('morningo-cookie-consent'); } catch (e) { return memory; } },
-      set(value) { try { localStorage.setItem('morningo-cookie-consent', value); } catch (e) { memory = value; } },
-    };
-  })();
+  // The saved cookie choice lives in consent.js (a first-party cookie that lasts 12 months, then the banner asks again).
+  // If that file is ever missing or blocked, the choice is only remembered for this page load: the banner shows again on the
+  // next page and nothing is saved, which is the safe way to fail.
+  var cookieConsent = window.morningoConsent || (function() { let memory = null; return { get() { return memory; }, set(value) { memory = value; } }; })();
 
   (function() {
     const gallery = document.getElementById('hero-gallery');
@@ -914,6 +928,15 @@
 
     acceptBtn.addEventListener('click', () => decide('accepted'));
     rejectBtn.addEventListener('click', () => decide('declined'));
+
+    // Footer "Cookie settings" link: reopens this same banner so a visitor can change their choice at any time, on any page.
+    // Without JavaScript the link simply goes to the Cookies section of the privacy page.
+    document.querySelectorAll('.cookie-settings-link').forEach(link => link.addEventListener('click', (e) => {
+      e.preventDefault();
+      banner.classList.add('visible');
+      banner.setAttribute('tabindex', '-1');
+      banner.focus({ preventScroll: true });
+    }));
   })();
 
   (function() {
@@ -965,6 +988,8 @@
     const thanks = document.getElementById('chat-thanks');
     const sendError = document.getElementById('chat-send-error');
     const questionForm = document.getElementById('question-form');
+    const askedForm = document.getElementById('asked-form');
+    let chatRef = '';
     if (!sheet) return;
 
     // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
@@ -991,6 +1016,7 @@
 
     function resetChat() {
       clearInterval(loadingTimer);
+      chatRef = Math.random().toString(36).slice(2, 10);   // ties a saved question to the email entry that may follow
       questionInput.value = '';
       questionInput.disabled = false;
       sendBtn.style.display = '';
@@ -1024,12 +1050,27 @@
       sheet.style.top = '';
       sheet.style.maxHeight = '';
     }
+    // Saves the question the moment "Send message" is pressed, so it is not lost when the visitor never adds an email.
+    // Goes to the separate "question asked-no email" Netlify form; the later "question" entry (with the email) carries the same ref.
+    // Never blocks or breaks the modal: a failed save is ignored.
+    function saveAsked() {
+      const text = questionInput.value.trim();
+      if (!text || !askedForm) return;
+      const data = new FormData(askedForm);
+      data.set('question', text);
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
+      window.morningoPostForm(data).catch(() => {});
+      if (window.morningoTrack) window.morningoTrack('question_asked');
+    }
+
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
     backdrop.addEventListener('click', closeChat);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      saveAsked();
       questionInput.disabled = true;
       sendBtn.style.display = 'none';
       loading.style.display = 'flex';
@@ -1072,6 +1113,7 @@
       data.set('question', questionInput.value.trim());
       data.set('email', emailInput.value.trim());
       data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
       // The notification email's subject is this field, so put the start of the question in it: it shows up in the
       // inbox list without opening the email. Whitespace is flattened so a multi-line question stays one line.
       const preview = questionInput.value.replace(/\s+/g, ' ').trim();
