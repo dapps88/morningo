@@ -30,6 +30,15 @@
     "title": "Morningo Product Page",
     "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public."
   },
+  "artifact_prefix": "Morningo",
+  "live_sites": [
+    {
+      "name": "Netlify live site",
+      "url": "https://morningo.netlify.app/home",
+      "deploys_from": "main",
+      "hold": "Deploys paused by the owner. Merging to main publishes, so do not merge, open a release PR or deploy until they say go live."
+    }
+  ],
   "rules_docs": [
     "references/cookie-banner.md",
     "references/main-page-text.md",
