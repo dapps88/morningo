@@ -379,29 +379,31 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide 1: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
+        <!-- Slide order (owner decision 2026-10-06): drink in hand, open box, close-up sachet, tester quote, then the video last.
+             Slide 1 carries fetchpriority="high" because it is the first thing painted. -->
+        <img src="images/drink-main.webp" fetchpriority="high" alt="A hand holding a glass of the Morningo drink, with a sachet on the table beside it" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/box-main.webp" alt="A hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/sachet-main.webp" alt="Close-up of a Morningo sachet with blackcurrants, ginger and powder around it" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <!-- Slide 5: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
              after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
         <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="position:relative; overflow:hidden; background:#1b1714;">
-          <img id="hero-video-poster" src="images/hero-poster.webp" fetchpriority="high" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+          <img id="hero-video-poster" src="images/hero-poster.webp" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
           <video id="hero-video" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0;" muted playsinline preload="none" aria-hidden="true">
             <source data-src="video/hero-drink.mp4" type="video/mp4">
           </video>
         </div>
-        <img src="images/hero-mock-2.webp" alt="Morningo box, sachet, and prepared drink" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/open-box.webp" alt="Hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
       </div>
       <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
         <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:20%; left:0%;"></div>
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View video 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-mock-2.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/open-box.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/drink-main.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/box-main.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-main.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View video 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
