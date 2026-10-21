@@ -95,26 +95,37 @@ The longer you take it, the more consistent it becomes. Week one you'll notice. 
 
 *Updated 2026-10-01 (owner-supplied copy, replaces the earlier ingredient list). Below the list, the page keeps the callout rows (Vegan, No artificial sweeteners, Research-led formula, Gluten free); their wording is awaiting confirmation against the new formula.*
 
+> Updated 2026-10-21 to match the nutrition label (`~/Desktop/nutrition-label.html`, formulation confirmed 1 Oct 2026). Owner decision the same day: the list shows ingredient NAMES ONLY, with no amounts or percentages after them (no comma, no "160mg", no "(35% anthocyanins)", no "% of your daily reference"). Every amount lives in the "Nutritional information" modal instead (see below). Ginger moved from the active list to "Other ingredients" with no dose, because its amount is still a starting point; "Other ingredients" follows the label's order (heaviest first). The one amount left in this accordion is the "80mg of caffeine" in the green tea description, which sits next to the caffeine alertness claim. A "Nutritional information" link sits under the lists, above the callouts, and opens the label in a modal.
+
 **Heading**
 Each sachet contains
 
 **Group heading**
 Active ingredients
 
-- Green tea extract, 160mg — Gives 80mg of caffeine. Caffeine helps to increase alertness.
-- L-theanine, 150mg — The amino acid tea has and coffee doesn't, alongside the caffeine.
-- Rhodiola rosea root extract, 300mg (3% rosavins) — A cold-climate root, studied for mental fatigue under stress. Give it two weeks.
-- Blackcurrant extract, 300mg (35% anthocyanins) — The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.
-- Ginger root extract, 300mg — A gentle warmth in the first few minutes, so you know it's started.
-- Vitamin B12 (methylcobalamin), 5µg (200% of your daily reference) — Contributes to the reduction of tiredness and fatigue.
-- Vitamin B5 (pantothenic acid), 6mg (100% of your daily reference) — Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.
+- Green tea extract — Gives 80mg of caffeine. Caffeine helps to increase alertness.
+- L-theanine — The amino acid tea has and coffee doesn't, alongside the caffeine.
+- Rhodiola rosea root extract — A cold-climate root, studied for mental fatigue under stress. Give it two weeks.
+- Blackcurrant extract — The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.
+- Vitamin B12 (methylcobalamin) — Contributes to the reduction of tiredness and fatigue.
+- Vitamin B5 (pantothenic acid) — Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.
 
 **Group heading**
 Other ingredients
 
 - Sunflower lecithin — Mixes the powder smoothly and makes the froth on top.
 - Citrus fibre — Gives the drink its body. Made from citrus peel.
+- Ginger root extract — A gentle warmth in the first few minutes, so you know it's started.
 - Natural flavouring — Rounds out the blackcurrant and ginger flavour.
+
+**Link**
+Nutritional information (opens the label in a modal)
+
+**Nutritional information modal** *(new 2026-10-21; copy is the owner's `nutrition-label.html`, kept word for word in `concepts/product-wireframe-v2.html`)*
+
+> DRAFT FIGURES. Energy, fat, saturates, carbohydrate, sugars, fibre, protein and salt are estimates, calculated from ingredient types and weights, not lab analysis. They must be replaced with the formulator's analysis before launch. Caffeine (80 mg) needs a certificate of analysis and an end-of-shelf-life test; the vitamins need end-of-shelf-life potency confirmation; the small print (caffeine warning, supplement statements) needs checking by the labelling specialist.
+
+Contents: serving (1 sachet, 4.2 g, 28 per pack), typical values per sachet and per 100 g, per-sachet amounts for green tea extract (160 mg, 80 mg caffeine), L-theanine (150 mg), Rhodiola (300 mg, 3% rosavins, 1% salidroside) and blackcurrant extract (300 mg, 35% anthocyanins), other ingredients in weight order, the two vitamins with % NRV, and the caffeine and supplement small print.
 
 ---
 
