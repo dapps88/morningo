@@ -522,9 +522,10 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide order (owner decision 2026-10-06): drink in hand, open box, close-up sachet, tester quote, then the video last.
-             Slide 1 carries fetchpriority="high" because it is the first thing painted. -->
-        <img src="images/drink-main.webp" fetchpriority="high" alt="A hand holding a glass of the Morningo drink, with a sachet on the table beside it" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <!-- Slide order (owner decision 2026-10-06): hero shot, open box, close-up sachet, tester quote, then the video last.
+             Slide 1 carries fetchpriority="high" because it is the first thing painted. Slide 1 picture replaced 2026-10-21 at the
+             owner's request: the sachet standing beside the purple drink with blackcurrants and ginger (hero-main.webp, was drink-main.webp). -->
+        <img src="images/hero-main.webp" fetchpriority="high" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
         <img src="images/box-main.webp" alt="A hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
         <img src="images/sachet-main.webp" alt="Close-up of a Morningo sachet with blackcurrants, ginger and powder around it" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
         <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
@@ -542,7 +543,7 @@
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/drink-main.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-main.webp); background-size:cover; background-position:center;"></button>
       <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/box-main.webp); background-size:cover; background-position:center;"></button>
       <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-main.webp); background-size:cover; background-position:center;"></button>
       <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
@@ -1001,11 +1002,10 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
-      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
     </div>
 
     <div class="flex flex-col gap-3 mt-8">
