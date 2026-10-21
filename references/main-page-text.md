@@ -171,22 +171,28 @@ Not a crash. Just a slide in the wrong direction.
 Make the ritual feel real and intentional. The reader pictures themselves doing this tomorrow morning. One considered act that sets the tone for the day.
 
 **Headline**
-> Updated 2026-10-21 (owner-supplied copy, replaces "One drink before the morning gets away from you."). The owner's text has no hyphen in "second coffee slot", while the hero headline has one ("second-coffee slot").
+> Updated 2026-10-21 (owner-supplied copy, second rewrite the same day). Replaces "A morning drink for the second coffee slot." which replaced "One drink before the morning gets away from you.".
 
-A morning drink for the second coffee slot.
+Your first coffee is the one you look forward to. Now the second can be too.
 
 **Body**
-> Updated 2026-10-21 (owner-supplied copy, replaces the 2026-10-02 two-line body "Give the morning a fair chance. / Week one you'll notice. Week three it's just how mornings feel."). Five paragraphs. The "Within minutes, a mild warmth..." text still lives in the "What to expect" accordion. Still to check: the body says "a good shake" while the hero sub-copy says "stirred into a glass of water".
+> Updated 2026-10-21 (owner-supplied copy, second rewrite the same day, replaces the five-paragraph version). Six paragraphs with three bullets after the fourth. Later the same day the owner cut three pieces from it: "Most of our versions were too watery, too bland or too boring.", the paragraph "The test was simple: would we make another one mid-morning? For a long time, no.", and "Version 47 is the first one we'd put our name on." The "Within minutes, a mild warmth..." text still lives in the "What to expect" accordion. A "Get first access" button sits under the last paragraph (added 2026-10-21; it goes to the email capture page). Still to check: "47 versions" must be a true count (the hero says it too, and the social proof heading says "47+"); the bullet says "It needs a good shake" while the hero sub-copy says "stirred into a glass of water".
 
-Thick and dark, with a warm bit of ginger. Made to be carried to the table, not drunk on the way past.
+A thick, dark morning drink with a warm kick of ginger. It took us 47 versions to make one worth the glass.
 
-The first coffee is the one you look forward to. The smell. The dark flavour. A minute with it.
+Evenings get a table and some time. The second coffee gets a mug and a deadline, and it's gone before you notice.
 
-Then you get your head down, and the second one gets made at the desk without looking up.
+We wanted that slot to have a drink of its own.
 
-Morningo is for the second one. A sachet, a glass of water, a good shake. It's not a quick drink, so you sit down with it.
+It's thick and it's not a quick drink, so you take your time with it.
 
-Evenings get a table and some time. Mornings get a mug and a deadline. This one's for the morning.
+- Thick. It needs a good shake.
+- Dark, with a foam head.
+- A warm kick of ginger at the end.
+
+It still has caffeine, from green tea.
+
+If you want a dramatic hit, this isn't it. If you'd rather have a mid-morning worth stopping for, it's for you.
 
 ---
 

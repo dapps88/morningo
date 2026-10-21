@@ -411,7 +411,8 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
-  /* hero "core ingredients" list: the site's .doc-list, minus the browser's default list margins so the flex gaps set the spacing */
+  /* The site's .doc-list minus the browser's default list margins, so the flex gaps set the spacing. Used by the hero's "core ingredients"
+     list and by the three bullets in "The product" section. */
   .hero-list { margin: 0; }
   /* Hero band tinted #EAE3F1 (owner choice, 2026-10-21), full width like the nav and footer. The box-shadow carries the colour out past the
      page column to the window edges and the clip-path stops it spilling above or below the hero. Neither adds a horizontal scrollbar. */
@@ -732,13 +733,19 @@
     <img src="images/lady-holding-sachet.webp" alt="Woman holding a Morningo sachet in front of her" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="flex flex-col gap-3 px-4">
-      <h2 class="headline-sm title-fade">A morning drink for the second coffee slot.</h2>
+      <h2 class="headline-sm title-fade">Your first coffee is the one you look forward to. Now the second can be too.</h2>
       <div class="flex flex-col gap-4">
-        <p class="body-lg">Thick and dark, with a warm bit of ginger. Made to be carried to the table, not drunk on the way past.</p>
-        <p class="body-lg">The first coffee is the one you look forward to. The smell. The dark flavour. A minute with it.</p>
-        <p class="body-lg">Then you get your head down, and the second one gets made at the desk without looking up.</p>
-        <p class="body-lg">Morningo is for the second one. A sachet, a glass of water, a good shake. It's not a quick drink, so you sit down with it.</p>
-        <p class="body-lg">Evenings get a table and some time. Mornings get a mug and a deadline. This one's for the morning.</p>
+        <p class="body-lg">A thick, dark morning drink with a warm kick of ginger. It took us 47 versions to make one worth the glass.</p>
+        <p class="body-lg">Evenings get a table and some time. The second coffee gets a mug and a deadline, and it's gone before you notice.</p>
+        <p class="body-lg">We wanted that slot to have a drink of its own.</p>
+        <p class="body-lg">It's thick and it's not a quick drink, so you take your time with it.</p>
+        <ul class="body-lg doc-list hero-list">
+          <li>Thick. It needs a good shake.</li>
+          <li>Dark, with a foam head.</li>
+          <li>A warm kick of ginger at the end.</li>
+        </ul>
+        <p class="body-lg">It still has caffeine, from green tea.</p>
+        <p class="body-lg">If you want a dramatic hit, this isn't it. If you'd rather have a mid-morning worth stopping for, it's for you.</p>
         <div class="pt-4">
           <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="product-cta">
             Get first access
