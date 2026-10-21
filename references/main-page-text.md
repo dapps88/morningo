@@ -171,14 +171,22 @@ Not a crash. Just a slide in the wrong direction.
 Make the ritual feel real and intentional. The reader pictures themselves doing this tomorrow morning. One considered act that sets the tone for the day.
 
 **Headline**
-One drink before the morning gets away from you.
+> Updated 2026-10-21 (owner-supplied copy, replaces "One drink before the morning gets away from you."). The owner's text has no hyphen in "second coffee slot", while the hero headline has one ("second-coffee slot").
+
+A morning drink for the second coffee slot.
 
 **Body**
-> Updated 2026-10-02 (owner-supplied copy, replaces both earlier paragraphs). The "Within minutes, a mild warmth..." text still lives in the "What to expect" accordion.
+> Updated 2026-10-21 (owner-supplied copy, replaces the 2026-10-02 two-line body "Give the morning a fair chance. / Week one you'll notice. Week three it's just how mornings feel."). Five paragraphs. The "Within minutes, a mild warmth..." text still lives in the "What to expect" accordion. Still to check: the body says "a good shake" while the hero sub-copy says "stirred into a glass of water".
 
-Give the morning a fair chance.
+Thick and dark, with a warm bit of ginger. Made to be carried to the table, not drunk on the way past.
 
-Week one you'll notice. Week three it's just how mornings feel.
+The first coffee is the one you look forward to. The smell. The dark flavour. A minute with it.
+
+Then you get your head down, and the second one gets made at the desk without looking up.
+
+Morningo is for the second one. A sachet, a glass of water, a good shake. It's not a quick drink, so you sit down with it.
+
+Evenings get a table and some time. Mornings get a mug and a deadline. This one's for the morning.
 
 ---
 
