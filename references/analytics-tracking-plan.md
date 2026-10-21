@@ -39,7 +39,7 @@ All fire only after Accept. Names do not collide with GA4's automatic events (`s
 | `carousel_slide_view` | home | a slide is mostly visible AND its carousel is on screen, once per slide per visit | `carousel_name` (hero_gallery, why_it_works, reviews), `slide_number` (1-based), `slide_name` | which slide/card people reach |
 | `carousel_interact` | home | first sideways move of a carousel, once per carousel | `carousel_name` | which carousels people actually swipe |
 | `accordion_open` | home | an accordion is opened, once per accordion | `accordion_name` | which details people want |
-| `cta_click` | home | CTA pressed | `cta_location`: hero or sticky | which button works |
+| `cta_click` | home | CTA pressed | `cta_location`: hero, product (the button under "A morning drink for the second coffee slot.", added 2026-10-21) or sticky | which button works |
 | `question_open` | home, capture, thank-you | "Have a question?" opened | `trigger_location`: header, hero, footer, page | who wants to ask |
 | `question_asked` | home, capture, thank-you | "Send message" pressed on the first step (question typed, no email yet) | none | how many questions are asked; the text is saved in Netlify, never in GA4 |
 | `question_sent` | home, capture, thank-you | question really sent with an email | none | questions that came with an email |

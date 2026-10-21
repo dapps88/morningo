@@ -166,13 +166,15 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
-    border-top: 1px solid #e5e7eb;
+    background: #EAE3F1;   /* the same lilac as the hero band */
+    border-top: 1px solid rgba(57, 0, 42, 0.35);   /* the same line colour as the hero's accordions; the old light grey vanishes on lilac */
     transform: translateY(100%);
     transition: transform 600ms cubic-bezier(0.16, 0.8, 0.28, 1);
     z-index: 40;
   }
   .sticky-cta.visible { transform: translateY(0); }
+  /* The button keeps its usual plum. The caption's usual light grey (#6b7280) is only 3.9:1 on the lilac, so it uses the site's body grey. */
+  .sticky-cta .cta-caption { color: #585858; }
   .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 8px; }
   .sticky-cta-group { display: contents; }
 
@@ -737,6 +739,11 @@
         <p class="body-lg">Then you get your head down, and the second one gets made at the desk without looking up.</p>
         <p class="body-lg">Morningo is for the second one. A sachet, a glass of water, a good shake. It's not a quick drink, so you sit down with it.</p>
         <p class="body-lg">Evenings get a table and some time. Mornings get a mug and a deadline. This one's for the morning.</p>
+        <div class="pt-4">
+          <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="product-cta">
+            Get first access
+          </button>
+        </div>
       </div>
     </div>
     </div>
@@ -1269,8 +1276,8 @@
   })();
 
   (function() {
-    // Wires both "Reserve My Place" CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
-    ['hero-cta', 'sticky-cta-button'].forEach(id => {
+    // Wires the hero, product-section and sticky CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
+    ['hero-cta', 'product-cta', 'sticky-cta-button'].forEach(id => {
       const btn = document.getElementById(id);
       if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture.html') : 'email-capture.html'; });
     });

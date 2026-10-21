@@ -184,7 +184,7 @@
   }
 
   function watchCtas() {
-    [['hero-cta', 'hero'], ['sticky-cta-button', 'sticky']].forEach(function (pair) {
+    [['hero-cta', 'hero'], ['product-cta', 'product'], ['sticky-cta-button', 'sticky']].forEach(function (pair) {
       var button = document.getElementById(pair[0]);
       if (button) button.addEventListener('click', function () { track('cta_click', { cta_location: pair[1] }); });
     });
