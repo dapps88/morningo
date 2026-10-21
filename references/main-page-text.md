@@ -198,10 +198,12 @@ Caffeine for alertness, plus L-theanine, the amino acid tea has and coffee doesn
 
 ---
 
-#### Card 2: Dark berry, clear head
+#### Card 2: Dark berry, deep flavour
+> Updated 2026-10-21 (owner-supplied copy, replaces the title "Dark berry, clear head" and the body "... Studied for blood flow and the brain, over weeks."). The "What's in it" accordion line for blackcurrant still carries the old "studied for" wording.
+
 *Blackcurrant anthocyanins*
 
-The pigment that turns blackcurrants almost black. Studied for blood flow and the brain, over weeks.
+The pigment that turns blackcurrants almost black. The blackcurrant brings rich flavour.
 
 *Photo: [placeholder]*
 
