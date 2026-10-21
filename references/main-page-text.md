@@ -306,6 +306,56 @@ They tried it. Here's what they said.
 
 ---
 
+### SECTION 7: QUESTIONS
+
+> Added 2026-10-21 (owner-supplied copy, locked word for word). The last section of the page, after social proof, with no CTA of its own. Four accordions, the first open on load, using the same accordion as the hero. The word "FAQ" does not appear anywhere. No company name, address or team wording. Still open, owner to resolve before this goes live: (1) "Early testers are drinking it now" needs testers who really have the product, and any tester words used later must be about taste or texture, never effects, with written permission; (2) "a warm finish of ginger" and the dark berry colour need confirming once samples are tasted; (3) "[check]" after "about a small coffee's worth" needs checking against real caffeine figures, and 80mg needs a certificate of analysis showing at least 75mg through shelf life; (4) the four amounts in answer 2 must be locked, and the blackcurrant extract spec confirmed.
+
+**Headline**
+The obvious questions, answered.
+
+**1. It's not on sale yet. What am I signing up for?** *(open on load)*
+
+Your email address, and nothing else. No payment, no card details.
+
+When the first batch is ready, you hear about it before it opens to everyone else. We expect initial orders to be for 500 people.
+
+We'll only email you when we're ready.
+
+**2. Does it work?**
+
+Plenty of drinks promise big things. We'll show you the label.
+
+Some supplements keep their amounts inside a "proprietary blend". We don't. Every active ingredient is here with its amount.
+
+- 80mg of caffeine, from green tea.
+- 150mg of L-theanine.
+- 300mg of Rhodiola rosea root extract.
+- 300mg of blackcurrant extract, about 105mg of anthocyanins.
+
+Vitamin B12 contributes to normal energy-yielding metabolism. Pantothenic acid (vitamin B5) contributes to the reduction of tiredness and fatigue.
+
+Early testers are drinking it now, and we'll put what they say on the page, in their own words.
+
+We're not trying to change your life. We're trying to make one part of your morning worth sitting down for.
+
+**3. Why make another morning drink?**
+
+Evenings get a table and some time. Mornings get a mug and a deadline.
+
+Morningo is a new morning drink, still in early development. Coffee one stays. This is for the second slot, the one you'd normally fill without thinking, and it's made to be a moment of its own: a glass, a dark berry colour, a warm finish of ginger, and time to sit with it.
+
+It took 47 versions to get one worth putting a name on.
+
+**4. How much caffeine is in it, and who shouldn't have it?**
+
+80mg per sachet, from green tea. That's about a small coffee's worth. [check]
+
+One sachet a day is the most we'd suggest. It's a morning drink, so we'd leave it out after lunch. Count it alongside any other caffeine you have.
+
+Not recommended for children, or for pregnant or breast-feeding women. If you take medication or have a health condition, ask your doctor first.
+
+---
+
 ## PART 3: PLACEHOLDERS LOG
 
 Nothing on this list should be invented or assumed. Each must be replaced before launch.
@@ -314,3 +364,4 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [ ] Product photography — Section 1 hero image
 - [ ] Testimonial photos — all three cards in Section 5
 - [ ] Testimonial quotes — replace with real tester language verbatim when available
+- [ ] "[check]" — Section 7, answer 4, after "about a small coffee's worth". Shows on the page as written until the caffeine comparison is checked. Do not publish with it.

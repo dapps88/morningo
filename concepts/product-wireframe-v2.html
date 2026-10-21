@@ -48,8 +48,8 @@
   .ingredients-heading { color: #17150F; font-weight: 600; }
   .ingredient-group { margin-top: 28px; }
   .ingredient-group-title { font-size: 14px; font-weight: 500; line-height: 1.45; color: #6b7280; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
-  .ingredient-list { margin: 16px 0 0; padding: 0; }
-  .ingredient-list > div + div { margin-top: 20px; }
+  .ingredient-list { margin: 16px 0 0; padding: 0; list-style: none; }
+  .ingredient-list > div + div, .ingredient-list > li + li { margin-top: 20px; }
   .ingredient-list dt { color: #17150F; font-weight: 500; }
   .ingredient-list dt .ingredient-dose { color: #585858; font-weight: 400; }
   .ingredient-list dd { margin: 2px 0 0; }
@@ -489,6 +489,15 @@
       .compare-list > li:first-child { margin-top: 8px; }
     }
   }
+
+  /* Questions section (the last one): one centred column holding the heading and the four accordions, which are the hero's own
+     (same markup, classes and icon). Full width inside the 24px gutters on a phone. From 768px the column is half the page content,
+     never narrower than 560px and never wider than 680px; the 24px gutters sit inside that width. The bottom padding keeps the last
+     accordion clear of the sticky bar (109px tall on desktop, about 130px on a phone) just before the footer scrolls in and hides it. */
+  #questions { padding-bottom: 140px; }
+  @media (min-width: 768px) {
+    .questions-column { width: clamp(560px, 50%, 680px); }
+  }
 </style>
 <noscript><style>.title-fade { opacity: 1; transform: none; }</style></noscript>
 <!-- 1. NAVIGATION -->
@@ -924,6 +933,66 @@
         <div class="flex flex-col gap-2">
           <p class="body-lg">"Calm is the right word. Not a buzz. Just steady."</p>
           <p class="body-sm text-gray-500 italic">Rachel K. — Entrepreneur, Manchester</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. QUESTIONS -->
+  <section id="questions" class="pt-section">
+    <div class="questions-column mx-auto">
+      <div class="px-6 mb-8">
+        <div class="flex flex-col gap-3">
+          <h2 class="headline-sm title-fade">The obvious questions, answered.</h2>
+        </div>
+      </div>
+
+      <div class="px-6">
+        <div class="divide-y divide-gray-200 border-t border-b border-gray-200">
+          <details class="py-4 group" open>
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              It's not on sale yet. What am I signing up for?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Your email address, and nothing else. No payment, no card details.</p>
+            <p class="body-lg mt-3">When the first batch is ready, you hear about it before it opens to everyone else. We expect initial orders to be for 500 people.</p>
+            <p class="body-lg mt-3">We'll only email you when we're ready.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              Does it work?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Plenty of drinks promise big things. We'll show you the label.</p>
+            <p class="body-lg mt-3">Some supplements keep their amounts inside a "proprietary blend". We don't. Every active ingredient is here with its amount.</p>
+            <ul class="ingredient-list body-lg mt-3">
+              <li>80mg of caffeine, from green tea.</li>
+              <li>150mg of L-theanine.</li>
+              <li>300mg of Rhodiola rosea root extract.</li>
+              <li>300mg of blackcurrant extract, about 105mg of anthocyanins.</li>
+            </ul>
+            <p class="body-lg mt-3">Vitamin B12 contributes to normal energy-yielding metabolism. Pantothenic acid (vitamin B5) contributes to the reduction of tiredness and fatigue.</p>
+            <p class="body-lg mt-3">Early testers are drinking it now, and we'll put what they say on the page, in their own words.</p>
+            <p class="body-lg mt-3">We're not trying to change your life. We're trying to make one part of your morning worth sitting down for.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              Why make another morning drink?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Evenings get a table and some time. Mornings get a mug and a deadline.</p>
+            <p class="body-lg mt-3">Morningo is a new morning drink, still in early development. Coffee one stays. This is for the second slot, the one you'd normally fill without thinking, and it's made to be a moment of its own: a glass, a dark berry colour, a warm finish of ginger, and time to sit with it.</p>
+            <p class="body-lg mt-3">It took 47 versions to get one worth putting a name on.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              How much caffeine is in it, and who shouldn't have it?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">80mg per sachet, from green tea. That's about a small coffee's worth. [check]</p>
+            <p class="body-lg mt-3">One sachet a day is the most we'd suggest. It's a morning drink, so we'd leave it out after lunch. Count it alongside any other caffeine you have.</p>
+            <p class="body-lg mt-3">Not recommended for children, or for pregnant or breast-feeding women. If you take medication or have a health condition, ask your doctor first.</p>
+          </details>
         </div>
       </div>
     </div>

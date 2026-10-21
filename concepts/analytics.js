@@ -169,12 +169,17 @@
     watchCarousel('reviews', document.querySelector('#social-proof .card-carousel'));
   }
 
-  // "What's in it" and the other accordions: once per accordion per visit.
+  // "What's in it" and the other accordions: once per accordion per visit. An accordion that starts open (the first one in the
+  // Questions section) fires a toggle of its own when the page loads; that one is skipped, so only a real open is counted.
   function watchAccordions() {
     var seen = {};
+    var startedOpen = Array.prototype.slice.call(document.querySelectorAll('details[open]'));
     document.addEventListener('toggle', function (e) {
       var details = e.target;
-      if (!details || details.tagName !== 'DETAILS' || !details.open) return;
+      if (!details || details.tagName !== 'DETAILS') return;
+      var at = startedOpen.indexOf(details);
+      if (at !== -1) { startedOpen.splice(at, 1); if (details.open) return; }
+      if (!details.open) return;
       var summary = details.querySelector('summary');
       var name = summary ? summary.textContent.replace(/\s+/g, ' ').trim().slice(0, 60) : '';
       if (!name || seen[name]) return;
