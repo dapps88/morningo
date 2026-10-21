@@ -353,11 +353,10 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
-      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
     </div>
 
     <div class="flex flex-col gap-3 mt-8">
@@ -694,6 +693,12 @@
         emailSendBtn.textContent = 'Send message';
       });
     });
+  })();
+
+  (function() {
+    // The survey page (about-you.html) is skipped or finished before this page, but a visitor who closes it some other way
+    // could still have the sign-up email waiting in this tab's sessionStorage. It has no further use, so it goes.
+    try { sessionStorage.removeItem('morningo-signup-email'); } catch (e) {}
   })();
 
   (function() {

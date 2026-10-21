@@ -5,12 +5,14 @@
   "pages": [
     "product-wireframe-v2.html",
     "email-capture.html",
+    "about-you.html",
     "thank-you.html",
     "privacy.html"
   ],
   "page_labels": {
     "product-wireframe-v2.html": "Product page",
     "email-capture.html": "Email capture",
+    "about-you.html": "Survey (about you)",
     "thank-you.html": "Thank you",
     "privacy.html": "Privacy policy"
   },
@@ -42,6 +44,7 @@
   "rules_docs": [
     "references/cookie-banner.md",
     "references/main-page-text.md",
+    "references/survey-page-text.md",
     "references/privacy-policy.md",
     "brief.md",
     ".claude/skills/morningo-page-builder/SKILL.md"
@@ -58,7 +61,7 @@
   },
   "notes": [
     "Converted images: originals live in assets/web images, converted WebP in assets/web-optimized, and the copies the pages actually load in concepts/images. Filenames are lowercase.",
-    "Pages link to each other with bare filenames (email-capture.html, thank-you.html, privacy.html, product-wireframe-v2.html), so the test link must serve all four under those names.",
+    "Pages link to each other with bare filenames (email-capture.html, about-you.html, thank-you.html, privacy.html, product-wireframe-v2.html), so the test link must serve all five under those names.",
     "hero-video-test.html and concepts/test-media are a retired sandbox. Do not update them.",
     "Read .claude/skills/morningo-page-builder/SKILL.md before any typography, spacing or colour change."
   ]

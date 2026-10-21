@@ -19,21 +19,13 @@ Read this file in full before building the privacy policy page.
 
 **Privacy Policy**
 
-Last updated: 4 October 2026
-
----
-
-**Who we are**
-
-This site is operated by Daniel Appelbee, based in the United Kingdom.
-
-If you have any questions about this policy or how we handle your data, contact us at wearemorningo@gmail.com.
+Last updated: 21 October 2026
 
 ---
 
 **What we collect and why**
 
-When you register your interest via this site, we collect your email address. We use it for one purpose only: to let you know if and when Morningo launches. We do not send marketing emails, newsletters, or any other promotional content, and we will not build an ongoing mailing list from it. If you arrived from one of our adverts, we also save which advert and campaign brought you here, along with your email address, so we can see which adverts are working.
+When you register your interest via this site, we collect your email address. We use it for one purpose only: to let you know if and when Morningo launches. We do not send marketing emails, newsletters, or any other promotional content, and we will not build an ongoing mailing list from it. If you arrived from one of our adverts, we also save which advert and campaign brought you here, along with your email address, so we can see which adverts are working. After you register we also ask two optional questions, your gender and age group. If you answer, we save them with your email address, so we can see who Morningo is for and reach more people like you.
 
 If you use the "Have a question?" box, we save the question you type when you press Send message, even if you do not add an email address. If you do add your email address, we use it only to reply to you. Please do not include health details or other sensitive personal information in your question.
 
@@ -45,7 +37,7 @@ When you visit this site, we may also collect usage data and advertising measure
 
 **Legal basis for processing**
 
-We process your email address on the basis of your consent, given when you submit the registration form.
+We process your email address, and your answers to those two questions, on the basis of your consent, given when you submit them.
 
 We process cookie and tracking data on the basis of your consent, given when you accept cookies via the banner on this site.
 
@@ -147,6 +139,14 @@ If we update this policy, we will change the date at the top of this page.
 
 ---
 
+**Who we are**
+
+This site is operated by Daniel Appelbee, based in the United Kingdom.
+
+If you have any questions about this policy or how we handle your data, contact us at wearemorningo@gmail.com.
+
+---
+
 ## PLACEHOLDERS LOG
 
 Nothing on this list should be invented or assumed. Each must be replaced before launch.
@@ -154,7 +154,7 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [x] Full legal name: done 2026-10-04, "Daniel Appelbee" (the owner is not yet a company; "trading as Morningo" was tried and removed the same day at the owner's request, since nothing is being sold yet)
 - [x] Contact email address: done 2026-10-04, wearemorningo@gmail.com (free Gmail created for the site; appears three times)
 - [x] ICO registration number: NOT needed, the owner is exempt from the fee (line removed from the policy 2026-10-04, owner approved). History: the ICO fee self-assessment (ico.org.uk/fee-checker) was first run on 2026-10-04 answering "Not started trading" (result: no fee yet), but the ICO's own note says you are trading if you use personal information for commercial reasons, even as an individual. Re-run the same day answering "Currently trading", "Are you exempt from paying the data protection fee? Yes": result "You don't need to pay a fee" (the tool relies on that self-declaration). Basis: the advertising, marketing and public relations exemption (own goods and services, information limited to what marketing needs, no selling or trading of lists, and ALL processing must be exempt). Weak spot: free-text questions that may contain health details. No need to tell the ICO. Retake before selling or sharing the list, at the first order, when forming a company or hiring, on any new use of the data, or on an ICO letter. The "Our ICO registration number is [number]." line should be removed from the page (owner approval needed, the copy is locked). Not legal advice.
-- [x] Last updated date: set to 4 October 2026; refresh it on the day the policy is published if any wording changes before then
+- [x] Last updated date: set to 21 October 2026 (owner asked, the day the survey-page wording went in); refresh it again on the day the policy is published if any wording changes before then
 - [ ] When the Meta Pixel is switched on: add `_fbp` and `_fbc` (Meta, 3 months, from Meta's documentation, not yet checked on this site) to the cookie list
 
 ---
@@ -165,3 +165,5 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - 2026-10-04, owner approved: the line "Our ICO registration number is [number]." was removed, because the owner is exempt from the data protection fee and has no number (see the placeholders log).
 - 2026-10-04, owner approved: operator named as "Daniel Appelbee, trading as Morningo", contact email wearemorningo@gmail.com, last-updated date 4 October 2026. No placeholders remain in the policy copy.
 - 2026-10-04, owner approved: "trading as Morningo" removed from the operator line (nothing is being sold yet); it now reads "This site is operated by Daniel Appelbee, based in the United Kingdom."
+- 2026-10-21, owner approved: one sentence pair added to the end of the first paragraph of "What we collect and why" for the two optional questions on the new survey page (gender and age group, saved with the email), and the first line of "Legal basis for processing" widened to cover those answers. NOT changed: "How long we keep your data" (it names the email and the questions but not the two answers; suggest adding "and your answers to those two questions" to the second line, owner to decide).
+- 2026-10-21, owner asked: the "Who we are" section moved from the top of the policy to the very bottom (after "Changes to this policy"), wording unchanged, and the "Last updated" date set to 21 October 2026.

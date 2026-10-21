@@ -12,9 +12,9 @@ Read this file in full before writing any code.
 
 3. Two pages are described in this document. Build both: the email capture page and the thank-you page.
 
-4. On successful form submission, the user is redirected to the thank-you page. This is not an inline success state. The thank-you page is a separate, standalone HTML file.
+4. On successful form submission, the user is redirected to the survey page (`about-you.html`, copy in `survey-page-text.md`, added 2026-10-21), and from there (Done or Skip) to the thank-you page. This is not an inline success state. Each is a separate, standalone HTML file.
 
-5. The Facebook Pixel Lead event and GA4 conversion event fire on page load of the thank-you page only. Do not fire either event on the capture page. Technical implementation detail for both events is in brief.md.
+5. The Facebook Pixel Lead event and GA4 conversion event fire on page load of the survey page only (moved there from the thank-you page on 2026-10-21, owner decision). Do not fire either event on the capture page or the thank-you page. Technical implementation detail for both events is in brief.md.
 
 6. Product photo on the capture page is a placeholder. Mark clearly in code. Do not use stock images.
 

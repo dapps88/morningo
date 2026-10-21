@@ -379,7 +379,7 @@
 
       <div id="queue-row" class="queue-row mt-8" aria-hidden="true"></div>
 
-      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="about-you.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="signup">
         <input type="hidden" name="subject" value="✅ Morningo SIGN-UP: new subscriber">
         <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
@@ -410,11 +410,10 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
-      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
     </div>
 
     <div class="flex flex-col gap-3 mt-8">
@@ -609,15 +608,20 @@
       showValidity(valid);
       if (!valid) { input.focus(); return; }
 
-      // Posts to the "signup" Netlify form (see window.morningoPostForm) and only moves on to the thank-you page once
-      // the submission has really gone through; on failure the visitor stays here with an error and can retry.
-      // The Lead tracking event fires on thank-you.html load, so it only ever counts submissions that succeeded.
+      // Posts to the "signup" Netlify form (see window.morningoPostForm) and only moves on to the survey page (about-you.html)
+      // once the submission has really gone through; on failure the visitor stays here with an error and can retry.
+      // The Lead tracking event fires on about-you.html load, so it only ever counts submissions that succeeded.
+      // The email is handed to the survey page through this tab's sessionStorage (never the address bar), so its row can carry
+      // the email next to the answers. The survey page removes it again on Done and on Skip, and the thank-you page does too.
       if (cta.disabled) return;
       sendError.style.display = 'none';
       cta.disabled = true;
       cta.textContent = 'Saving your place…';
       window.morningoPostForm(new FormData(form))
-        .then(() => { window.location.href = window.morningoLink ? window.morningoLink('thank-you.html') : 'thank-you.html'; })
+        .then(() => {
+          try { sessionStorage.setItem('morningo-signup-email', input.value.trim()); } catch (e) {}
+          window.location.href = window.morningoLink ? window.morningoLink('about-you.html') : 'about-you.html';
+        })
         .catch(() => {
           sendError.style.display = 'block';
           cta.disabled = false;
@@ -851,7 +855,7 @@
     }
 
     // Confirmation state — built to spec, but NOT wired into the live submit
-    // flow: that still redirects to thank-you.html (see the capture-form submit
+    // flow: that still redirects to about-you.html (see the capture-form submit
     // handler above). Call window.__showQueueConfirmation() to trigger it once
     // the in-page route is chosen instead of the redirect.
     window.__showQueueConfirmation = function() {

@@ -26,7 +26,7 @@ utm_source=facebook&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_co
 - An ad without the parameters shows up as "unknown" in Netlify and as direct/none in GA4.
 - Landing URL for ads: `https://morningo.netlify.app/home` (the bare address also works and keeps the tags).
 
-How the tags travel (attribution.js): read from the address bar, added to every link to another page of this site and to the CTA / signup redirects, and written into six hidden fields on both forms: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `ad_id`. Nothing is stored on the visitor's device. The thank-you page's "Copy link" shares the site address tagged `?utm_source=share&utm_medium=link` (added 2026-10-04), never the sharer's own ad tags. So a visit that arrives through a shared link shows in GA4 as source "share / link", and a signup that follows is saved in Netlify with `utm_source=share`. Copies are counted (`share_copy`); whether the link is then actually sent can only be seen from those tagged arrivals.
+How the tags travel (attribution.js): read from the address bar, added to every link to another page of this site and to the CTA / signup redirects, and written into six hidden fields on the sign-up, survey and question forms: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `ad_id`. Nothing is stored on the visitor's device. The thank-you page's "Copy link" shares the site address tagged `?utm_source=share&utm_medium=link` (added 2026-10-04), never the sharer's own ad tags. So a visit that arrives through a shared link shows in GA4 as source "share / link", and a signup that follows is saved in Netlify with `utm_source=share`. Copies are counted (`share_copy`); whether the link is then actually sent can only be seen from those tagged arrivals.
 
 ## 2. Events (GA4)
 
@@ -34,20 +34,27 @@ All fire only after Accept. Names do not collide with GA4's automatic events (`s
 
 | Event | Page | Fires when | Parameters | Answers |
 |---|---|---|---|---|
-| `page_view` | all three | tag loads (automatic) | page location incl. ad tags | funnel: home → capture → thank-you |
-| `section_view` | home | a section first reaches the top 60% of the screen | `section_id`: hero, problem, the-product, why-it-works, social-proof, footer | how far down people read |
+| `page_view` | all four | tag loads (automatic) | page location incl. ad tags | funnel: home → capture → survey → thank-you |
+| `section_view` | home | a section first reaches the top 60% of the screen | `section_id`: hero, problem, the-product, comparison, why-it-works, social-proof, questions, footer (comparison and questions added 2026-10-21) | how far down people read |
 | `carousel_slide_view` | home | a slide is mostly visible AND its carousel is on screen, once per slide per visit | `carousel_name` (hero_gallery, why_it_works, reviews), `slide_number` (1-based), `slide_name` | which slide/card people reach |
 | `carousel_interact` | home | first sideways move of a carousel, once per carousel | `carousel_name` | which carousels people actually swipe |
 | `accordion_open` | home | an accordion is opened, once per accordion (an accordion that starts open, the first in the Questions section, is not counted until the visitor opens it) | `accordion_name` | which details people want |
+| `nutrition_label_open` | home | the "Nutritional information" link in the "What's in it" accordion is clicked, once per visit (added 2026-10-21) | none | who looks at the full label |
 | `cta_click` | home | CTA pressed | `cta_location`: hero, product (the button under "A morning drink for the second coffee slot.", added 2026-10-21) or sticky | which button works |
 | `question_open` | home, capture, thank-you | "Have a question?" opened | `trigger_location`: header, hero, footer, page | who wants to ask |
 | `question_asked` | home, capture, thank-you | "Send message" pressed on the first step (question typed, no email yet) | none | how many questions are asked; the text is saved in Netlify, never in GA4 |
 | `question_sent` | home, capture, thank-you | question really sent with an email | none | questions that came with an email |
 | `signup_start` | capture | first click into the email box | none | drop-off between seeing the page and typing |
-| `generate_lead` | thank-you | page load, once per browser tab session | none | THE conversion (also Pixel `Lead`) |
+| `survey_complete` | survey | Done pressed and the answers really saved (one row in the Netlify form `survey`) | none | how many give gender and age; the answers stay in Netlify, never in GA4 or the Pixel |
+| `survey_skip` | survey | Skip pressed | none | how many skip |
+| `generate_lead` | survey | page load, once per browser tab session (moved here from thank-you on 2026-10-21: the survey page only opens after the email is saved, and someone who leaves on the survey step is still counted) | none | THE conversion (also Pixel `Lead`) |
 | `share_copy` | thank-you | Copy link pressed | none | people sharing |
 
-The Pixel also gets its own `PageView` on all three pages. The conversion fires on thank-you load only, never on submit (brief.md, Locked Decisions).
+The Pixel also gets its own `PageView` on all four pages. The conversion fires on survey page load only, never on submit and no longer on thank-you (brief.md, Locked Decisions).
+
+### The survey page and the `survey` form (added 2026-10-21)
+
+After the email is saved, `about-you.html` asks two things: gender and age group. Done saves one row to the Netlify form **`survey`**: `email`, `gender`, `age_group`, and the six ad fields, so the row shows the email, the ad and the answers together. Skip saves nothing. The `signup` form still gets every email (with the ad), so it stays the true sign-up count; a person who answers has a row in both, and the `survey` row is the complete one. The answers are never sent to GA4 or the Pixel. The email travels from the capture page in that tab's sessionStorage (never the address bar) and is removed on Done, Skip and the thank-you page; with no email in memory the page still works but saves nothing. No notification email is set on `survey` (add one in Netlify if wanted; the form only exists in Netlify after the first prod deploy that includes it). Unchecked: Netlify's form-submission limits on the owner's plan now that each person who answers makes two entries.
 
 ### Where the question text lives (added 2026-10-04)
 
@@ -81,27 +88,27 @@ GA4 only ever gets counts (`question_open`, `question_asked`, `question_sent`), 
 
 ### Reading it
 
-**Ready-made view (built 2026-10-04):** GA4 > Explore > "Morningo - what people look at" (account 410350856, property 556942648; direct link `https://analytics.google.com/analytics/web/#/analysis/a410350856p556942648/edit/S_Zv4C2XTZa_vtHhssqEjg`). One free-form exploration with four tabs: 1 Gallery and cards (rows Carousel > Slide number > Slide name, filter `carousel_slide_view`), 2 Scroll depth (rows Section, filter `section_view`), 3 Accordions (rows Accordion, filter `accordion_open`), 4 Buttons and questions (rows Event name, filter regex `cta_click|question_open|question_asked|question_sent|signup_start|generate_lead|share_copy`). Values everywhere: Active users and Event count. Rows labelled "(not set)" are events from before the custom dimensions existed (2 Oct 2026). There is also an older untouched exploration named "Free form" that the owner made.
+**Ready-made view (built 2026-10-04):** GA4 > Explore > "Morningo - what people look at" (account 410350856, property 556942648; direct link `https://analytics.google.com/analytics/web/#/analysis/a410350856p556942648/edit/S_Zv4C2XTZa_vtHhssqEjg`). One free-form exploration with four tabs: 1 Gallery and cards (rows Carousel > Slide number > Slide name, filter `carousel_slide_view`), 2 Scroll depth (rows Section, filter `section_view`), 3 Accordions (rows Accordion, filter `accordion_open`), 4 Buttons and questions (rows Event name, filter regex `cta_click|question_open|question_asked|question_sent|signup_start|generate_lead|share_copy`; the two survey events `survey_complete` and `survey_skip` are NOT in that regex yet, add them in GA when the survey page is live). Values everywhere: Active users and Event count. Rows labelled "(not set)" are events from before the custom dimensions existed (2 Oct 2026). There is also an older untouched exploration named "Free form" that the owner made.
 
 The manual recipes below are only needed if it is ever lost.
 
-- **Funnel per ad:** Explore > Funnel exploration. Steps: `page_view` on /home, `cta_click`, `page_view` on /email-capture.html, `signup_start`, `generate_lead`. Break down by "Session manual ad content".
+- **Funnel per ad:** Explore > Funnel exploration. Steps: `page_view` on /home, `cta_click`, `page_view` on /email-capture.html, `signup_start`, `generate_lead` (fires on /about-you.html), then `survey_complete` or `survey_skip` and `page_view` on /thank-you.html as optional later steps. Break down by "Session manual ad content".
 - **Carousels:** Explore > Free form. Rows: Carousel, Slide number, Slide name. Values: Event count. Filter: event name = `carousel_slide_view`. The first slide of each carousel is the baseline; the drop to slide 2, 3... shows where people stop.
 - **Scroll depth:** same, rows = Section, filter event name = `section_view`.
-- **Signups and questions per ad:** not GA4. Netlify > Forms > `signup` / `question` > export CSV, group by `utm_content`.
+- **Signups and questions per ad:** not GA4. Netlify > Forms > `signup` / `question` / `survey` > export CSV, group by `utm_content`.
 
 ## 4. Known limits
 
 - **Consent gap:** GA4 and the Pixel only see people who pressed Accept. Week 1: compare Meta link clicks with GA4 sessions to see how many visitors are invisible. If it is large, a cookieless tool (Plausible, Umami) is the option to add later; not added yet.
 - **Small numbers:** with a handful of signups per ad, differences between ads are noise. Decide a minimum (a few hundred clicks per ad, say) before judging an ad.
 - **Attribution leaks:** someone who clicks in the Facebook app and returns later in Safari arrives untagged. Expect an "unknown" bucket.
-- **Thank-you refresh** is guarded (one `generate_lead` per tab session), but opening /thank-you.html directly still counts. Netlify Forms is the source of truth for total signups.
+- **Survey-page refresh** is guarded (one `generate_lead` per tab session), but opening /about-you.html directly still counts (the thank-you page no longer fires it). Netlify Forms is the source of truth for total signups.
 - **Pixel ID is not set yet.** Until it is pasted at the top of `analytics.js`, the Pixel does not load and Meta's Lead count stays empty.
 
 ## 5. Testing
 
 - **Dry run:** on localhost, file:// and Netlify preview links (`anything--morningo.netlify.app`), analytics.js prints each event to the console and keeps it in `window.morningoAnalyticsLog` instead of sending, so tests never pollute the real numbers. Add `?mo_analytics=live` to the address to send for real from those hosts (events will carry that host name, so filter by hostname in GA4).
-- **Reset the saved cookie choice:** `localStorage.removeItem('morningo-cookie-consent')` in the browser console, then reload. To retest the thank-you conversion in the same tab: `sessionStorage.removeItem('morningo-lead-sent')`.
+- **Reset the saved cookie choice:** `localStorage.removeItem('morningo-cookie-consent')` in the browser console, then reload. To retest the conversion (now on the survey page) in the same tab: `sessionStorage.removeItem('morningo-lead-sent')`.
 - **Fake ad click:** `/home?utm_source=facebook&utm_medium=paid_social&utm_campaign=test&utm_content=claude-test-ignore&ad_id=0`, then sign up with an obviously fake email. Check the row in Netlify shows `utm_content`.
 - Browser-pane gotcha: the hidden pane delays scroll-based events by seconds (it draws few frames). The code is fine; wait for the log rather than assuming a miss.
 

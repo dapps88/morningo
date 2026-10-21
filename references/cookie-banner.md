@@ -22,7 +22,7 @@ We use analytics and advertising cookies to understand how this site is used and
 6. Banner does not reappear until consent cookie expires or user clears cookies.
 7. Banner closes on either button selection. No confirmation state required.
 8. No separate "Cookie settings" footer link. The footer contains only the privacy policy link (see brief.md).
-9. Meta Pixel Lead event and GA4 conversion event fire on page load of the thank-you page only, and only if the consent cookie = accepted — never on form submission, per brief.md's tracking architecture (chosen for reliability: avoids missed or duplicate conversions from slow/repeat submits).
+9. Meta Pixel Lead event and GA4 conversion event fire on page load of the survey page (`about-you.html`) only (moved there from the thank-you page on 2026-10-21, owner decision), and only if the consent cookie = accepted — never on form submission, per brief.md's tracking architecture (chosen for reliability: avoids missed or duplicate conversions from slow/repeat submits).
 
 ---
 
@@ -37,7 +37,7 @@ We use analytics and advertising cookies to understand how this site is used and
 
 ## Owner decision (2026-10-04): footer "Cookie settings" link
 
-Overrides rule 8 ("No separate Cookie settings footer link"). The owner approved a footer link called **Cookie settings** on all four pages (class `cookie-settings-link`, next to Privacy Policy). It reopens this same banner (same copy, same buttons) so a visitor can change their choice at any time; without JavaScript it goes to `privacy.html#cookies`. On the privacy page the banner is not shown automatically (so the policy stays readable), only from that link. Choosing Reject after Accept removes the Google/Meta cookies and stops sending; choosing Accept after Reject starts analytics. Reason: UK guidance expects withdrawing consent to be as easy as giving it.
+Overrides rule 8 ("No separate Cookie settings footer link"). The owner approved a footer link called **Cookie settings** on all five pages (class `cookie-settings-link`, next to Privacy Policy). It reopens this same banner (same copy, same buttons) so a visitor can change their choice at any time; without JavaScript it goes to `privacy.html#cookies`. On the privacy page the banner is not shown automatically (so the policy stays readable), only from that link. Choosing Reject after Accept removes the Google/Meta cookies and stops sending; choosing Accept after Reject starts analytics. Reason: UK guidance expects withdrawing consent to be as easy as giving it.
 
 ## Implementation note (2026-10-04)
 

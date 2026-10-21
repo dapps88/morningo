@@ -5,7 +5,7 @@
  * and announces it with a "morningo-consent" event; this file also reads the saved choice on every later page load.
  * The ad-to-signup link (which ad did this person come from) is NOT in here: that is attribution.js, which needs no consent.
  *
- * Page type comes from the script tag: data-page="home" | "capture" | "thank-you". (The privacy page does not load this file.)
+ * Page type comes from the script tag: data-page="home" | "capture" | "survey" | "thank-you". (The privacy page does not load this file.)
  *
  * TESTING
  *   - Reset the saved cookie choice: run  morningoConsent.clear()  in the browser console, reload (it is the cookie morningo-consent).
@@ -14,11 +14,14 @@
  *     never pollute the real numbers. To send for real from one of those hosts, add ?mo_analytics=live to the address.
  *
  * EVENTS (names are snake_case; the details are in references/analytics-tracking-plan.md)
- *   home:      section_view, carousel_slide_view, carousel_interact, accordion_open, cta_click, question_open, question_asked, question_sent
+ *   home:      section_view, carousel_slide_view, carousel_interact, accordion_open, nutrition_label_open, cta_click, question_open, question_asked, question_sent
  *   capture:   signup_start, question_open, question_asked, question_sent
- *   thank-you: generate_lead (plus the Pixel "Lead"), share_copy, question_open, question_asked, question_sent
- *   Google's own page_view and the Pixel's PageView fire automatically when the tags load, on all three pages.
- *   The lead event fires on thank-you page load only, never on the form submit (brief.md, Locked Decisions).
+ *   survey:    generate_lead (plus the Pixel "Lead"), survey_complete, survey_skip (both sent by the page's own script through
+ *              window.morningoTrack; the answers themselves are never sent), question_open, question_asked, question_sent
+ *   thank-you: share_copy, question_open, question_asked, question_sent
+ *   Google's own page_view and the Pixel's PageView fire automatically when the tags load, on all four pages.
+ *   The lead event fires on survey page load only (moved from the thank-you page, owner decision 2026-10-21), never on the form
+ *   submit (brief.md, Locked Decisions).
  */
 (function () {
   'use strict';
@@ -120,7 +123,7 @@
         track('section_view', { section_id: id });
       });
     }, { rootMargin: '0px 0px -40% 0px' });
-    document.querySelectorAll('#hero, #problem, #the-product, #why-it-works, #social-proof, footer')
+    document.querySelectorAll('#hero, #problem, #the-product, #comparison, #why-it-works, #social-proof, #questions, footer')
       .forEach(function (el) { io.observe(el); });
   }
 
@@ -195,6 +198,17 @@
     });
   }
 
+  // The "Nutritional information" pop-up, opened from the "What's in it" accordion: who goes looking at the full label.
+  // Once per visit. Capture phase, like the question links, so it still counts if the page's own handler stops the click.
+  function watchLabel() {
+    var seen = false;
+    document.addEventListener('click', function (e) {
+      if (seen || !(e.target.closest && e.target.closest('.label-trigger'))) return;
+      seen = true;
+      track('nutrition_label_open');
+    }, true);
+  }
+
   // Every "Have a question?" entry point carries the .chat-trigger class. Capture phase, so it still counts if the page's own
   // handler stops the click.
   function watchQuestionOpen() {
@@ -221,8 +235,10 @@
     if (button) button.addEventListener('click', function () { track('share_copy'); });
   }
 
-  // The conversion. Fires on thank-you page load, and only once per browser tab session, so a refresh of the thank-you
-  // page does not count the same sign-up twice. (Netlify Forms stays the source of truth for the real signup count.)
+  // The conversion. Fires on survey page (about-you.html) load, which only opens after the email has really been saved, and only
+  // once per browser tab session, so a refresh does not count the same sign-up twice. It moved here from the thank-you page on
+  // 2026-10-21 so that someone who leaves on the survey step is still counted. (Netlify Forms stays the source of truth for the
+  // real signup count.)
   function fireLead() {
     var already = false;
     try { already = sessionStorage.getItem('morningo-lead-sent') === '1'; } catch (e) {}
@@ -240,9 +256,10 @@
     loadGoogle();
     loadPixel();
     watchQuestionOpen();
-    if (page === 'home') { watchSections(); watchCarousels(); watchAccordions(); watchCtas(); }
+    if (page === 'home') { watchSections(); watchCarousels(); watchAccordions(); watchCtas(); watchLabel(); }
     if (page === 'capture') watchSignup();
-    if (page === 'thank-you') { fireLead(); watchShare(); }
+    if (page === 'survey') fireLead();
+    if (page === 'thank-you') watchShare();
   }
 
   // Withdrawing consent (accepted, then declined): stop sending straight away. consent.js removes the Google/Meta cookies.
