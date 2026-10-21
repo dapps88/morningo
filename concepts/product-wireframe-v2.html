@@ -336,6 +336,8 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
+  /* hero "core ingredients" list: the site's .doc-list, minus the browser's default list margins so the flex gaps set the spacing */
+  .hero-list { margin: 0; }
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
@@ -461,8 +463,19 @@
     <div class="flex flex-col gap-8 px-4 pt-3 pb-6">
 
       <div class="flex flex-col gap-3">
-        <h1 class="headline">Calm focus. All morning, alongside your coffee.</h1>
-        <p class="body-lg">Keep your morning exactly as it is. Just add one sachet, stirred into a glass of water, first thing.</p>
+        <h1 class="headline">A morning drink for the second-coffee slot.</h1>
+        <p class="body-lg">Your first coffee stays. Morningo is its concentration partner in the second-coffee slot: thick, dark blackcurrant, warmed with ginger, stirred into a glass of water. We made 47 versions to get the thickness, taste and blend just right.</p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <!-- h2 styled as a card title. No .title-fade: it sits above the fold, like the h1. -->
+        <h2 class="card-title">The core ingredients</h2>
+        <ul class="body-lg doc-list hero-list">
+          <li>80mg of natural caffeine, from green tea. About a small coffee's worth. Caffeine aids concentration.</li>
+          <li>Vitamin B12 contributes to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.</li>
+          <li>Vitamin B5 contributes to normal mental performance.</li>
+          <li>And a few more: L-theanine, Rhodiola rosea root, blackcurrant extract and ginger.</li>
+        </ul>
       </div>
 
       <div>

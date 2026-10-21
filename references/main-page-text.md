@@ -36,12 +36,25 @@ Read this file in full before writing any code.
 This is the product detail block. It sits above the fold with the product image. It must function like a product page — headline, flavour, price, CTA, and accordions all live here. The reader should be able to register their interest without scrolling.
 
 **Headline**
-Calm focus. All morning, alongside your coffee.
+> Updated 2026-10-21 (owner-supplied copy, replaces "Calm focus. All morning, alongside your coffee.").
+
+A morning drink for the second-coffee slot.
 
 **Sub-copy**
-> Updated 2026-10-02 (owner-supplied copy, replaces the earlier line).
+> Updated 2026-10-21 (owner-supplied copy, replaces the 2026-10-02 line "Keep your morning exactly as it is. Just add one sachet, stirred into a glass of water, first thing.").
 
-Keep your morning exactly as it is. Just add one sachet, stirred into a glass of water, first thing.
+Your first coffee stays. Morningo is its concentration partner in the second-coffee slot: thick, dark blackcurrant, warmed with ginger, stirred into a glass of water. We made 47 versions to get the thickness, taste and blend just right.
+
+**Core ingredients** *(new 2026-10-21, owner-supplied copy; sits directly under the sub-copy, above the price)*
+
+> This block adds the caffeine concentration line and the Vitamin B5 mental performance line to the hero, which Part 1 rule 5 did not cover. Owner-supplied. Still to check: wording against the current GB claims register, "about a small coffee's worth", and that "47 versions" is a true count.
+
+Sub heading: The core ingredients
+
+- 80mg of natural caffeine, from green tea. About a small coffee's worth. Caffeine aids concentration.
+- Vitamin B12 contributes to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.
+- Vitamin B5 contributes to normal mental performance.
+- And a few more: L-theanine, Rhodiola rosea root, blackcurrant extract and ginger.
 
 **Flavour**
 > Updated 2026-10-02 (owner chose this wording; "with" matches the sachet artwork).
