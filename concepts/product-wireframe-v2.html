@@ -490,6 +490,15 @@
     }
   }
 
+  /* Review cards ("47+ versions to get here"): text only. The hero's lilac (#EAE3F1) as the card, stars in the primary button plum
+     (filled for the rating, outline for the rest), the quote in the site's italic body text and the name in plain ink, everything
+     centred across the card and stacked from the top, so the stars sit at the same height on every card (owner, 2026-10-22). They sit in the usual card carousel, so they keep its widths (76% on a phone, a fixed 300px from 768px)
+     and, because the carousel stretches its items, all four are as tall as the tallest. */
+  .review-card { background: #EAE3F1; border-radius: 12px; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 12px; text-align: center; }
+  .review-stars { display: flex; justify-content: center; gap: 4px; color: #39002A; margin-bottom: 8px; }
+  .review-star { width: 24px; height: 24px; flex-shrink: 0; }
+  .review-name { color: #17150F; }
+
   /* Questions section (the last one): one centred column holding the heading and the four accordions, which are the hero's own
      (same markup, classes and icon). Full width inside the 24px gutters on a phone. From 768px the column is half the page content,
      never narrower than 560px and never wider than 680px; the 24px gutters sit inside that width. The bottom padding keeps the last
@@ -903,41 +912,37 @@
       </div>
     </div>
 
+    <!-- Star shapes used by the review cards below (filled and outline), drawn once and reused. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <symbol id="star-full" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></symbol>
+      <symbol id="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <!-- Owner decision 2026-10-22: four text-only review cards (Loic, Amber, Yann, Luke), quotes and star ratings exactly as supplied.
+         They replace the earlier photo cards (Loic, Dan, and the James T. and Rachel K. placeholders). -->
     <div class="card-carousel card-carousel--scroll flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/loic.webp" alt="Loic" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"I've been pleasantly surprised how I'm feeling more 'on' in the morning"</p>
-          <p class="body-sm text-gray-500 italic">Loic</p>
-        </div>
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Loic">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg></div>
+        <p class="body-lg italic">&ldquo;I've been pleasantly surprised through the morning. It's nice to take a moment with something different&rdquo;</p>
+        <p class="body-lg review-name">Loic</p>
       </div>
 
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/dan.webp" alt="Dan holding a prepared Morningo drink" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Two weeks in and the 10am slump just isn't happening."</p>
-          <p class="body-sm text-gray-500 italic">Dan</p>
-        </div>
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Amber">
+        <div class="review-stars" role="img" aria-label="4 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-empty"></use></svg></div>
+        <p class="body-lg italic">&ldquo;Feels like I'm drinking a luxury smoothie with some nice extras&rdquo;</p>
+        <p class="body-lg review-name">Amber</p>
       </div>
 
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"I was sceptical. I'm less sceptical now. Mornings feel more consistent."</p>
-          <p class="body-sm text-gray-500 italic">James T. — Freelance consultant, London</p>
-        </div>
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Yann">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg></div>
+        <p class="body-lg italic">&ldquo;I'm enjoying switching things up from my usual coffee's. I'm drinking less coffee and saving a few pounds&rdquo;</p>
+        <p class="body-lg review-name">Yann</p>
       </div>
 
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Calm is the right word. Not a buzz. Just steady."</p>
-          <p class="body-sm text-gray-500 italic">Rachel K. — Entrepreneur, Manchester</p>
-        </div>
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Luke">
+        <div class="review-stars" role="img" aria-label="4 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-empty"></use></svg></div>
+        <p class="body-lg italic">&ldquo;Helps power through work. The ginger kick makes me feel like it's working&rdquo;</p>
+        <p class="body-lg review-name">Luke</p>
       </div>
     </div>
   </section>

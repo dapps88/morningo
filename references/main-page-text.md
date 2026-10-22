@@ -271,6 +271,15 @@ Help your body release energy from food. B12 at 200% of your daily reference, B5
 
 ### SECTION 6: SOCIAL PROOF
 
+> **Replaced 2026-10-22 (owner-supplied, verbatim, locked).** The cards below (Sarah M., James T., Rachel K., and the photo cards that followed) are history. The section now shows four text-only review cards under the headline "47+ versions to get here. Then we let people try it." and the line "A small group's been trying it. Here's what they're telling us so far.". Each card has a star rating, the quote and the first name, centred on the hero's lilac (#EAE3F1), stars in the primary plum, quote in italic body text:
+>
+> 1. Loic, 5 stars: "I've been pleasantly surprised through the morning. It's nice to take a moment with something different"
+> 2. Amber, 4 stars: "Feels like I'm drinking a luxury smoothie with some nice extras"
+> 3. Yann, 5 stars: "I'm enjoying switching things up from my usual coffee's. I'm drinking less coffee and saving a few pounds" (the apostrophe in "coffee's" is as supplied; do not correct it without asking)
+> 4. Luke, 4 stars: "Helps power through work. The ginger kick makes me feel like it's working"
+>
+> **Owner decision (2026-10-22) against the Section 7 rule that tester words must be about taste or texture, never effects:** the owner chose to use all four as supplied, including Loic's and Luke's, which describe effects. That choice was made on the understanding that they are real testers who agreed to be named; written permission to use their names and words is the owner's to hold, and is not recorded in this repo. Cards are fixed 300px and scroll sideways on desktop (owner choice), 76% wide and swiped on a phone. Loic's quote is also the text on hero gallery picture 2.
+
 **Job**
 Let real people close the argument. Step back and let the quotes do the work. Nothing polished, nothing manufactured.
 
@@ -363,5 +372,5 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [ ] Price — £[X] in Section 1
 - [ ] Product photography — Section 1 hero image
 - [ ] Testimonial photos — all three cards in Section 5
-- [ ] Testimonial quotes — replace with real tester language verbatim when available
+- [x] Testimonial quotes — replaced 2026-10-22 with four owner-supplied reviews (Loic, Amber, Yann, Luke), see Section 6. Still the owner's to confirm: written permission from each, and that the effect wording (Loic, Luke) is acceptable for the ads' landing page
 - [ ] "[check]" — Section 7, answer 4, after "about a small coffee's worth". Shows on the page as written until the caffeine comparison is checked. Do not publish with it.
