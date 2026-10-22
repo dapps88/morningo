@@ -9,7 +9,7 @@
  *
  * TESTING
  *   - Reset the saved cookie choice: run  morningoConsent.clear()  in the browser console, reload (it is the cookie morningo-consent).
- *   - On localhost, file:// and Netlify preview links (anything--morningo.netlify.app) this runs as a DRY RUN: nothing is sent
+ *   - On localhost, file://, the Claude test link (*.claudeusercontent.com) and Netlify preview links (anything--morningo.netlify.app) this runs as a DRY RUN: nothing is sent
  *     to Google or Meta. Each event is printed to the console and kept in window.morningoAnalyticsLog instead, so test visits
  *     never pollute the real numbers. To send for real from one of those hosts, add ?mo_analytics=live to the address.
  *
@@ -33,7 +33,8 @@
   var script = document.currentScript;
   var page = (script && script.getAttribute('data-page')) || '';
 
-  var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname);
+  // .claudeusercontent.com is the private Claude test link: a QA visit there must never reach the real numbers either.
+  var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app|.+\.claudeusercontent\.com)$/.test(location.hostname);
   var dryRun = isTestHost && !/[?&]mo_analytics=live\b/.test(location.search);
 
   // The saved choice ('accepted' / 'declined', or null) comes from consent.js, the 12-month cookie the banner writes.
@@ -102,10 +103,12 @@
   }
 
   // ---- What we count ------------------------------------------------------------------------------------------
+  // A slide can carry its own short name in data-analytics-name (the hero gallery does: its alt text is long and would be cut
+  // off mid-word at 60 characters); otherwise the card's heading, then the picture's alt text.
   function labelOf(el) {
     var heading = el.querySelector('h3');
     var img = el.tagName === 'IMG' ? el : el.querySelector('img');
-    var text = (heading && heading.textContent) || (img && img.getAttribute('alt')) || '';
+    var text = el.getAttribute('data-analytics-name') || (heading && heading.textContent) || (img && img.getAttribute('alt')) || '';
     return text.replace(/\s+/g, ' ').trim().slice(0, 60);
   }
 
