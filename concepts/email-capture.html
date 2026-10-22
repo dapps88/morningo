@@ -119,6 +119,7 @@
   .py-5 { padding-top: 20px; padding-bottom: 20px; }
   .pt-3 { padding-top: 12px; }
   .pt-4 { padding-top: 16px; }
+  .pt-5 { padding-top: 20px; }
   .pb-3 { padding-bottom: 12px; }
   .pb-6 { padding-bottom: 24px; }
   .pb-12 { padding-bottom: 48px; }
@@ -329,7 +330,9 @@
   .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
-    .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    /* The capture block is one centred column. Its width is exactly what the right-hand cell of the old two-column grid had
+       (the content width minus the 48px gap, halved), so the form, headline and queue keep the size they had. */
+    .capture-column { width: calc((100% - 48px) / 2); }
     .md-order-last { order: 2; }
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
@@ -365,13 +368,10 @@
 
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
-  <!-- 2. PRODUCT IMAGE + 3. CAPTURE BLOCK -->
-  <section id="capture" class="md-pt-10">
-    <div class="split-columns">
-    <!-- Product image: reusing an existing lifestyle shot as a stand-in — not a dedicated capture-page photo -->
-    <img src="images/energy-lady-2.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
-
-    <div class="px-4">
+  <!-- 3. CAPTURE BLOCK. Section 2 (the product image) was removed at the owner's request on 2026-10-22: the capture block now sits
+       on its own, centred, at the width it had as the right-hand column of the old two-column layout. -->
+  <section id="capture" class="pt-5 md-pt-10">
+    <div class="capture-column mx-auto px-4">
       <div class="flex flex-col gap-3">
         <h1 class="headline" id="capture-headline">Get a place in the first batch.</h1>
         <p class="body-lg" id="capture-subcopy">We're not on sale yet, but we're already saving places in the order people join.</p>
@@ -403,7 +403,6 @@
         </button>
         <p class="cta-caption body-sm text-gray-500">No payment. We'll email when your place opens, and may ask what brought you here. <a href="privacy.html" class="underline">Privacy notice</a></p>
       </form>
-    </div>
     </div>
   </section>
 
@@ -525,8 +524,10 @@
   // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
   // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
   // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }

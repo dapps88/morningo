@@ -522,14 +522,16 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide order (owner decision 2026-10-06): hero shot, open box, close-up sachet, tester quote, then the video last.
-             Slide 1 carries fetchpriority="high" because it is the first thing painted. Slide 1 picture replaced 2026-10-21 at the
-             owner's request: the sachet standing beside the purple drink with blackcurrants and ginger (hero-main.webp, was drink-main.webp). -->
-        <img src="images/hero-main.webp" fetchpriority="high" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/box-main.webp" alt="A hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/sachet-main.webp" alt="Close-up of a Morningo sachet with blackcurrants, ginger and powder around it" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <!-- Slide 5: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
+        <!-- Slide order (owner decision 2026-10-22): the five gallery pictures the owner supplied, in the order he numbered them
+             (gallery-1 to gallery-5; the text on pictures 1 to 5 is baked into the artwork, so the alt text repeats it), then the video last.
+             Slide 1 carries fetchpriority="high" because it is the first thing painted. Replaces the earlier hero-main, box-main,
+             sachet-main and quote slides, whose files are still in images/ but no longer used. -->
+        <img src="images/gallery-1.webp" fetchpriority="high" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front. Beside it: natural caffeine, thick on purpose, blackcurrant warmed with ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-2.webp" alt="Five-star tester review from Loic P: &ldquo;I&rsquo;ve been pleasantly surprised through the morning. It&rsquo;s nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-3.webp" alt="A Morningo box on a purple velvet chair beside a glass of purple drink, blackcurrants, sliced ginger and a sachet. The new morning drink that needs a seat." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-4.webp" alt="A hand holding a cut-glass tumbler of purple drink with a pale foam head, a Morningo sachet beside it. One sachet. One glass of water." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-5.webp" alt="A hand taking a Morningo sachet from an open box of sachets. 28 beautiful mornings." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <!-- Slide 6: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
              after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
         <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="position:relative; overflow:hidden; background:#1b1714;">
           <img id="hero-video-poster" src="images/hero-poster.webp" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
@@ -539,15 +541,16 @@
         </div>
       </div>
       <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
-        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:20%; left:0%;"></div>
+        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:16.667%; left:0%;"></div>
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-main.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/box-main.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-main.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View video 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-1.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-3.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-4.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-5.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View video 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
@@ -1221,8 +1224,10 @@
   // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
   // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
   // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }
@@ -1247,6 +1252,7 @@
     const tiles = Array.from(document.querySelectorAll('.hero-tile'));
     const fill = document.getElementById('hero-progress-fill');
     const count = tiles.length;
+    fill.style.width = (100 / count) + '%';
 
     function setActive(index) {
       tiles.forEach((tile, i) => {

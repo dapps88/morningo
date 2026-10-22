@@ -30,7 +30,8 @@
   "test_link": {
     "kind": "claude-artifact",
     "title": "Morningo Product Page",
-    "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public."
+    "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public. The test link also gets inject_js on every page: it sets window.morningoSimulateForms so form sends are simulated there (the hosted copy cannot receive a POST). The real site never carries that line.",
+    "inject_js": "window.morningoSimulateForms = true;"
   },
   "artifact_prefix": "Morningo",
   "live_sites": [

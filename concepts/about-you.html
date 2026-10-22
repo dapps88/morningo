@@ -602,8 +602,10 @@
   // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
   // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
   // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }

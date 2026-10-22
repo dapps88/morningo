@@ -118,6 +118,7 @@
   .py-5 { padding-top: 20px; padding-bottom: 20px; }
   .pt-3 { padding-top: 12px; }
   .pt-4 { padding-top: 16px; }
+  .pt-5 { padding-top: 20px; }
   .pb-3 { padding-bottom: 12px; }
   .pb-6 { padding-bottom: 24px; }
   .pb-12 { padding-bottom: 48px; }
@@ -296,7 +297,8 @@
   .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
-    .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    /* One centred column, the same width as the email capture page's (the content width minus a 48px gap, halved). */
+    .thanks-column { width: calc((100% - 48px) / 2); }
     .md-order-last { order: 2; }
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
@@ -328,12 +330,10 @@
 
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
-  <!-- 2. CONFIRMATION BLOCK -->
-  <section id="confirmation" class="md-pt-10">
-    <div class="split-columns">
-    <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
-
-    <div class="px-4">
+  <!-- 2. CONFIRMATION BLOCK. The picture that used to sit beside it (sachet-2.webp) was removed at the owner's request on 2026-10-22:
+       the block is now one centred column, the same width as the email capture page's. -->
+  <section id="confirmation" class="pt-5 md-pt-10">
+    <div class="thanks-column mx-auto px-4">
       <div class="flex flex-col gap-3">
         <h1 class="headline">You're in.</h1>
         <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
@@ -346,7 +346,6 @@
           <span id="copy-button-label">Copy link</span>
         </button>
       </div>
-    </div>
     </div>
   </section>
 
@@ -468,8 +467,10 @@
   // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
   // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
   // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }
