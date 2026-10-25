@@ -39,8 +39,7 @@
     {
       "name": "Netlify live site",
       "url": "https://morningo.netlify.app/home",
-      "deploys_from": "main",
-      "hold": "Deploys paused by the owner. Merging to main publishes, so do not merge, open a release PR or deploy until they say go live."
+      "deploys_from": "main"
     }
   ],
   "rules_docs": [
