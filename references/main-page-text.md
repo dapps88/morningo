@@ -37,8 +37,10 @@ This is the product detail block. It sits above the fold with the product image.
 
 **Headline**
 > Updated 2026-10-21 (owner-supplied copy, replaces "Calm focus. All morning, alongside your coffee.").
+>
+> Updated 2026-10-25 (owner-supplied, replaces "A morning drink for the second-coffee slot."). **Owner decision against Part 1 rule 5:** the phrase "energy drink" was flagged as sitting against the no-energy-claims rule and the owner chose to use the headline as supplied, with no full stop (and asked for "morning" to be added after "new", then "must" to be removed, the same day). Not legal advice; the risk is that "energy drink" implies an energy effect from the caffeine, which is not an authorised claim, and the same wording in an ad could be refused by Meta. Check it against the GB claims register before ads run.
 
-A morning drink for the second-coffee slot.
+The new morning energy drink you sit down with
 
 **Sub-copy**
 > Updated 2026-10-21 (owner-supplied copy, replaces the 2026-10-02 line "Keep your morning exactly as it is. Just add one sachet, stirred into a glass of water, first thing.").

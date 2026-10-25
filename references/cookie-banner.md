@@ -51,3 +51,7 @@ These two decisions were made by the site owner and override the matching rules 
 2. **Reject button style:** Reject is an outline button (transparent background, black text, black outline) and sits on the left, with the filled Accept button on the right. This overrides rule 2 ("visually equal") and the "different visual weights" line under Do Not.
 
 3. **Buttons reconfirmed (2026-10-04, owner confirmed):** the owner is happy to keep the current Reject (outline, left) and Accept (filled, right) styling for now, knowing that UK regulator guidance (ICO) expects refusing to be as easy as accepting. Do not change the buttons or re-raise this unless the owner asks.
+
+## Test link note (2026-10-25)
+
+On the private Claude test link the banner came back on every page after Accept. Cause: the link runs inside a frame from another site (claude.ai), where browsers ignore a SameSite=Lax cookie written by script, so `morningo-consent` cannot be stored there. It is a test-link-only effect: on the real site and on localhost the cookie works and the choice carries across pages. Fix in `concepts/consent.js`: only on `*.claudeusercontent.com` the choice is also kept in the frame's page storage. Nothing changes for real visitors; the real site still uses the cookie alone.

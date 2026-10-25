@@ -335,12 +335,12 @@
   <section id="confirmation" class="pt-5 md-pt-10">
     <div class="thanks-column mx-auto px-4">
       <div class="flex flex-col gap-3">
-        <h1 class="headline">You're in.</h1>
+        <h1 class="headline">You're in, share with friends</h1>
         <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
       </div>
 
       <div class="mt-8">
-        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">[SHARE LINK]</span>
+        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">https://morningo.netlify.app/home?utm_source=share&amp;utm_medium=link</span>
         <button type="button" id="copy-link-button" class="cta-button bg-primary text-white py-4 px-8 rounded-full mt-3" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" aria-label="Copy share link">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
           <span id="copy-button-label">Copy link</span>
@@ -704,19 +704,19 @@
 
   (function() {
     // Copy-link block. "Copy link" is the page's primary action (no separate share button).
-    // The shared link is always the site's own home page, worked out from the address the visitor is on, so it
-    // follows the site to any new domain with no edit. Real hosts (Netlify, a custom domain) serve the product
-    // page at the root, so the link is just "https://<host>/". Test hosts (localhost, file://, github.io) have no
-    // root page, so there it points at the product page file instead. "[SHARE LINK]" in the markup is only what
-    // shows if JavaScript is off.
+    // The shared link is always the real home page, never a local or test address (owner, 2026-10-25). On a real host
+    // (Netlify, a custom domain) it is worked out from the address the visitor is on, "https://<host>/home", so it follows
+    // the site to any new domain with no edit. On a test host (localhost, file://, github.io, Netlify preview links, the
+    // private Claude test link) it is the live address in HOME_URL below. If the Netlify site is renamed or a custom domain
+    // arrives, update HOME_URL and the same address in the markup (what shows if JavaScript is off).
     var copyButton = document.getElementById('copy-link-button');
     var copyLabel = document.getElementById('copy-button-label');
     var shareLinkText = document.getElementById('share-link-text');
     if (!copyButton) return;
 
-    var HOME_PAGE = 'product-wireframe-v2.html';
-    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname);
-    var shareBase = isTestHost ? new URL(HOME_PAGE, location.href).href : location.origin + '/';
+    var HOME_URL = 'https://morningo.netlify.app/home';
+    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app|.+\.claudeusercontent\.com)$/.test(location.hostname);
+    var shareBase = isTestHost ? HOME_URL : location.origin + '/home';
     // Tagged, so a visit that arrives through a shared link shows up in analytics as its own source ("share / link") and a sign-up
     // that follows is saved with utm_source=share. It never carries the sharer's own ad tags.
     var shareUrl = shareBase + (shareBase.indexOf('?') === -1 ? '?' : '&') + 'utm_source=share&utm_medium=link';

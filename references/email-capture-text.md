@@ -89,7 +89,9 @@ Morningo wordmark. Same treatment as all other pages.
 Confirm the submission clearly. Set the expectation for what happens next. Nothing else — no upsell, no social share prompt, no link back to the product page.
 
 **Headline**
-You're in.
+> Updated 2026-10-25 (owner-supplied, replaces "You're in."): no full stop. The page's own body copy and its Copy link block (which shares the live home page, `https://morningo.netlify.app/home`, never a local address) were added later and are not described in this older section.
+
+You're in, share with friends
 
 **Body**
 We'll be in touch the moment Morningo is ready to order. One email. That's all.
