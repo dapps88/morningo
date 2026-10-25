@@ -371,7 +371,7 @@
 
     <div class="flex flex-col gap-3">
       <h1 class="headline">Privacy Policy</h1>
-      <p class="body-sm text-gray-500">Last updated: 21 October 2026</p>
+      <p class="body-sm text-gray-500">Last updated: 25 October 2026</p>
     </div>
 
     <div class="mt-8 pt-6 border-t border-gray-200">
@@ -440,7 +440,7 @@
         <p class="body-lg">This site uses two types:</p>
         <p class="body-lg">Strictly necessary cookies: one cookie that remembers your cookie choice. It is set whichever button you press and lasts 12 months. No personal data is collected through it.</p>
         <p class="body-lg">Analytics and advertising cookies: set by GA4 and the Meta Pixel. Only loaded if you accept cookies when prompted. You can change your choice at any time using the Cookie settings link in the footer of every page. If you decline after accepting, we remove the analytics and advertising cookies we have set.</p>
-        <!-- The cookies this site sets, one block each so it reads on a phone. Add _fbp and _fbc (Meta, 3 months) when the Meta Pixel is switched on. -->
+        <!-- The cookies this site sets, one block each so it reads on a phone. -->
         <dl class="cookie-list body-lg">
           <div>
             <dt>morningo-consent</dt>
@@ -459,6 +459,18 @@
             <dd>Set by: Google Analytics</dd>
             <dd>What it does: Remembers the current visit</dd>
             <dd>How long: Up to 2 years (Chrome limits it to about 13 months)</dd>
+          </div>
+          <div>
+            <dt>_fbp</dt>
+            <dd>Set by: Meta (Facebook and Instagram)</dd>
+            <dd>What it does: Tells Meta which browser is which, so it can measure how well our ads work</dd>
+            <dd>How long: 3 months</dd>
+          </div>
+          <div>
+            <dt>_fbc</dt>
+            <dd>Set by: Meta (Facebook and Instagram)</dd>
+            <dd>What it does: Remembers that a visit began from clicking one of our ads on Facebook or Instagram</dd>
+            <dd>How long: 3 months</dd>
           </div>
         </dl>
       </div>
@@ -557,7 +569,8 @@
   </div>
 
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
-    <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" required></textarea>
+    <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
+    <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
     <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
@@ -574,7 +587,7 @@
     <form id="chat-email-form" class="flex flex-col gap-3 mt-8">
       <div class="flex flex-col gap-2">
         <label for="chat-email" class="body-sm" style="font-weight:500;">Your email address</label>
-        <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" required>
+        <input type="email" id="chat-email" class="field-input" placeholder="you@example.com" maxlength="254" required>
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
@@ -682,6 +695,18 @@
     const closeBtn = document.getElementById('chat-close');
     const form = document.getElementById('chat-form');
     const questionInput = document.getElementById('chat-question');
+    const questionError = document.getElementById('chat-question-error');
+
+    // Spam guard (2026-10-25): a question that contains a web link is not sent. Email addresses are taken out before the check, so
+    // someone who types their own address into the question box is not blocked by mistake. The bare-domain part only looks at
+    // lowercase endings, so a sentence with a missing space ("Thanks.Info") is not mistaken for a website. The honeypot and
+    // Netlify's own spam filter stay on as well; this only stops the lazy kind of spam, not a bot that posts straight to Netlify.
+    function hasLink(text) {
+      const withoutEmails = text.replace(/\S+@\S+\.\S+/g, ' ');
+      return /(https?:\/\/|www\.)/i.test(withoutEmails) ||
+        /[A-Za-z0-9-]+\.(com|net|org|co\.uk|io|ru|cn|xyz|top|info|biz|shop|site|online|link|click)\b/.test(withoutEmails);
+    }
+    questionInput.addEventListener('input', () => { questionError.style.display = 'none'; questionInput.style.borderColor = ''; });
     const sendBtn = document.getElementById('chat-send');
     const loading = document.getElementById('chat-loading');
     const loadingText = document.getElementById('chat-loading-text');
@@ -721,6 +746,8 @@
       clearInterval(loadingTimer);
       chatRef = Math.random().toString(36).slice(2, 10);   // ties a saved question to the email entry that may follow
       questionInput.value = '';
+      questionError.style.display = 'none';
+      questionInput.style.borderColor = '';
       questionInput.disabled = false;
       sendBtn.style.display = '';
       loading.style.display = 'none';
@@ -773,6 +800,12 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (hasLink(questionInput.value)) {
+        questionError.style.display = 'block';
+        questionInput.style.borderColor = '#b91c1c';
+        questionInput.focus();
+        return;
+      }
       saveAsked();
       questionInput.disabled = true;
       sendBtn.style.display = 'none';

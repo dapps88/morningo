@@ -19,7 +19,7 @@ Read this file in full before building the privacy policy page.
 
 **Privacy Policy**
 
-Last updated: 21 October 2026
+Last updated: 25 October 2026
 
 ---
 
@@ -102,8 +102,10 @@ Analytics and advertising cookies: set by GA4 and the Meta Pixel. Only loaded if
 | `morningo-consent` | This site | Remembers your cookie choice | 12 months |
 | `_ga` | Google Analytics | Tells visitors apart so we can count visits | Up to 2 years (Chrome limits it to about 13 months) |
 | `_ga_33SVXEVNJP` | Google Analytics | Remembers the current visit | Up to 2 years (Chrome limits it to about 13 months) |
+| `_fbp` | Meta (Facebook and Instagram) | Tells Meta which browser is which, so it can measure how well our ads work | 3 months |
+| `_fbc` | Meta (Facebook and Instagram) | Remembers that a visit began from clicking one of our ads on Facebook or Instagram | 3 months |
 
-(On the page each cookie is shown as its own stacked block so it reads on a phone. Add `_fbp` and `_fbc`, Meta, 3 months, when the Meta Pixel is switched on.)
+(On the page each cookie is shown as its own stacked block so it reads on a phone.)
 
 ---
 
@@ -154,8 +156,8 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [x] Full legal name: done 2026-10-04, "Daniel Appelbee" (the owner is not yet a company; "trading as Morningo" was tried and removed the same day at the owner's request, since nothing is being sold yet)
 - [x] Contact email address: done 2026-10-04, wearemorningo@gmail.com (free Gmail created for the site; appears three times)
 - [x] ICO registration number: NOT needed, the owner is exempt from the fee (line removed from the policy 2026-10-04, owner approved). History: the ICO fee self-assessment (ico.org.uk/fee-checker) was first run on 2026-10-04 answering "Not started trading" (result: no fee yet), but the ICO's own note says you are trading if you use personal information for commercial reasons, even as an individual. Re-run the same day answering "Currently trading", "Are you exempt from paying the data protection fee? Yes": result "You don't need to pay a fee" (the tool relies on that self-declaration). Basis: the advertising, marketing and public relations exemption (own goods and services, information limited to what marketing needs, no selling or trading of lists, and ALL processing must be exempt). Weak spot: free-text questions that may contain health details. No need to tell the ICO. Retake before selling or sharing the list, at the first order, when forming a company or hiring, on any new use of the data, or on an ICO letter. The "Our ICO registration number is [number]." line should be removed from the page (owner approval needed, the copy is locked). Not legal advice.
-- [x] Last updated date: set to 21 October 2026 (owner asked, the day the survey-page wording went in); refresh it again on the day the policy is published if any wording changes before then
-- [ ] When the Meta Pixel is switched on: add `_fbp` and `_fbc` (Meta, 3 months, from Meta's documentation, not yet checked on this site) to the cookie list
+- [x] Last updated date: set to 25 October 2026 (owner asked on 2026-10-25 for the day it goes live; change it again if the release slips to another day)
+- [x] When the Meta Pixel is switched on: add `_fbp` and `_fbc` to the cookie list. Done 2026-10-25 with the owner's approved wording. The 3 months was checked on the preview site (both cookies were set for 90 days, `_fbc` only when the visit arrived with an `fbclid` from a Meta ad)
 
 ---
 
@@ -167,3 +169,4 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - 2026-10-04, owner approved: "trading as Morningo" removed from the operator line (nothing is being sold yet); it now reads "This site is operated by Daniel Appelbee, based in the United Kingdom."
 - 2026-10-21, owner approved: one sentence pair added to the end of the first paragraph of "What we collect and why" for the two optional questions on the new survey page (gender and age group, saved with the email), and the first line of "Legal basis for processing" widened to cover those answers. NOT changed: "How long we keep your data" (it names the email and the questions but not the two answers; suggest adding "and your answers to those two questions" to the second line, owner to decide).
 - 2026-10-21, owner asked: the "Who we are" section moved from the top of the policy to the very bottom (after "Changes to this policy"), wording unchanged, and the "Last updated" date set to 21 October 2026.
+- 2026-10-25, owner approved the exact wording: two rows added to the cookie list for the Meta Pixel's cookies, `_fbp` ("Tells Meta which browser is which, so it can measure how well our ads work", 3 months) and `_fbc` ("Remembers that a visit began from clicking one of our ads on Facebook or Instagram", 3 months), both "Set by: Meta (Facebook and Instagram)". "Last updated" set to 25 October 2026, the day the release was prepared. STILL TO DO when the Conversions API is built: a line saying some advertising data is also sent to Meta from our server (owner approval needed).

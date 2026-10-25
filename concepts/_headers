@@ -1,0 +1,19 @@
+# Security settings Netlify sends with every page and file. This file is read by Netlify and is never shown to visitors.
+# Added 2026-10-25 (owner approved). What each line does, in plain words:
+#   X-Content-Type-Options   stops browsers guessing what a file is, which closes a trick for slipping scripts in as images.
+#   X-Frame-Options          stops other websites showing these pages inside their own page (the "overlay" trick). To allow
+#                            embedding one day, change DENY to SAMEORIGIN or remove the line.
+#   Referrer-Policy          when someone clicks a link off this site, the other site is told only our domain, not the full address.
+#   Permissions-Policy       switches off camera, microphone, location, payment and motion sensors. The site uses none of them.
+#   Content-Security-Policy-Report-Only
+#                            a list of where scripts, pictures and so on may come from. REPORT-ONLY: it blocks nothing and only
+#                            writes warnings to the browser console, so it cannot break Google Analytics or the Meta Pixel.
+#                            Once a few weeks of real visits show no warnings, it can be switched to enforcing (rename it to
+#                            Content-Security-Policy) in a later release. Add any new outside service to it first.
+# Not needed here: HTTPS and the strict-transport-security header are already added by Netlify.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com https://connect.facebook.net; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'
