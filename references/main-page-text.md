@@ -127,6 +127,8 @@ Nutritional information (opens the label in a modal)
 
 > DRAFT FIGURES. Energy, fat, saturates, carbohydrate, sugars, fibre, protein and salt are estimates, calculated from ingredient types and weights, not lab analysis. They must be replaced with the formulator's analysis before launch. Caffeine (80 mg) needs a certificate of analysis and an end-of-shelf-life test; the vitamins need end-of-shelf-life potency confirmation; the small print (caffeine warning, supplement statements) needs checking by the labelling specialist.
 
+> Added 2026-10-25 (owner request): a one-line note directly under the typical-values table, "These figures are estimates and may change." It tells the reader the table is an estimate, but it does not replace the lab analysis above: the figures still have to be replaced before launch.
+
 Contents: serving (1 sachet, 4.2 g, 28 per pack), typical values per sachet and per 100 g, per-sachet amounts for green tea extract (160 mg, 80 mg caffeine), L-theanine (150 mg), Rhodiola (300 mg, 3% rosavins, 1% salidroside) and blackcurrant extract (300 mg, 35% anthocyanins), other ingredients in weight order, the two vitamins with % NRV, and the caffeine and supplement small print.
 
 ---
@@ -359,7 +361,7 @@ It took 47 versions to get one worth putting a name on.
 
 **4. How much caffeine is in it, and who shouldn't have it?**
 
-80mg per sachet, from green tea. That's about a small coffee's worth. [check]
+80mg per sachet, from green tea. That's about a small coffee's worth.
 
 One sachet a day is the most we'd suggest. It's a morning drink, so we'd leave it out after lunch. Count it alongside any other caffeine you have.
 
@@ -375,4 +377,4 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [ ] Product photography — Section 1 hero image
 - [ ] Testimonial photos — all three cards in Section 5
 - [x] Testimonial quotes — replaced 2026-10-22 with four owner-supplied reviews (Loic, Amber, Yann, Luke), see Section 6. Still the owner's to confirm: written permission from each, and that the effect wording (Loic, Luke) is acceptable for the ads' landing page
-- [ ] "[check]" — Section 7, answer 4, after "about a small coffee's worth". Shows on the page as written until the caffeine comparison is checked. Do not publish with it.
+- [x] "[check]" marker — Section 7, answer 4, after "about a small coffee's worth". Removed 2026-10-25 at the owner's request so the page can be published. The caffeine comparison itself ("about a small coffee's worth", here and in the hero) is still to be checked against the GB claims register.
