@@ -104,4 +104,4 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 
 - [x] Product image — capture page Section 2: removed 2026-10-22 at the owner's request, nothing to replace
 - [ ] Privacy notice page — `/privacy` (separate brief, not in scope here)
-- [ ] Analytics IDs — GA4 Measurement ID and Facebook Pixel ID must be present in `analytics.js` before conversion events will fire
+- [x] Analytics IDs — GA4 Measurement ID and Facebook Pixel ID are both set in `analytics.js` (Pixel ID added 2026-10-25)

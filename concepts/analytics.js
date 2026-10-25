@@ -28,7 +28,7 @@
 
   // ---- Settings -----------------------------------------------------------------------------------------------
   var GA_ID = 'G-33SVXEVNJP';   // Google Analytics 4 Measurement ID
-  var PIXEL_ID = '';            // Meta Pixel ID (15-16 digits, from Meta Events Manager). Empty = the Pixel is not loaded.
+  var PIXEL_ID = '1103025172536118';  // Meta Pixel ID (15-16 digits, from Meta Events Manager). Empty = the Pixel is not loaded.
 
   var script = document.currentScript;
   var page = (script && script.getAttribute('data-page')) || '';
