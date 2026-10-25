@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Morningo — You're In</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="consent.js"></script>
+<link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; background: #ffffff; color: #17150F; margin: 0; }
@@ -118,6 +118,7 @@
   .py-5 { padding-top: 20px; padding-bottom: 20px; }
   .pt-3 { padding-top: 12px; }
   .pt-4 { padding-top: 16px; }
+  .pt-5 { padding-top: 20px; }
   .pb-3 { padding-bottom: 12px; }
   .pb-6 { padding-bottom: 24px; }
   .pb-12 { padding-bottom: 48px; }
@@ -296,7 +297,8 @@
   .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
-    .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    /* One centred column, the same width as the email capture page's (the content width minus a 48px gap, halved). */
+    .thanks-column { width: calc((100% - 48px) / 2); }
     .md-order-last { order: 2; }
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
@@ -328,41 +330,38 @@
 
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
-  <!-- 2. CONFIRMATION BLOCK -->
-  <section id="confirmation" class="md-pt-10">
-    <div class="split-columns">
-    <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
-
-    <div class="px-4">
+  <!-- 2. CONFIRMATION BLOCK. The picture that used to sit beside it (sachet-2.webp) was removed at the owner's request on 2026-10-22:
+       the block is now one centred column, the same width as the email capture page's. -->
+  <section id="confirmation" class="pt-5 md-pt-10">
+    <div class="thanks-column mx-auto px-4">
       <div class="flex flex-col gap-3">
-        <h1 class="headline">You're in.</h1>
+        <h1 class="headline">You're in, share with friends</h1>
         <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
       </div>
 
       <div class="mt-8">
-        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">[SHARE LINK]</span>
+        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">https://morningo.netlify.app/home?utm_source=share&amp;utm_medium=link</span>
         <button type="button" id="copy-link-button" class="cta-button bg-primary text-white py-4 px-8 rounded-full mt-3" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" aria-label="Copy share link">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
           <span id="copy-button-label">Copy link</span>
         </button>
       </div>
     </div>
-    </div>
   </section>
 
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
-      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
     </div>
 
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
       <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -429,20 +428,49 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
+</form>
+
+<!-- Second Netlify form: the question is saved here the moment "Send message" is pressed, even if the visitor never adds an
+     email. It has no notification email on purpose. The later "question" entry (with the email) carries the same `ref`,
+     so the two can be matched up. Keep its fields in step with saveAsked() in the modal script. -->
+<form id="asked-form" name="question asked-no email" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question asked-no email">
+  <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
 </form>
 
 <script>
   // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
   // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
   // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
-  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
-  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
-  // host must fail loudly, never pretend to succeed.
+  // always succeeds, which keeps the review flow clickable. Netlify preview and branch links (anything--morningo.netlify.app)
+  // are simulated too, because a real send from them lands in the live submissions list and emails the owner. Every
+  // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
+  // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
+  // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }
@@ -455,24 +483,18 @@
 </script>
 
 <script>
-  // Concept stage: real build fires the Facebook Pixel "Lead" event and the GA4 conversion event
-  // right here, on this page's load only — never on form submit, never on the capture page
-  // (see brief.md, "Locked Decisions"). Needs the real GA4 Measurement ID and Facebook Pixel ID
-  // in analytics.js first — see the placeholders log in email-capture-text.md.
+  // The Facebook Pixel "Lead" event and the GA4 conversion event (generate_lead) are fired by analytics.js on this
+  // page's load only — never on form submit, never on the capture page (see brief.md, "Locked Decisions"), and only
+  // once the visitor has accepted cookies. The GA4 and Pixel IDs are at the top of analytics.js.
 
-  // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
-  // just being unavailable — fall back to an in-memory value so consent still works for this page load.
-  var cookieConsent = (function() {
-    let memory = null;
-    return {
-      get() { try { return localStorage.getItem('morningo-cookie-consent'); } catch (e) { return memory; } },
-      set(value) { try { localStorage.setItem('morningo-cookie-consent', value); } catch (e) { memory = value; } },
-    };
-  })();
+  // The saved cookie choice lives in consent.js (a first-party cookie that lasts 12 months, then the banner asks again).
+  // If that file is ever missing or blocked, the choice is only remembered for this page load: the banner shows again on the
+  // next page and nothing is saved, which is the safe way to fail.
+  var cookieConsent = window.morningoConsent || (function() { let memory = null; return { get() { return memory; }, set(value) { memory = value; } }; })();
 
   (function() {
     // Concept-stage placeholder: shows/hides the banner and remembers the choice.
-    // Real build should gate actual GA4/Meta Pixel script loading on this same decision (see cookie-banner.md).
+    // analytics.js gates GA4 and the Meta Pixel on this same decision (decide() announces it below).
     const banner = document.getElementById('cookie-banner');
     const acceptBtn = document.getElementById('cookie-accept');
     const rejectBtn = document.getElementById('cookie-reject');
@@ -480,6 +502,8 @@
 
     function decide(value) {
       cookieConsent.set(value);
+      // analytics.js loads Google Analytics / the Meta Pixel only after 'accepted'; this tells it the choice just changed.
+      document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
       banner.classList.remove('visible');
     }
 
@@ -492,6 +516,15 @@
 
     acceptBtn.addEventListener('click', () => decide('accepted'));
     rejectBtn.addEventListener('click', () => decide('declined'));
+
+    // Footer "Cookie settings" link: reopens this same banner so a visitor can change their choice at any time, on any page.
+    // Without JavaScript the link simply goes to the Cookies section of the privacy page.
+    document.querySelectorAll('.cookie-settings-link').forEach(link => link.addEventListener('click', (e) => {
+      e.preventDefault();
+      banner.classList.add('visible');
+      banner.setAttribute('tabindex', '-1');
+      banner.focus({ preventScroll: true });
+    }));
   })();
 
   (function() {
@@ -513,6 +546,8 @@
     const thanks = document.getElementById('chat-thanks');
     const sendError = document.getElementById('chat-send-error');
     const questionForm = document.getElementById('question-form');
+    const askedForm = document.getElementById('asked-form');
+    let chatRef = '';
     if (!sheet) return;
 
     // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
@@ -537,6 +572,7 @@
 
     function resetChat() {
       clearInterval(loadingTimer);
+      chatRef = Math.random().toString(36).slice(2, 10);   // ties a saved question to the email entry that may follow
       questionInput.value = '';
       questionInput.disabled = false;
       sendBtn.style.display = '';
@@ -570,12 +606,27 @@
       sheet.style.top = '';
       sheet.style.maxHeight = '';
     }
+    // Saves the question the moment "Send message" is pressed, so it is not lost when the visitor never adds an email.
+    // Goes to the separate "question asked-no email" Netlify form; the later "question" entry (with the email) carries the same ref.
+    // Never blocks or breaks the modal: a failed save is ignored.
+    function saveAsked() {
+      const text = questionInput.value.trim();
+      if (!text || !askedForm) return;
+      const data = new FormData(askedForm);
+      data.set('question', text);
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
+      window.morningoPostForm(data).catch(() => {});
+      if (window.morningoTrack) window.morningoTrack('question_asked');
+    }
+
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
     backdrop.addEventListener('click', closeChat);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      saveAsked();
       questionInput.disabled = true;
       sendBtn.style.display = 'none';
       loading.style.display = 'flex';
@@ -618,6 +669,7 @@
       data.set('question', questionInput.value.trim());
       data.set('email', emailInput.value.trim());
       data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
       // The notification email's subject is this field, so put the start of the question in it: it shows up in the
       // inbox list without opening the email. Whitespace is flattened so a multi-line question stays one line.
       const preview = questionInput.value.replace(/\s+/g, ' ').trim();
@@ -634,6 +686,7 @@
         reply.style.display = 'none';
         reply.classList.remove('visible');
         thanks.style.display = 'flex';
+        if (window.morningoTrack) window.morningoTrack('question_sent');
       }).catch(() => {
         if (attempt !== sendId) return;
         sendError.style.display = 'block';
@@ -644,20 +697,29 @@
   })();
 
   (function() {
+    // The survey page (about-you.html) is skipped or finished before this page, but a visitor who closes it some other way
+    // could still have the sign-up email waiting in this tab's sessionStorage. It has no further use, so it goes.
+    try { sessionStorage.removeItem('morningo-signup-email'); } catch (e) {}
+  })();
+
+  (function() {
     // Copy-link block. "Copy link" is the page's primary action (no separate share button).
-    // The shared link is always the site's own home page, worked out from the address the visitor is on, so it
-    // follows the site to any new domain with no edit. Real hosts (Netlify, a custom domain) serve the product
-    // page at the root, so the link is just "https://<host>/". Test hosts (localhost, file://, github.io) have no
-    // root page, so there it points at the product page file instead. "[SHARE LINK]" in the markup is only what
-    // shows if JavaScript is off.
+    // The shared link is always the real home page, never a local or test address (owner, 2026-10-25). On a real host
+    // (Netlify, a custom domain) it is worked out from the address the visitor is on, "https://<host>/home", so it follows
+    // the site to any new domain with no edit. On a test host (localhost, file://, github.io, Netlify preview links, the
+    // private Claude test link) it is the live address in HOME_URL below. If the Netlify site is renamed or a custom domain
+    // arrives, update HOME_URL and the same address in the markup (what shows if JavaScript is off).
     var copyButton = document.getElementById('copy-link-button');
     var copyLabel = document.getElementById('copy-button-label');
     var shareLinkText = document.getElementById('share-link-text');
     if (!copyButton) return;
 
-    var HOME_PAGE = 'product-wireframe-v2.html';
-    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname);
-    var shareUrl = isTestHost ? new URL(HOME_PAGE, location.href).href : location.origin + '/';
+    var HOME_URL = 'https://morningo.netlify.app/home';
+    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app|.+\.claudeusercontent\.com)$/.test(location.hostname);
+    var shareBase = isTestHost ? HOME_URL : location.origin + '/home';
+    // Tagged, so a visit that arrives through a shared link shows up in analytics as its own source ("share / link") and a sign-up
+    // that follows is saved with utm_source=share. It never carries the sharer's own ad tags.
+    var shareUrl = shareBase + (shareBase.indexOf('?') === -1 ? '?' : '&') + 'utm_source=share&utm_medium=link';
     shareLinkText.textContent = shareUrl;
     var copyResetTimer = null;
 
@@ -693,3 +755,6 @@
     copyButton.addEventListener('click', copyLink);
   })();
 </script>
+
+<script src="attribution.js"></script>
+<script src="analytics.js" data-page="thank-you"></script>

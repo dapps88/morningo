@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Morningo Product Page</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="consent.js"></script>
+<link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; background: #ffffff; color: #17150F; margin: 0; }
@@ -48,8 +48,8 @@
   .ingredients-heading { color: #17150F; font-weight: 600; }
   .ingredient-group { margin-top: 28px; }
   .ingredient-group-title { font-size: 14px; font-weight: 500; line-height: 1.45; color: #6b7280; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
-  .ingredient-list { margin: 16px 0 0; padding: 0; }
-  .ingredient-list > div + div { margin-top: 20px; }
+  .ingredient-list { margin: 16px 0 0; padding: 0; list-style: none; }
+  .ingredient-list > div + div, .ingredient-list > li + li { margin-top: 20px; }
   .ingredient-list dt { color: #17150F; font-weight: 500; }
   .ingredient-list dt .ingredient-dose { color: #585858; font-weight: 400; }
   .ingredient-list dd { margin: 2px 0 0; }
@@ -166,13 +166,15 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
-    border-top: 1px solid #e5e7eb;
+    background: #EAE3F1;   /* the same lilac as the hero band */
+    border-top: 1px solid rgba(57, 0, 42, 0.35);   /* the same line colour as the hero's accordions; the old light grey vanishes on lilac */
     transform: translateY(100%);
     transition: transform 600ms cubic-bezier(0.16, 0.8, 0.28, 1);
     z-index: 40;
   }
   .sticky-cta.visible { transform: translateY(0); }
+  /* The button keeps its usual plum. The caption's usual light grey (#6b7280) is only 3.9:1 on the lilac, so it uses the site's body grey. */
+  .sticky-cta .cta-caption { color: #585858; }
   .sticky-cta-inner { max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 16px 16px 8px; }
   .sticky-cta-group { display: contents; }
 
@@ -308,18 +310,117 @@
   .chat-dot:nth-child(3) { animation-delay: 0.3s; }
   @keyframes chat-pulse { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
 
-  /* "2 hours decide the day" full-bleed band. Black is full-viewport-width (breaks out
-     of max-w-phone, same technique as the nav/footer); the image itself stays locked to
-     the site's normal content-grid width inside it, never stretched to fill the viewport. */
-  .intrigue-frame { position: relative; overflow: hidden; background: #000000; }
-  .intrigue-image { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center; display: block; }
-  .intrigue-overlay { position: absolute; inset: 0; display: flex; align-items: flex-start; justify-content: center; padding: 64px 24px 0; }
-  .intrigue-fade {
+  /* "Nutritional information" modal, opened from the link in the hero's "What's in it" accordion. Same backdrop (.chat-backdrop), centred
+     fade-and-scale and close button as the "Have a question?" dialog, but wider because the label is a table, and its header stays in view
+     while the label scrolls. Hidden with visibility as well as opacity, so keyboard and screen readers cannot reach it while closed. */
+  .label-sheet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 32px);
+    max-width: 920px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 20px 4px;
+    container-type: inline-size;
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease, visibility 0s linear 300ms;
+    z-index: 61;
+  }
+  .label-sheet.visible { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+  .label-body { margin-top: 16px; padding-bottom: 20px; overflow-y: auto; overscroll-behavior: contain; }
+  .label-body:focus-visible { outline: 2px solid #39002A; outline-offset: 2px; border-radius: 4px; }
+  #label-close:hover { background: #e5e7eb; }
+  @media (min-width: 768px) {
+    .label-sheet { padding: 28px 32px 8px; }
+    .label-body { margin-top: 20px; padding-bottom: 28px; }
+  }
+
+  /* The nutrition label inside that modal. Plum ink and grey are the site's own; hairlines are the plum at 25%. It lays out in two columns when
+     the modal is wide and one when it is narrow (a container query on the modal, so it follows the modal's width, not the window's). */
+  .nutrition-label { color: #39002A; line-height: 1.35; }
+  .nutrition-label h3 { font-size: clamp(20px, calc(18.6px + 0.38vw), 24px); font-weight: 600; letter-spacing: -0.01em; }
+  .nutrition-label .nl-serving { margin: 4px 0 0; }
+  .nutrition-label .nl-rule-thick { height: 5px; background: #39002A; margin: 18px 0 0; }
+  .nutrition-label .nl-rule-thin { height: 2px; background: #39002A; }
+  .nutrition-label .nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+  .nutrition-label table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .nutrition-label th { text-align: right; font-weight: 600; padding: 10px 0 8px; }
+  .nutrition-label th:first-child { text-align: left; }
+  .nutrition-label th:not(:first-child) { white-space: nowrap; padding-left: 12px; }
+  .nutrition-label thead tr { border-bottom: 2px solid #39002A; }
+  .nutrition-label td { padding: 7px 0; border-bottom: 1px solid rgba(57, 0, 42, 0.25); text-align: right; }
+  .nutrition-label td:first-child { text-align: left; }
+  .nutrition-label tbody tr:last-child td { border-bottom: 0; }
+  .nutrition-label .nl-strong td:first-child { font-weight: 600; }
+  .nutrition-label .nl-indent td:first-child { padding-left: 16px; }
+  .nutrition-label .nl-col-title { margin: 14px 0 6px; font-size: 16px; font-weight: 600; }
+  .nutrition-label .nl-actives { list-style: none; margin: 0; padding: 0; }
+  .nutrition-label .nl-actives li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid rgba(57, 0, 42, 0.25); font-size: 16px; }
+  .nutrition-label .nl-actives li:last-child { border-bottom: 2px solid #39002A; }
+  .nutrition-label .nl-actives .nl-name { font-weight: 600; }
+  .nutrition-label .nl-actives .nl-sub { display: block; font-size: 14px; color: #585858; margin-top: 2px; }
+  .nutrition-label .nl-actives .nl-amt { font-weight: 600; white-space: nowrap; }
+  .nutrition-label .nl-other { margin: 12px 0 0; font-size: 15px; }
+  .nutrition-label .nl-other strong { font-weight: 600; }
+  .nutrition-label .nl-vit { margin-top: 18px; }
+  .nutrition-label .nl-vit-title { margin: 14px 0 4px; font-size: 16px; font-weight: 600; }
+  .nutrition-label .nl-small { margin: 18px 0 0; color: #585858; }
+  .nutrition-label .nl-small p { margin: 0 0 6px; }
+  .nutrition-label .nl-small strong { color: #39002A; font-weight: 600; }
+  .nutrition-label .nl-kj::after { content: " / "; }
+  @container (max-width: 780px) {
+    .nutrition-label .nl-grid { grid-template-columns: 1fr; }
+  }
+  @container (max-width: 480px) {
+    .nutrition-label .nl-kj { display: block; }
+    .nutrition-label .nl-kj::after { content: ""; }
+  }
+
+  /* Section titles (every H2 on this page): fade up once, the first time they scroll into view. The effect started on the
+     headline of the black "first hours set the day" band, which has since been removed. The reveal script is near the end of the page. */
+  .title-fade {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1), transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .intrigue-fade.visible { opacity: 1; transform: translateY(0); }
+  .title-fade.visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .title-fade { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* hero price block: a gold "Early access offer" pill on its own line, left-aligned, directly above the price row */
+  .price-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-start; column-gap: 12px; }
+  .offer-pill {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #d7aa55 0%, #fce5b6 50%, #d7aa55 100%);
+    color: #17150F;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  /* The site's .doc-list minus the browser's default list margins, so the flex gaps set the spacing. Used by the hero's "core ingredients"
+     list and by the three bullets in "The product" section. */
+  .hero-list { margin: 0; }
+  /* Hero band tinted #EAE3F1 (owner choice, 2026-10-21), full width like the nav and footer. The box-shadow carries the colour out past the
+     page column to the window edges and the clip-path stops it spilling above or below the hero. Neither adds a horizontal scrollbar. */
+  #hero { background: #EAE3F1; box-shadow: 0 0 0 100vmax #EAE3F1; clip-path: inset(0 -100vmax); }
+  /* The accordion lines in the hero: the usual light grey disappears on #EAE3F1, so they get the brand plum at 35%, which reads as a
+     visible lilac-grey line (about 2.2:1 against the tint). Only the hero's accordions use the divider classes. */
+  #hero .divide-y { border-top-color: rgba(57, 0, 42, 0.35); border-bottom-color: rgba(57, 0, 42, 0.35); }
+  #hero .divide-y > * + * { border-top-color: rgba(57, 0, 42, 0.35); }
 
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
@@ -337,7 +438,6 @@
     .sticky-cta-inner .cta-caption { max-width: none; }
     .sticky-cta-group { display: inline-flex; flex-direction: column; align-items: stretch; }
     .sticky-cta-group .cta-caption { margin-left: 0; margin-right: 0; }
-    .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
     .card-carousel-item { width: auto; flex: 1 1 0; }
     .photo-frame { border-radius: 12px; overflow: hidden; }
@@ -348,8 +448,6 @@
     .logo-mark { height: 28.6px; }
     footer .logo-mark { height: 42.9px; }
     .chat-sheet .cta-button { width: 100%; }
-    .intrigue-image { aspect-ratio: 21 / 9; }
-    .intrigue-overlay { padding-top: 48px; }
   }
   /* Card carousels marked card-carousel--scroll (the "Steady isn't an accident" ingredients and the "47+ versions" reviews) keep
      fixed-size 300px cards that scroll sideways on desktop, so both sections show cards at the same size however many there are.
@@ -358,22 +456,59 @@
     .card-carousel--scroll { overflow-x: auto; }
     .card-carousel--scroll .card-carousel-item { flex: 0 0 300px; width: 300px; }
   }
-  @media (max-width: 767px) {
-    #problem { padding-top: 0; }
-    /* "The first hours set the day" band, mobile only: a little taller (extra black above the picture), the headline sits
-       higher so there is clear space above the glass, and the picture is nudged so the glass is centred on the screen
-       (the glass is centred 52.3% of the way across wide-glass2.webp, so a plain centre crop leaves it right of middle). */
-    .intrigue-frame { padding-top: 36px; }
-    .intrigue-overlay { padding-top: 34px; }
-    .intrigue-image { object-position: 54.1% 50%; }
+
+  /* Comparison section ("You choose your first coffee. You grab your second."): two cards, stacked on mobile, side by side from 768px.
+     The photo bleeds across the top of each card (the card's overflow clips its corners), so nothing sits above it. Both cards carry
+     a 1px border, transparent on the plum one, so their photos and rows land at the same height and the four rows pair across.
+     Left rows get a plain 6px bullet, right rows a 22px plum tick, both inside a 22px column that is one text line tall. */
+  .compare-grid { display: grid; }
+  .compare-card { display: flex; flex-direction: column; gap: 20px; border-width: 1px; border-style: solid; }
+  .compare-card--choose { border-color: transparent; }
+  .compare-body { display: flex; flex-direction: column; gap: 20px; padding: 0 24px 24px; flex-grow: 1; }
+  .compare-list { margin: 0; padding: 0; }
+  .compare-row { display: flex; align-items: flex-start; gap: 12px; }
+  .compare-marker { flex-shrink: 0; width: 22px; height: 1.45em; display: flex; align-items: center; justify-content: center; }
+  .compare-bullet { width: 6px; height: 6px; border-radius: 9999px; background: #585858; }
+  .compare-tick { width: 22px; height: 22px; }
+  .compare-card--choose .body-lg { color: rgba(255, 255, 255, 0.8); }
+  @media (min-width: 768px) {
+    .compare-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .compare-body { gap: 24px; padding: 0 32px 32px; }
+    .compare-row { gap: 14px; }
   }
-  @media (max-width: 342px) {
-    /* very narrow phones: the first headline line no longer fits and wraps to a third line, so the band gets extra black
-       above the picture to keep the same clear space over the glass, and the wrapped lines are balanced (no lone "day."). */
-    .intrigue-frame { padding-top: 64px; }
-    .intrigue-fade { text-wrap: balance; }
+  /* Side by side, the two cards share row tracks (photo, title, four list rows) so the rows line up across even when one title or
+     row wraps and the other doesn't. Gaps are one 16px track gap plus a margin on the title (4px, so 20px under the photo) and on
+     the first row (8px, so 24px under the title). Browsers without subgrid keep the plain two-column layout above. */
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 768px) {
+      .compare-grid { column-gap: 32px; row-gap: 16px; }
+      .compare-card { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 16px; }
+      .compare-body { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 16px; }
+      .compare-list { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 16px; }
+      .compare-body > h3 { margin-top: 4px; }
+      .compare-list > li:first-child { margin-top: 8px; }
+    }
+  }
+
+  /* Review cards ("47+ versions to get here"): text only. The hero's lilac (#EAE3F1) as the card, stars in the primary button plum
+     (filled for the rating, outline for the rest), the quote in the site's italic body text and the name in plain ink, everything
+     centred across the card and stacked from the top, so the stars sit at the same height on every card (owner, 2026-10-22). They sit in the usual card carousel, so they keep its widths (76% on a phone, a fixed 300px from 768px)
+     and, because the carousel stretches its items, all four are as tall as the tallest. */
+  .review-card { background: #EAE3F1; border-radius: 12px; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 12px; text-align: center; }
+  .review-stars { display: flex; justify-content: center; gap: 4px; color: #39002A; margin-bottom: 8px; }
+  .review-star { width: 24px; height: 24px; flex-shrink: 0; }
+  .review-name { color: #17150F; }
+
+  /* Questions section (the last one): one centred column holding the heading and the four accordions, which are the hero's own
+     (same markup, classes and icon). Full width inside the 24px gutters on a phone. From 768px the column is half the page content,
+     never narrower than 560px and never wider than 680px; the 24px gutters sit inside that width. The bottom padding keeps the last
+     accordion clear of the sticky bar (109px tall on desktop, about 130px on a phone) just before the footer scrolls in and hides it. */
+  #questions { padding-bottom: 140px; }
+  @media (min-width: 768px) {
+    .questions-column { width: clamp(560px, 50%, 680px); }
   }
 </style>
+<noscript><style>.title-fade { opacity: 1; transform: none; }</style></noscript>
 <!-- 1. NAVIGATION -->
 <header class="bg-primary">
   <div class="max-w-phone mx-auto px-4 py-5 relative">
@@ -396,47 +531,65 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide 1: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
+        <!-- Slide order (owner decision 2026-10-22): the five gallery pictures the owner supplied, in the order he numbered them
+             (gallery-1 to gallery-5; the text on pictures 1 to 5 is baked into the artwork, so the alt text repeats it), then the video last.
+             Slide 1 carries fetchpriority="high" because it is the first thing painted. Replaces the earlier hero-main, box-main,
+             sachet-main and quote slides, whose files are still in images/ but no longer used. -->
+        <img src="images/gallery-1.webp" fetchpriority="high" data-analytics-name="Sachet and drink" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front. Beside it: natural caffeine, thick on purpose, blackcurrant warmed with ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-2.webp" data-analytics-name="Loic review" alt="Five-star tester review from Loic P: &ldquo;I&rsquo;ve been pleasantly surprised through the morning. It&rsquo;s nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-3.webp" data-analytics-name="Box and drink on a chair" alt="A Morningo box on a purple velvet chair beside a glass of purple drink, blackcurrants, sliced ginger and a sachet. The new morning drink that needs a seat." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-4.webp" data-analytics-name="One sachet, one glass" alt="A hand holding a cut-glass tumbler of purple drink with a pale foam head, a Morningo sachet beside it. One sachet. One glass of water." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-5.webp" data-analytics-name="28 beautiful mornings" alt="A hand taking a Morningo sachet from an open box of sachets. 28 beautiful mornings." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <!-- Slide 6: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
              after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
-        <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="position:relative; overflow:hidden; background:#1b1714;">
-          <img id="hero-video-poster" src="images/hero-poster.webp" fetchpriority="high" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+        <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" data-analytics-name="Video" style="position:relative; overflow:hidden; background:#1b1714;">
+          <img id="hero-video-poster" src="images/hero-poster.webp" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
           <video id="hero-video" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0;" muted playsinline preload="none" aria-hidden="true">
             <source data-src="video/hero-drink.mp4" type="video/mp4">
           </video>
         </div>
-        <img src="images/hero-mock-2.webp" alt="Morningo box, sachet, and prepared drink" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/quote.webp" alt="Tester quote: &ldquo;I&rsquo;ve been pleasantly surprised how I&rsquo;m feeling more &lsquo;on&rsquo; in the morning&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/open-box.webp" alt="Hand taking a Morningo sachet from an open box" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/sachet-2.webp" alt="Morningo sachet surrounded by blackcurrants and ginger root" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
       </div>
       <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
-        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:20%; left:0%;"></div>
+        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:16.667%; left:0%;"></div>
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View video 1 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-mock-2.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/quote.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/open-box.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 5" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/sachet-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-1.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-3.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-4.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-5.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View video 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
 
     <!-- product detail block -->
-    <div class="flex flex-col gap-8 px-4 pt-3 pb-6">
+    <div class="flex flex-col gap-8 px-4 pt-3 pb-12">
 
       <div class="flex flex-col gap-3">
-        <h1 class="headline">Calm focus. All morning, alongside your coffee.</h1>
-        <p class="body-lg">Get the morning off to a proper start. One sachet in a glass of water, first thing, so the hours after feel like the first one did.</p>
+        <h1 class="headline">The new morning energy drink you sit down with</h1>
+        <p class="body-lg">Your first coffee stays. Morningo is its concentration partner in the second-coffee slot: thick, dark blackcurrant, warmed with ginger, stirred into a glass of water. We made 47 versions to get the thickness, taste and blend just right.</p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <!-- h2 styled as a card title. No .title-fade: it sits above the fold, like the h1. -->
+        <h2 class="card-title">The core ingredients</h2>
+        <ul class="body-lg doc-list hero-list">
+          <li>80mg of natural caffeine, from green tea. About a small coffee's worth. Caffeine aids concentration.</li>
+          <li>Vitamin B12 contributes to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.</li>
+          <li>Vitamin B5 contributes to normal mental performance.</li>
+          <li>And a few more: L-theanine, Rhodiola rosea root, blackcurrant extract and ginger.</li>
+        </ul>
       </div>
 
       <div>
-        <div class="price-row flex items-baseline justify-start gap-3">
+        <span class="offer-pill">Early access offer</span>
+        <div class="price-row">
           <span class="card-title font-semibold">£60</span>
-          <span class="body-lg">28 servings</span>
+          <span class="body-lg">28 servings, £2.14 per serving.</span>
         </div>
-        <p class="body-lg mt-1">Flavour: Blackcurrant warmed by ginger</p>
+        <p class="body-lg mt-1">Flavour: Dark blackcurrant, warmed with ginger</p>
       </div>
 
       <div class="flex flex-col gap-3" id="hero-cta-block">
@@ -469,31 +622,27 @@
             <h4 class="ingredient-group-title">Active ingredients</h4>
             <dl class="ingredient-list body-lg">
               <div>
-                <dt>Green tea extract<span class="ingredient-dose">, 160mg</span></dt>
+                <dt>Green tea extract</dt>
                 <dd>Gives 80mg of caffeine. Caffeine helps to increase alertness.</dd>
               </div>
               <div>
-                <dt>L-theanine<span class="ingredient-dose">, 150mg</span></dt>
+                <dt>L-theanine</dt>
                 <dd>The amino acid tea has and coffee doesn't, alongside the caffeine.</dd>
               </div>
               <div>
-                <dt>Rhodiola rosea root extract<span class="ingredient-dose">, 300mg (3% rosavins)</span></dt>
+                <dt>Rhodiola rosea root extract</dt>
                 <dd>A cold-climate root, studied for mental fatigue under stress. Give it two weeks.</dd>
               </div>
               <div>
-                <dt>Blackcurrant extract<span class="ingredient-dose">, 300mg (35% anthocyanins)</span></dt>
+                <dt>Blackcurrant extract</dt>
                 <dd>The dark pigment in blackcurrants, studied for blood flow and the brain, over weeks. Also gives the colour and flavour.</dd>
               </div>
               <div>
-                <dt>Ginger root extract<span class="ingredient-dose">, 300mg</span></dt>
-                <dd>A gentle warmth in the first few minutes, so you know it's started.</dd>
-              </div>
-              <div>
-                <dt>Vitamin B12 (methylcobalamin)<span class="ingredient-dose">, 5mg (200% of your daily reference)</span></dt>
+                <dt>Vitamin B12 (methylcobalamin)</dt>
                 <dd>Contributes to the reduction of tiredness and fatigue.</dd>
               </div>
               <div>
-                <dt>Vitamin B5 (pantothenic acid)<span class="ingredient-dose">, 6mg (100% of your daily reference)</span></dt>
+                <dt>Vitamin B5 (pantothenic acid)</dt>
                 <dd>Contributes to normal energy-yielding metabolism and the reduction of tiredness and fatigue.</dd>
               </div>
             </dl>
@@ -511,10 +660,18 @@
                 <dd>Gives the drink its body. Made from citrus peel.</dd>
               </div>
               <div>
+                <dt>Ginger root extract</dt>
+                <dd>A gentle warmth in the first few minutes, so you know it's started.</dd>
+              </div>
+              <div>
                 <dt>Natural flavouring</dt>
                 <dd>Rounds out the blackcurrant and ginger flavour.</dd>
               </div>
             </dl>
+          </div>
+
+          <div class="mt-8">
+            <button type="button" class="label-trigger body-lg underline text-primary" style="font-weight:500;">Nutritional information</button>
           </div>
 
           <div class="flex flex-col gap-6 mt-8">
@@ -546,7 +703,7 @@
           <ul class="body-lg doc-list mt-3">
             <li>You want a hit. It won't kick in like a double espresso, and it isn't meant to.</li>
             <li>You want a verdict after one sachet. It builds over time, so give it two weeks.</li>
-            <li>You're sensitive to caffeine. It contains 75mg, from green tea extract. Factor that in.</li>
+            <li>You're sensitive to caffeine. It contains 80mg, from green tea extract. Factor that in.</li>
           </ul>
           <p class="body-lg mt-3">Have it with your coffee, or without.</p>
         </details>
@@ -560,50 +717,31 @@
     </div>
   </section>
 
-</div>
-
-<!-- 3. START READY -->
-<section id="start-ready" class="pt-section pb-section">
-  <div style="background:#000000;">
-    <div class="max-w-phone mx-auto">
-      <div class="intrigue-frame">
-        <img src="images/wide-glass2.webp" alt="A prepared Morningo drink in a glass against a dark background" class="intrigue-image">
-        <div class="intrigue-overlay">
-          <h2 class="headline-sm intrigue-fade text-white text-center">The first hours set the day.<br>Start them properly.</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
-
-  <!-- 4. PROBLEM -->
+  <!-- 3. PROBLEM -->
   <section id="problem" class="pt-section">
     <div class="split-columns">
-    <img src="images/low-energy-people.webp" alt="Two people looking tired and low on energy" class="photo-frame aspect-4-3 w-full mb-8 md-order-last" style="object-fit:cover;">
+    <img src="images/coffee.webp" alt="A mug of black coffee beside a digital clock showing 10:30" class="photo-frame aspect-4-3 w-full mb-8 md-order-last" style="object-fit:cover;">
 
     <div class="px-4">
       <div class="flex flex-col gap-3">
-        <h2 class="headline-sm">Most mornings start fine. It's the bit after that needs work.</h2>
-        <p class="body-lg">Not a crash. Just a quiet slide in the wrong direction.</p>
+        <h2 class="headline-sm title-fade">Most mornings start fine. They just don't stay that way.</h2>
+        <p class="body-lg">Not a crash. Just a slide in the wrong direction.</p>
       </div>
 
       <div class="flex flex-col gap-6 mt-8">
         <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-          <p class="body-lg">The meeting you were physically present for but mentally elsewhere.</p>
+          <!-- envelope -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+          <p class="body-lg">Reading the same email three times.</p>
         </div>
         <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M6 3h9l3 3v15H6z"/><path d="M9 8h3M9 12h6M9 16h6"/></svg>
-          <p class="body-lg">The task you read three times and still had to start again.</p>
+          <!-- speech bubble with a question mark -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="shrink-0"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/><path d="M9.9 8.8a2.2 2.2 0 1 1 3.6 1.7c-.9.6-1.5 1-1.5 2"/><path d="M12 14.4h.01"/></svg>
+          <p class="body-lg">Asking someone to repeat the question.</p>
         </div>
         <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-          <p class="body-lg">The hour where you kept starting things and finishing none of them.</p>
-        </div>
-        <div class="flex items-start gap-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1-1 1-1 2M12 3c0 1-1 1-1 2"/></svg>
+          <!-- clock reading half ten (10:30) -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="shrink-0"><circle cx="12" cy="12" r="9"/><path d="M8.4 8.4L12 12v6.2"/></svg>
           <p class="body-lg">The afternoon that quietly started at half ten.</p>
         </div>
       </div>
@@ -611,18 +749,94 @@
     </div>
   </section>
 
-  <!-- 5. THE PRODUCT -->
+  <!-- 4. THE PRODUCT -->
   <section id="the-product" class="pt-section">
     <div class="split-columns">
-    <img src="images/energy-lady-2.webp" alt="Woman drinking her Morningo drink" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+    <img src="images/lady-holding-sachet.webp" alt="Woman holding a Morningo sachet in front of her" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="flex flex-col gap-3 px-4">
-      <h2 class="headline-sm">One drink before the morning gets away from you.</h2>
+      <h2 class="headline-sm title-fade">Your first coffee is the one you look forward to. Now the second can be too.</h2>
       <div class="flex flex-col gap-4">
-        <p class="body-lg">Within minutes, a mild warmth. Nothing dramatic. From around thirty minutes, energy building smoothly rather than arriving all at once. No spike, no edge. Just clear and composed through the morning.</p>
-        <p class="body-lg">The longer you take it, the more consistent it becomes. Week one you'll notice. Week three it's just how mornings feel.</p>
+        <p class="body-lg">A thick, dark morning drink with a warm kick of ginger. It took us 47 versions to make one worth the glass.</p>
+        <p class="body-lg">Evenings get a table and some time. The second coffee gets a mug and a deadline, and it's gone before you notice.</p>
+        <p class="body-lg">We wanted that slot to have a drink of its own.</p>
+        <p class="body-lg">It's thick and it's not a quick drink, so you take your time with it.</p>
+        <ul class="body-lg doc-list hero-list">
+          <li>Thick. It needs a good shake.</li>
+          <li>Dark, with a foam head.</li>
+          <li>A warm kick of ginger at the end.</li>
+        </ul>
+        <p class="body-lg">It still has caffeine, from green tea.</p>
+        <p class="body-lg">If you want a dramatic hit, this isn't it. If you'd rather have a mid-morning worth stopping for, it's for you.</p>
+        <div class="pt-4">
+          <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="product-cta">
+            Get first access
+          </button>
+        </div>
       </div>
     </div>
+    </div>
+  </section>
+
+  <!-- 5. COMPARISON -->
+  <section id="comparison" class="pt-section">
+    <div class="px-6 mb-8">
+      <div class="flex flex-col gap-3">
+        <h2 class="headline-sm title-fade">You choose your first coffee. You grab your second.</h2>
+        <p class="body-lg">Morningo is a morning drink you sit down with, in place of the second coffee.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid gap-8 px-6">
+      <div class="compare-card compare-card--grab bg-gray-100 border-gray-200 rounded-lg overflow-hidden">
+        <img src="images/compare-grab.webp" alt="A white mug of black coffee on a stone table in hard sunlight" class="aspect-4-3 w-full" style="object-fit:cover;">
+        <div class="compare-body">
+          <h3 class="card-title">A second coffee you grab</h3>
+          <ul class="compare-list list-none flex flex-col gap-4">
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-bullet"></span></span>
+              <span>Still in the queue at 10:15</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-bullet"></span></span>
+              <span>A paper cup of whatever's on the menu</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-bullet"></span></span>
+              <span>Gulped at your desk, phone in hand</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-bullet"></span></span>
+              <span>Caffeine varies depending on the chain.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="compare-card compare-card--choose bg-primary rounded-lg overflow-hidden">
+        <img src="images/compare-choose.webp" alt="A hand holding a cut-glass tumbler of dark purple drink with a pale foam head" class="aspect-4-3 w-full" style="object-fit:cover;">
+        <div class="compare-body">
+          <h3 class="card-title text-white">Morningo, a morning drink you choose</h3>
+          <ul class="compare-list list-none flex flex-col gap-4">
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-tick bg-primary-mid rounded-full"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 11.4l3.3 3.3 6.3-6.5"/></svg></span></span>
+              <span>A glass, carried to the table</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-tick bg-primary-mid rounded-full"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 11.4l3.3 3.3 6.3-6.5"/></svg></span></span>
+              <span>Dark blackcurrant, warmed with ginger.</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-tick bg-primary-mid rounded-full"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 11.4l3.3 3.3 6.3-6.5"/></svg></span></span>
+              <span>Sipped, phone face down. Then back to it.</span>
+            </li>
+            <li class="compare-row body-lg">
+              <span class="compare-marker" aria-hidden="true"><span class="compare-tick bg-primary-mid rounded-full"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 11.4l3.3 3.3 6.3-6.5"/></svg></span></span>
+              <span><strong class="font-semibold">80mg</strong> of caffeine, from green tea, in every sachet.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -630,7 +844,7 @@
   <section id="why-it-works" class="pt-section">
     <div class="px-6 mb-8">
       <div class="flex flex-col gap-3">
-        <h2 class="headline-sm">Steady isn't an accident.</h2>
+        <h2 class="headline-sm title-fade">Steady isn't an accident.</h2>
         <p class="body-lg">A handful of good ingredients, properly dosed. Not a sprinkle of forty.</p>
       </div>
     </div>
@@ -648,9 +862,9 @@
       <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
         <img src="images/blackcurrant.webp" alt="Ripe blackcurrants, one cut open to show the deep red inside" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
         <div class="flex flex-col gap-2">
-          <h3 class="card-title">Dark berry, clear head</h3>
+          <h3 class="card-title">Dark berry, deep flavour</h3>
           <p class="body-sm text-gray-500 italic">Blackcurrant anthocyanins</p>
-          <p class="body-lg">The pigment that turns blackcurrants almost black. Studied for blood flow and the brain, over weeks.</p>
+          <p class="body-lg">The pigment that turns blackcurrants almost black. The blackcurrant brings rich flavour.</p>
         </div>
       </div>
 
@@ -693,45 +907,101 @@
   <section id="social-proof" class="pt-section">
     <div class="px-6 mb-8">
       <div class="flex flex-col gap-3">
-        <h2 class="headline-sm">47+ versions to get here. Then we let people try it.</h2>
+        <h2 class="headline-sm title-fade">47+ versions to get here. Then we let people try it.</h2>
         <p class="body-lg">A small group's been trying it. Here's what they're telling us so far.</p>
       </div>
     </div>
 
+    <!-- Star shapes used by the review cards below (filled and outline), drawn once and reused. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <symbol id="star-full" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></symbol>
+      <symbol id="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <!-- Owner decision 2026-10-22: four text-only review cards (Loic, Amber, Yann, Luke), quotes and star ratings exactly as supplied.
+         They replace the earlier photo cards (Loic, Dan, and the James T. and Rachel K. placeholders). -->
     <div class="card-carousel card-carousel--scroll flex gap-4 overflow-x-auto no-scrollbar snap-x snap-proximity pl-6 pr-6 scroll-pl-6 scroll-pr-6">
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/loic.webp" alt="Loic" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"I've been pleasantly surprised how I'm feeling more 'on' in the morning"</p>
-          <p class="body-sm text-gray-500 italic">Loic</p>
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Loic">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg></div>
+        <p class="body-lg italic">&ldquo;I've been pleasantly surprised through the morning. It's nice to take a moment with something different&rdquo;</p>
+        <p class="body-lg review-name">Loic</p>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Amber">
+        <div class="review-stars" role="img" aria-label="4 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-empty"></use></svg></div>
+        <p class="body-lg italic">&ldquo;Feels like I'm drinking a luxury smoothie with some nice extras&rdquo;</p>
+        <p class="body-lg review-name">Amber</p>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Yann">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg></div>
+        <p class="body-lg italic">&ldquo;I'm enjoying switching things up from my usual coffee's. I'm drinking less coffee and saving a few pounds&rdquo;</p>
+        <p class="body-lg review-name">Yann</p>
+      </div>
+
+      <div class="card-carousel-item snap-start shrink-0 w-76pct review-card" data-analytics-name="Luke">
+        <div class="review-stars" role="img" aria-label="4 out of 5 stars"><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-full"></use></svg><svg class="review-star" aria-hidden="true"><use href="#star-empty"></use></svg></div>
+        <p class="body-lg italic">&ldquo;Helps power through work. The ginger kick makes me feel like it's working&rdquo;</p>
+        <p class="body-lg review-name">Luke</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. QUESTIONS -->
+  <section id="questions" class="pt-section">
+    <div class="questions-column mx-auto">
+      <div class="px-6 mb-8">
+        <div class="flex flex-col gap-3">
+          <h2 class="headline-sm title-fade">The obvious questions, answered.</h2>
         </div>
       </div>
 
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <img src="images/dan.webp" alt="Dan holding a prepared Morningo drink" class="aspect-4-5 w-full rounded-lg" style="object-fit:cover;">
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Two weeks in and the 10am slump just isn't happening."</p>
-          <p class="body-sm text-gray-500 italic">Dan</p>
-        </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"I was sceptical. I'm less sceptical now. Mornings feel more consistent."</p>
-          <p class="body-sm text-gray-500 italic">James T. — Freelance consultant, London</p>
-        </div>
-      </div>
-
-      <div class="card-carousel-item snap-start shrink-0 w-76pct flex flex-col gap-3">
-        <div class="aspect-4-5 w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-          [ tester photo, placeholder ]
-        </div>
-        <div class="flex flex-col gap-2">
-          <p class="body-lg">"Calm is the right word. Not a buzz. Just steady."</p>
-          <p class="body-sm text-gray-500 italic">Rachel K. — Entrepreneur, Manchester</p>
+      <div class="px-6">
+        <div class="divide-y divide-gray-200 border-t border-b border-gray-200">
+          <details class="py-4 group" open>
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              It's not on sale yet. What am I signing up for?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Your email address, and nothing else. No payment, no card details.</p>
+            <p class="body-lg mt-3">When the first batch is ready, you hear about it before it opens to everyone else. We expect initial orders to be for 500 people.</p>
+            <p class="body-lg mt-3">We'll only email you when we're ready.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              Does it work?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Plenty of drinks promise big things. We'll show you the label.</p>
+            <p class="body-lg mt-3">Some supplements keep their amounts inside a "proprietary blend". We don't. Every active ingredient is here with its amount.</p>
+            <ul class="ingredient-list body-lg mt-3">
+              <li>80mg of caffeine, from green tea.</li>
+              <li>150mg of L-theanine.</li>
+              <li>300mg of Rhodiola rosea root extract.</li>
+              <li>300mg of blackcurrant extract, about 105mg of anthocyanins.</li>
+            </ul>
+            <p class="body-lg mt-3">Vitamin B12 contributes to normal energy-yielding metabolism. Pantothenic acid (vitamin B5) contributes to the reduction of tiredness and fatigue.</p>
+            <p class="body-lg mt-3">Early testers are drinking it now, and we'll put what they say on the page, in their own words.</p>
+            <p class="body-lg mt-3">We're not trying to change your life. We're trying to make one part of your morning worth sitting down for.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              Why make another morning drink?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">Evenings get a table and some time. Mornings get a mug and a deadline.</p>
+            <p class="body-lg mt-3">Morningo is a new morning drink, still in early development. Coffee one stays. This is for the second slot, the one you'd normally fill without thinking, and it's made to be a moment of its own: a glass, a dark berry colour, a warm finish of ginger, and time to sit with it.</p>
+            <p class="body-lg mt-3">It took 47 versions to get one worth putting a name on.</p>
+          </details>
+          <details class="py-4 group">
+            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
+              How much caffeine is in it, and who shouldn't have it?
+              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
+            </summary>
+            <p class="body-lg mt-3">80mg per sachet, from green tea. That's about a small coffee's worth.</p>
+            <p class="body-lg mt-3">One sachet a day is the most we'd suggest. It's a morning drink, so we'd leave it out after lunch. Count it alongside any other caffeine you have.</p>
+            <p class="body-lg mt-3">Not recommended for children, or for pregnant or breast-feeding women. If you take medication or have a health condition, ask your doctor first.</p>
+          </details>
         </div>
       </div>
     </div>
@@ -740,16 +1010,16 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
-      <p class="body-lg" style="color:#ffffff;">Better energy, not more energy</p>
     </div>
 
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
       <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -776,6 +1046,101 @@
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- "Nutritional information" modal, opened by the .label-trigger link in the "What's in it" accordion (the hero). Kept out here, outside #hero,
+     because the hero clips anything position:fixed inside it. DRAFT FIGURES: energy, fat, saturates, carbohydrate, sugars, fibre, protein and
+     salt are ESTIMATES (calculated from ingredient types and weights, not lab analysis) and must be replaced with the formulator's analysis
+     before launch. Caffeine (80 mg) needs a certificate of analysis, the vitamins an end-of-shelf-life potency check, and the small print a
+     labelling check. Source: nutrition-label.html (formulation confirmed 1 Oct 2026). Ginger, lecithin, citrus fibre and flavouring amounts
+     are starting points, so they are listed without doses. -->
+<div id="label-backdrop" class="chat-backdrop"></div>
+<div id="label-sheet" class="label-sheet" role="dialog" aria-modal="true" aria-labelledby="label-modal-title">
+  <div class="flex justify-between items-center">
+    <h3 class="card-title" id="label-modal-title">Nutritional information</h3>
+    <button type="button" id="label-close" class="back-button bg-gray-100 text-ink" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="label-body" tabindex="0">
+    <section class="nutrition-label" aria-labelledby="nl-title">
+      <h3 id="nl-title">Morningo</h3>
+      <p class="nl-serving body-lg">Dark blackcurrant, warmed with ginger &middot; Serving size 1 sachet (4.2 g) &middot; 28 servings per pack</p>
+
+      <div class="nl-rule-thick"></div>
+
+      <div class="nl-grid">
+        <!-- LEFT: nutrition table. Values marked estimate are calculated, not analysed. -->
+        <div>
+          <table>
+            <thead>
+              <tr><th scope="col">Typical values</th><th scope="col">Per sachet</th><th scope="col">Per 100 g</th></tr>
+            </thead>
+            <tbody>
+              <tr class="nl-strong" data-status="estimate"><td>Energy</td><td><span class="nl-kj">79 kJ</span><span>19 kcal</span></td><td><span class="nl-kj">1869 kJ</span><span>452 kcal</span></td></tr>
+              <tr class="nl-strong" data-status="estimate"><td>Fat</td><td>1.4 g</td><td>33 g</td></tr>
+              <tr class="nl-indent" data-status="estimate"><td>of which saturates</td><td>0.3 g</td><td>7.1 g</td></tr>
+              <tr class="nl-strong" data-status="estimate"><td>Carbohydrate</td><td>0.8 g</td><td>19 g</td></tr>
+              <tr class="nl-indent" data-status="estimate"><td>of which sugars</td><td>0.1 g</td><td>2.4 g</td></tr>
+              <tr data-status="estimate"><td>Fibre</td><td>1.0 g</td><td>24 g</td></tr>
+              <tr class="nl-strong" data-status="estimate"><td>Protein</td><td>0.3 g</td><td>7.1 g</td></tr>
+              <tr data-status="estimate"><td>Salt</td><td>0.01 g</td><td>0.2 g</td></tr>
+            </tbody>
+          </table>
+          <!-- Owner request 2026-10-25: the table's figures are estimates (see the DRAFT FIGURES note above this modal), so say so right under it. -->
+          <div class="nl-small body-sm"><p>These figures are estimates and may change.</p></div>
+        </div>
+
+        <!-- RIGHT: what is in each sachet. Amounts from the formulation file. No group headings, no effect words. -->
+        <div>
+          <p class="nl-col-title">Per sachet</p>
+          <ul class="nl-actives">
+            <li>
+              <span><span class="nl-name">Green tea extract</span><span class="nl-sub">Standardised for caffeine. Provides 80 mg caffeine.</span></span>
+              <span class="nl-amt">160 mg</span>
+            </li>
+            <li>
+              <span><span class="nl-name">L-theanine</span></span>
+              <span class="nl-amt">150 mg</span>
+            </li>
+            <li>
+              <span><span class="nl-name">Rhodiola rosea root extract</span><span class="nl-sub">3% rosavins, 1% salidroside</span></span>
+              <span class="nl-amt">300 mg</span>
+            </li>
+            <li>
+              <span><span class="nl-name">Blackcurrant extract</span><span class="nl-sub">Standardised to 35% anthocyanins</span></span>
+              <span class="nl-amt">300 mg</span>
+            </li>
+          </ul>
+          <!-- Order of other ingredients follows weight, heaviest first. Re-check after sample testing. -->
+          <p class="nl-other"><strong>Other ingredients:</strong> Sunflower lecithin, citrus fibre, ginger root extract, natural flavouring.</p>
+        </div>
+      </div>
+
+      <div class="nl-vit">
+        <div class="nl-rule-thick" style="margin-top:0"></div>
+        <p class="nl-vit-title">Vitamins</p>
+        <div class="nl-rule-thin"></div>
+        <table>
+          <thead>
+            <tr><th scope="col">Nutrient</th><th scope="col">Per sachet</th><th scope="col">% NRV*</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Vitamin B12 (as methylcobalamin)</td><td>5 &micro;g</td><td>200%</td></tr>
+            <tr><td>Pantothenic acid (B5) (as calcium D-pantothenate)</td><td>6 mg</td><td>100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="nl-small body-sm">
+        <p>* NRV = Nutrient Reference Value.</p>
+        <p><strong>Caffeine: 80 mg per sachet.</strong> Mix 1 sachet with 200 to 250 ml of water. Recommended daily dose: 1 sachet.</p>
+        <p>High caffeine content. Not recommended for children or pregnant or breast-feeding women.</p>
+        <p>Do not exceed the recommended daily dose. Food supplements should not be used as a substitute for a varied and balanced diet. Keep out of reach of young children.</p>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -827,20 +1192,49 @@
   <input type="hidden" name="form-name" value="question">
   <input type="hidden" name="subject" value="❓ Morningo QUESTION: someone needs an answer">
   <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
   <input name="bot-field" tabindex="-1" autocomplete="off">
   <textarea name="question"></textarea>
   <input type="email" name="email">
+</form>
+
+<!-- Second Netlify form: the question is saved here the moment "Send message" is pressed, even if the visitor never adds an
+     email. It has no notification email on purpose. The later "question" entry (with the email) carries the same `ref`,
+     so the two can be matched up. Keep its fields in step with saveAsked() in the modal script. -->
+<form id="asked-form" name="question asked-no email" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="question asked-no email">
+  <input type="hidden" name="page" value="">
+  <input type="hidden" name="ref" value="">
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="utm_content" value="">
+  <input type="hidden" name="utm_term" value="">
+  <input type="hidden" name="ad_id" value="">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <textarea name="question"></textarea>
 </form>
 
 <script>
   // Sends a form to Netlify Forms and resolves only on success. Netlify wants a URL-encoded body (not JSON) with the
   // form name inside it, POSTed to a real static page: thank-you.html sits next to every page, so the relative path
   // works from all four. Localhost, file:// and GitHub Pages have no form handler, so there the send is simulated and
-  // always succeeds, which keeps the review flow clickable. Every other host (Netlify, a custom domain later) really
-  // posts, and a failure rejects so the page can show an error. Deliberately a denylist: forgetting to list a new
-  // host must fail loudly, never pretend to succeed.
+  // always succeeds, which keeps the review flow clickable. Netlify preview and branch links (anything--morningo.netlify.app)
+  // are simulated too, because a real send from them lands in the live submissions list and emails the owner. Every
+  // other host (the live site, a custom domain later) really posts, and a failure rejects so the page can show an
+  // error. Deliberately a denylist: forgetting to list a new host must fail loudly, never pretend to succeed.
+  // If the Netlify site is ever renamed, update the morningo.netlify.app part of this pattern.
+  // The Claude test link is a private page on a host this pattern cannot name, so it is simulated by a flag instead of a host: the
+  // test-link builder adds window.morningoSimulateForms = true to its copies of the pages. The real site never carries that line.
   window.morningoPostForm = function (data) {
-    if (/^(|localhost|127\.0\.0\.1|.+\.github\.io)$/.test(location.hostname)) {
+    if (window.morningoSimulateForms === true || /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app)$/.test(location.hostname)) {
       console.info('[Morningo] form send simulated on this host (no form handler here)');
       return new Promise(function (resolve) { setTimeout(resolve, 500); });
     }
@@ -855,21 +1249,17 @@
 <script>
   document.querySelectorAll('.overflow-x-auto').forEach(el => { el.scrollLeft = 0; });
 
-  // localStorage throws in some contexts (e.g. sandboxed data: preview panes) rather than
-  // just being unavailable — fall back to an in-memory value so consent still works for this page load.
-  var cookieConsent = (function() {
-    let memory = null;
-    return {
-      get() { try { return localStorage.getItem('morningo-cookie-consent'); } catch (e) { return memory; } },
-      set(value) { try { localStorage.setItem('morningo-cookie-consent', value); } catch (e) { memory = value; } },
-    };
-  })();
+  // The saved cookie choice lives in consent.js (a first-party cookie that lasts 12 months, then the banner asks again).
+  // If that file is ever missing or blocked, the choice is only remembered for this page load: the banner shows again on the
+  // next page and nothing is saved, which is the safe way to fail.
+  var cookieConsent = window.morningoConsent || (function() { let memory = null; return { get() { return memory; }, set(value) { memory = value; } }; })();
 
   (function() {
     const gallery = document.getElementById('hero-gallery');
     const tiles = Array.from(document.querySelectorAll('.hero-tile'));
     const fill = document.getElementById('hero-progress-fill');
     const count = tiles.length;
+    fill.style.width = (100 / count) + '%';
 
     function setActive(index) {
       tiles.forEach((tile, i) => {
@@ -918,7 +1308,7 @@
 
   (function() {
     // Concept-stage placeholder: shows/hides the banner and remembers the choice.
-    // Real build should gate actual GA4/Meta Pixel script loading on this same decision (see cookie-banner.md).
+    // analytics.js gates GA4 and the Meta Pixel on this same decision (decide() announces it below).
     const banner = document.getElementById('cookie-banner');
     const acceptBtn = document.getElementById('cookie-accept');
     const rejectBtn = document.getElementById('cookie-reject');
@@ -926,6 +1316,8 @@
 
     function decide(value) {
       cookieConsent.set(value);
+      // analytics.js loads Google Analytics / the Meta Pixel only after 'accepted'; this tells it the choice just changed.
+      document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
       banner.classList.remove('visible');
       if (window.updateStickyVisibility) window.updateStickyVisibility();
     }
@@ -939,39 +1331,86 @@
 
     acceptBtn.addEventListener('click', () => decide('accepted'));
     rejectBtn.addEventListener('click', () => decide('declined'));
+
+    // Footer "Cookie settings" link: reopens this same banner so a visitor can change their choice at any time, on any page.
+    // Without JavaScript the link simply goes to the Cookies section of the privacy page.
+    document.querySelectorAll('.cookie-settings-link').forEach(link => link.addEventListener('click', (e) => {
+      e.preventDefault();
+      banner.classList.add('visible');
+      banner.setAttribute('tabindex', '-1');
+      banner.focus({ preventScroll: true });
+    }));
   })();
 
   (function() {
-    // "2 hours decide the day" headline fade-in — reveals once, the first time the
-    // section scrolls into view, and never again. Safe to use IntersectionObserver here
-    // (unlike the sticky CTA / cookie banner, see working method note on this) since this
-    // section sits below the fold — the automatic first check on observe() correctly
-    // reports "not yet visible" instead of racing font-load on a check that matters
-    // immediately on page load.
-    const fadeEl = document.querySelector('.intrigue-fade');
-    if (fadeEl) {
-      if (!('IntersectionObserver' in window)) {
-        fadeEl.classList.add('visible');
-      } else {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              fadeEl.classList.add('visible');
-              io.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.2 });
-        io.observe(fadeEl);
-      }
+    // Section-title fade-in (every H2 carries .title-fade): each one reveals once, the first
+    // time it scrolls into view, and never again. Safe to use IntersectionObserver here
+    // (unlike the sticky CTA / cookie banner, see working method note on this) since these
+    // titles sit below the hero, which is the only thing visible on load; the automatic first
+    // check on observe() correctly reports "not yet visible" instead of racing font-load.
+    const fadeEls = document.querySelectorAll('.title-fade');
+    if (!('IntersectionObserver' in window)) {
+      fadeEls.forEach(el => el.classList.add('visible'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      fadeEls.forEach(el => io.observe(el));
     }
   })();
 
   (function() {
-    // Wires both "Reserve My Place" CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
-    ['hero-cta', 'sticky-cta-button'].forEach(id => {
+    // Wires the hero, product-section and sticky CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
+    ['hero-cta', 'product-cta', 'sticky-cta-button'].forEach(id => {
       const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => { window.location.href = 'email-capture.html'; });
+      if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture.html') : 'email-capture.html'; });
     });
+  })();
+
+  (function() {
+    // "Nutritional information" modal: opened by the .label-trigger link in the "What's in it" accordion. Same open and close pattern as the
+    // "Have a question?" modal (backdrop click and the X close it), plus Escape, focus moved into the dialog on open and back to the link on close.
+    const backdrop = document.getElementById('label-backdrop');
+    const sheet = document.getElementById('label-sheet');
+    const closeBtn = document.getElementById('label-close');
+    const body = sheet && sheet.querySelector('.label-body');
+    if (!backdrop || !sheet || !closeBtn || !body) return;
+    let opener = null;
+
+    function onKey(e) {
+      if (e.key === 'Escape') { closeLabel(); return; }
+      if (e.key !== 'Tab') return;
+      // Keep Tab inside the dialog: its only stops are the close button and the scrollable label.
+      const stops = [closeBtn, body];
+      const i = stops.indexOf(document.activeElement);
+      e.preventDefault();
+      stops[(i + (e.shiftKey ? -1 : 1) + stops.length) % stops.length].focus();
+    }
+    function openLabel(e) {
+      if (e) e.preventDefault();
+      opener = e ? e.currentTarget : null;
+      backdrop.classList.add('visible');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        sheet.classList.add('visible');
+        body.scrollTop = 0;
+        closeBtn.focus({ preventScroll: true });
+      }));
+      document.addEventListener('keydown', onKey);
+    }
+    function closeLabel() {
+      sheet.classList.remove('visible');
+      backdrop.classList.remove('visible');
+      document.removeEventListener('keydown', onKey);
+      if (opener) opener.focus({ preventScroll: true });
+    }
+    document.querySelectorAll('.label-trigger').forEach(el => el.addEventListener('click', openLabel));
+    closeBtn.addEventListener('click', closeLabel);
+    backdrop.addEventListener('click', closeLabel);
   })();
 
   (function() {
@@ -993,6 +1432,8 @@
     const thanks = document.getElementById('chat-thanks');
     const sendError = document.getElementById('chat-send-error');
     const questionForm = document.getElementById('question-form');
+    const askedForm = document.getElementById('asked-form');
+    let chatRef = '';
     if (!sheet) return;
 
     // Mobile keyboard fix: the sheet is centered via position:fixed + top:50%, which iOS/Android
@@ -1019,6 +1460,7 @@
 
     function resetChat() {
       clearInterval(loadingTimer);
+      chatRef = Math.random().toString(36).slice(2, 10);   // ties a saved question to the email entry that may follow
       questionInput.value = '';
       questionInput.disabled = false;
       sendBtn.style.display = '';
@@ -1052,12 +1494,27 @@
       sheet.style.top = '';
       sheet.style.maxHeight = '';
     }
+    // Saves the question the moment "Send message" is pressed, so it is not lost when the visitor never adds an email.
+    // Goes to the separate "question asked-no email" Netlify form; the later "question" entry (with the email) carries the same ref.
+    // Never blocks or breaks the modal: a failed save is ignored.
+    function saveAsked() {
+      const text = questionInput.value.trim();
+      if (!text || !askedForm) return;
+      const data = new FormData(askedForm);
+      data.set('question', text);
+      data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
+      window.morningoPostForm(data).catch(() => {});
+      if (window.morningoTrack) window.morningoTrack('question_asked');
+    }
+
     document.querySelectorAll('.chat-trigger').forEach(el => el.addEventListener('click', openChat));
     closeBtn.addEventListener('click', closeChat);
     backdrop.addEventListener('click', closeChat);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      saveAsked();
       questionInput.disabled = true;
       sendBtn.style.display = 'none';
       loading.style.display = 'flex';
@@ -1100,6 +1557,7 @@
       data.set('question', questionInput.value.trim());
       data.set('email', emailInput.value.trim());
       data.set('page', location.pathname.split('/').pop() || 'index');
+      data.set('ref', chatRef);
       // The notification email's subject is this field, so put the start of the question in it: it shows up in the
       // inbox list without opening the email. Whitespace is flattened so a multi-line question stays one line.
       const preview = questionInput.value.replace(/\s+/g, ' ').trim();
@@ -1116,6 +1574,7 @@
         reply.style.display = 'none';
         reply.classList.remove('visible');
         thanks.style.display = 'flex';
+        if (window.morningoTrack) window.morningoTrack('question_sent');
       }).catch(() => {
         if (attempt !== sendId) return;
         sendError.style.display = 'block';
@@ -1219,3 +1678,6 @@
     if (document.readyState === 'complete') start(); else addEventListener('load', start);
   })();
 </script>
+
+<script src="attribution.js"></script>
+<script src="analytics.js" data-page="home"></script>

@@ -22,7 +22,7 @@ We use analytics and advertising cookies to understand how this site is used and
 6. Banner does not reappear until consent cookie expires or user clears cookies.
 7. Banner closes on either button selection. No confirmation state required.
 8. No separate "Cookie settings" footer link. The footer contains only the privacy policy link (see brief.md).
-9. Meta Pixel Lead event and GA4 conversion event fire on page load of the thank-you page only, and only if the consent cookie = accepted — never on form submission, per brief.md's tracking architecture (chosen for reliability: avoids missed or duplicate conversions from slow/repeat submits).
+9. Meta Pixel Lead event and GA4 conversion event fire on page load of the survey page (`about-you.html`) only (moved there from the thank-you page on 2026-10-21, owner decision), and only if the consent cookie = accepted — never on form submission, per brief.md's tracking architecture (chosen for reliability: avoids missed or duplicate conversions from slow/repeat submits).
 
 ---
 
@@ -35,6 +35,14 @@ We use analytics and advertising cookies to understand how this site is used and
 
 ---
 
+## Owner decision (2026-10-04): footer "Cookie settings" link
+
+Overrides rule 8 ("No separate Cookie settings footer link"). The owner approved a footer link called **Cookie settings** on all five pages (class `cookie-settings-link`, next to Privacy Policy). It reopens this same banner (same copy, same buttons) so a visitor can change their choice at any time; without JavaScript it goes to `privacy.html#cookies`. On the privacy page the banner is not shown automatically (so the policy stays readable), only from that link. Choosing Reject after Accept removes the Google/Meta cookies and stops sending; choosing Accept after Reject starts analytics. Reason: UK guidance expects withdrawing consent to be as easy as giving it.
+
+## Implementation note (2026-10-04)
+
+Rules 4 to 6 (choice remembered for 12 months) are now implemented as written: the choice is the first-party cookie `morningo-consent` with a 12-month lifetime (`concepts/consent.js`). Declining removes any `_ga*` / Meta cookies already on the device. The old localStorage choice is migrated once. Fonts are self-hosted, so nothing contacts Google before a choice.
+
 ## Owner decisions (2026-09-30)
 
 These two decisions were made by the site owner and override the matching rules above. The rules are left in place so the reasoning stays visible.
@@ -42,3 +50,8 @@ These two decisions were made by the site owner and override the matching rules 
 1. **Banner body copy:** "including the Meta Pixel" was removed from the banner. The Meta Pixel is still named in full in the privacy policy (privacy.html, and references/privacy-policy.md), which the "Learn more" link points to. This overrides "Do not reword the body copy".
 2. **Reject button style:** Reject is an outline button (transparent background, black text, black outline) and sits on the left, with the filled Accept button on the right. This overrides rule 2 ("visually equal") and the "different visual weights" line under Do Not.
 
+3. **Buttons reconfirmed (2026-10-04, owner confirmed):** the owner is happy to keep the current Reject (outline, left) and Accept (filled, right) styling for now, knowing that UK regulator guidance (ICO) expects refusing to be as easy as accepting. Do not change the buttons or re-raise this unless the owner asks.
+
+## Test link note (2026-10-25)
+
+On the private Claude test link the banner came back on every page after Accept. Cause: the link runs inside a frame from another site (claude.ai), where browsers ignore a SameSite=Lax cookie written by script, so `morningo-consent` cannot be stored there. It is a test-link-only effect: on the real site and on localhost the cookie works and the choice carries across pages. Fix in `concepts/consent.js`: only on `*.claudeusercontent.com` the choice is also kept in the frame's page storage. Nothing changes for real visitors; the real site still uses the cookie alone.

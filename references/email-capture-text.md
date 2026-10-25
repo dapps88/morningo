@@ -12,9 +12,9 @@ Read this file in full before writing any code.
 
 3. Two pages are described in this document. Build both: the email capture page and the thank-you page.
 
-4. On successful form submission, the user is redirected to the thank-you page. This is not an inline success state. The thank-you page is a separate, standalone HTML file.
+4. On successful form submission, the user is redirected to the survey page (`about-you.html`, copy in `survey-page-text.md`, added 2026-10-21), and from there (Done or Skip) to the thank-you page. This is not an inline success state. Each is a separate, standalone HTML file.
 
-5. The Facebook Pixel Lead event and GA4 conversion event fire on page load of the thank-you page only. Do not fire either event on the capture page. Technical implementation detail for both events is in brief.md.
+5. The Facebook Pixel Lead event and GA4 conversion event fire on page load of the survey page only (moved there from the thank-you page on 2026-10-21, owner decision). Do not fire either event on the capture page or the thank-you page. Technical implementation detail for both events is in brief.md.
 
 6. Product photo on the capture page is a placeholder. Mark clearly in code. Do not use stock images.
 
@@ -35,6 +35,8 @@ Morningo wordmark. Same treatment as the product page.
 ---
 
 ### SECTION 2: PRODUCT IMAGE
+
+**REMOVED 2026-10-22 (owner decision).** The owner asked for the image to come out and for the capture block to be centred on its own, at the width it had as the right-hand column (half the page content minus the 48px gap, from 768px; the full column on a phone). The page no longer has this section, and `images/energy-lady-2.webp` is unused. Do not put an image back without the owner asking. The text below is kept only as history.
 
 **Job**
 Visual continuity from the product page. The reader should see the same object they just left.
@@ -81,11 +83,15 @@ Morningo wordmark. Same treatment as all other pages.
 
 ### SECTION 2: CONFIRMATION BLOCK
 
+**2026-10-22 (owner decision):** the sachet picture that sat beside this block was removed, and the block is one centred column the same width as the email capture page's. Do not put a picture back without the owner asking. `images/sachet-2.webp` is now unused.
+
 **Job**
 Confirm the submission clearly. Set the expectation for what happens next. Nothing else — no upsell, no social share prompt, no link back to the product page.
 
 **Headline**
-You're in.
+> Updated 2026-10-25 (owner-supplied, replaces "You're in."): no full stop. The page's own body copy and its Copy link block (which shares the live home page, `https://morningo.netlify.app/home`, never a local address) were added later and are not described in this older section.
+
+You're in, share with friends
 
 **Body**
 We'll be in touch the moment Morningo is ready to order. One email. That's all.
@@ -96,6 +102,6 @@ We'll be in touch the moment Morningo is ready to order. One email. That's all.
 
 Nothing on this list should be invented or assumed. Each must be replaced before launch.
 
-- [ ] Product image — capture page Section 2, currently a reused lifestyle shot, not a dedicated one
+- [x] Product image — capture page Section 2: removed 2026-10-22 at the owner's request, nothing to replace
 - [ ] Privacy notice page — `/privacy` (separate brief, not in scope here)
 - [ ] Analytics IDs — GA4 Measurement ID and Facebook Pixel ID must be present in `analytics.js` before conversion events will fire

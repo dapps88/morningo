@@ -5,16 +5,22 @@
   "pages": [
     "product-wireframe-v2.html",
     "email-capture.html",
+    "about-you.html",
     "thank-you.html",
     "privacy.html"
   ],
   "page_labels": {
     "product-wireframe-v2.html": "Product page",
     "email-capture.html": "Email capture",
+    "about-you.html": "Survey (about you)",
     "thank-you.html": "Thank you",
     "privacy.html": "Privacy policy"
   },
-  "asset_dirs": ["images", "video"],
+  "asset_dirs": [
+    "images",
+    "video",
+    "fonts"
+  ],
   "preview": {
     "port": 8744,
     "url": "http://localhost:8744/product-wireframe-v2.html",
@@ -24,11 +30,23 @@
   "test_link": {
     "kind": "claude-artifact",
     "title": "Morningo Product Page",
-    "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public."
+    "notes": "Private Claude artifact. Find it with the Artifact list action by this title and update it in place. Never write its address into this file: the GitHub repo is public. The test menu (the round Test button) is switched off with menu: false (owner, 2026-10-22; set it back to true or delete the line to bring the button back for QA). The test link also gets inject_js on every page: it sets window.morningoSimulateForms so form sends are simulated there (the hosted copy cannot receive a POST). The real site never carries that line.",
+    "inject_js": "window.morningoSimulateForms = true;",
+    "menu": false
   },
+  "artifact_prefix": "Morningo",
+  "live_sites": [
+    {
+      "name": "Netlify live site",
+      "url": "https://morningo.netlify.app/home",
+      "deploys_from": "main",
+      "hold": "Deploys paused by the owner. Merging to main publishes, so do not merge, open a release PR or deploy until they say go live."
+    }
+  ],
   "rules_docs": [
     "references/cookie-banner.md",
     "references/main-page-text.md",
+    "references/survey-page-text.md",
     "references/privacy-policy.md",
     "brief.md",
     ".claude/skills/morningo-page-builder/SKILL.md"
@@ -45,7 +63,7 @@
   },
   "notes": [
     "Converted images: originals live in assets/web images, converted WebP in assets/web-optimized, and the copies the pages actually load in concepts/images. Filenames are lowercase.",
-    "Pages link to each other with bare filenames (email-capture.html, thank-you.html, privacy.html, product-wireframe-v2.html), so the test link must serve all four under those names.",
+    "Pages link to each other with bare filenames (email-capture.html, about-you.html, thank-you.html, privacy.html, product-wireframe-v2.html), so the test link must serve all five under those names.",
     "hero-video-test.html and concepts/test-media are a retired sandbox. Do not update them.",
     "Read .claude/skills/morningo-page-builder/SKILL.md before any typography, spacing or colour change."
   ]
