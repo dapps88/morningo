@@ -19,7 +19,7 @@ Read this file in full before building the privacy policy page.
 
 **Privacy Policy**
 
-Last updated: 25 October 2026
+Last updated: 26 October 2026
 
 ---
 
@@ -51,6 +51,8 @@ You can withdraw consent at any time. See Your Rights below.
 
 This site uses the Meta Pixel, a piece of code provided by Meta Platforms Ireland Ltd. When you accept cookies, the Meta Pixel loads and may set cookies in your browser. This allows Meta to measure the effectiveness of our advertising and to help us reach people with similar interests through Facebook and Instagram.
 
+If you accept cookies and then register your email address, we also send a record of that sign-up to Meta from our own server. It contains your email address in scrambled (hashed) form, your IP address, your browser details and the Meta cookie identifiers listed in the Cookies section, which are saved with your sign-up for this purpose. This helps Meta count sign-ups that your browser did not report. If you do not accept cookies, nothing is sent to Meta from our server.
+
 Meta may use data collected through the Pixel in accordance with their own Data Policy, available at facebook.com/privacy/policy.
 
 To manage how Meta uses your data for advertising, visit your Meta Ad Preferences at facebook.com/adpreferences.
@@ -75,7 +77,7 @@ The following services process data on our behalf as data processors:
 
 - Netlify: hosts this site and receives form submissions (netlify.com/privacy)
 - Google: analytics via GA4 (policies.google.com/privacy)
-- Meta: advertising measurement via Meta Pixel (facebook.com/privacy/policy)
+- Meta: advertising measurement via the Meta Pixel and, from our server, a record of your sign-up (facebook.com/privacy/policy)
 
 Each operates under their own privacy policy and is contractually required to handle your data appropriately.
 
@@ -156,7 +158,7 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - [x] Full legal name: done 2026-10-04, "Daniel Appelbee" (the owner is not yet a company; "trading as Morningo" was tried and removed the same day at the owner's request, since nothing is being sold yet)
 - [x] Contact email address: done 2026-10-04, wearemorningo@gmail.com (free Gmail created for the site; appears three times)
 - [x] ICO registration number: NOT needed, the owner is exempt from the fee (line removed from the policy 2026-10-04, owner approved). History: the ICO fee self-assessment (ico.org.uk/fee-checker) was first run on 2026-10-04 answering "Not started trading" (result: no fee yet), but the ICO's own note says you are trading if you use personal information for commercial reasons, even as an individual. Re-run the same day answering "Currently trading", "Are you exempt from paying the data protection fee? Yes": result "You don't need to pay a fee" (the tool relies on that self-declaration). Basis: the advertising, marketing and public relations exemption (own goods and services, information limited to what marketing needs, no selling or trading of lists, and ALL processing must be exempt). Weak spot: free-text questions that may contain health details. No need to tell the ICO. Retake before selling or sharing the list, at the first order, when forming a company or hiring, on any new use of the data, or on an ICO letter. The "Our ICO registration number is [number]." line should be removed from the page (owner approval needed, the copy is locked). Not legal advice.
-- [x] Last updated date: set to 25 October 2026 (owner asked on 2026-10-25 for the day it goes live; change it again if the release slips to another day)
+- [x] Last updated date: set to 26 October 2026 (owner asked for the day it goes live; change it again to the day the Conversions API release is merged if that differs)
 - [x] When the Meta Pixel is switched on: add `_fbp` and `_fbc` to the cookie list. Done 2026-10-25 with the owner's approved wording. The 3 months was checked on the preview site (both cookies were set for 90 days, `_fbc` only when the visit arrived with an `fbclid` from a Meta ad)
 
 ---
@@ -170,3 +172,4 @@ Nothing on this list should be invented or assumed. Each must be replaced before
 - 2026-10-21, owner approved: one sentence pair added to the end of the first paragraph of "What we collect and why" for the two optional questions on the new survey page (gender and age group, saved with the email), and the first line of "Legal basis for processing" widened to cover those answers. NOT changed: "How long we keep your data" (it names the email and the questions but not the two answers; suggest adding "and your answers to those two questions" to the second line, owner to decide).
 - 2026-10-21, owner asked: the "Who we are" section moved from the top of the policy to the very bottom (after "Changes to this policy"), wording unchanged, and the "Last updated" date set to 21 October 2026.
 - 2026-10-25, owner approved the exact wording: two rows added to the cookie list for the Meta Pixel's cookies, `_fbp` ("Tells Meta which browser is which, so it can measure how well our ads work", 3 months) and `_fbc` ("Remembers that a visit began from clicking one of our ads on Facebook or Instagram", 3 months), both "Set by: Meta (Facebook and Instagram)". "Last updated" set to 25 October 2026, the day the release was prepared. STILL TO DO when the Conversions API is built: a line saying some advertising data is also sent to Meta from our server (owner approval needed).
+- 2026-10-26, owner approved the exact wording: a new paragraph in "The Meta Pixel" section telling visitors that, if they accept cookies and register their email, a record of the sign-up (hashed email, IP address, browser details and the Meta cookie identifiers) is also sent to Meta from our server, and nothing is sent if they do not accept; and the Meta line in the list of who the data is shared with widened to mention it. "Last updated" set to 26 October 2026 (change it to the day the release is merged if that differs). If the IP address turns out not to reach Meta after the test, remove "your IP address" from the paragraph (owner to confirm).
