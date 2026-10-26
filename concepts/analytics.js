@@ -54,10 +54,15 @@
     if (window.gtag) window.gtag('event', name, params || {});
   }
 
-  function pixel(name, params) {
+  // options is Meta's fourth argument ({ eventID }): the same ID on a browser event and a server (Conversions API) event makes Meta
+  // count them once.
+  function pixel(name, params, options) {
     if (consent !== 'accepted') return;
-    if (dryRun) return record('Pixel', name + (PIXEL_ID ? '' : ' (no Pixel ID set yet)'), params);
-    if (window.fbq) window.fbq('track', name, params || {});
+    if (dryRun) return record('Pixel', name + (PIXEL_ID ? '' : ' (no Pixel ID set yet)') + (options && options.eventID ? ' [eventID ' + options.eventID + ']' : ''), params);
+    if (window.fbq) {
+      if (options) window.fbq('track', name, params || {}, options);
+      else window.fbq('track', name, params || {});
+    }
   }
 
   window.morningoTrack = track; // used by the question modal on each page (question_sent)
@@ -247,8 +252,12 @@
     try { already = sessionStorage.getItem('morningo-lead-sent') === '1'; } catch (e) {}
     if (already) return;
     try { sessionStorage.setItem('morningo-lead-sent', '1'); } catch (e) {}
+    // The reference the capture page made for this sign-up. The server copy of the Lead (netlify/functions/capi-lead.mjs) carries the
+    // same one, so Meta merges the two. With no reference (page opened directly) the Lead is sent as before, without one.
+    var eventId = '';
+    try { eventId = sessionStorage.getItem('morningo-lead-event-id') || ''; sessionStorage.removeItem('morningo-lead-event-id'); } catch (e) {}
     track('generate_lead');
-    pixel('Lead');
+    pixel('Lead', {}, eventId ? { eventID: eventId } : undefined);
   }
 
   // ---- Start (only after Accept) ------------------------------------------------------------------------------
