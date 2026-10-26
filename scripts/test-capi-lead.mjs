@@ -30,6 +30,10 @@ const SECRET = 'EAAsecrettokenvalue123';
   check('builder: a bad ip is dropped', !('client_ip_address' in buildRequest(good, { ip: 'not an ip' }).body.data[0].user_data));
   check('builder: ad fields are not sent to Meta', !JSON.stringify(body).includes('facebook'));
 }
+{
+  const { body } = buildRequest({ ...good, user_agent: 'SeenByNetlify/9' }, {});
+  check('builder: the browser details Netlify recorded win over the page copy', body.data[0].user_data.client_user_agent === 'SeenByNetlify/9');
+}
 check('builder: not the signup form -> skip', buildRequest({ email: 'a@b.co' }).skip === 'not the signup form');
 check('builder: consent not given -> skip', buildRequest({ ...good, capi_consent: 'not-given' }).skip === 'no cookie consent');
 check('builder: consent missing -> skip', buildRequest({ ...good, capi_consent: '' }).skip === 'no cookie consent');
@@ -64,6 +68,11 @@ async function run(data, { token = SECRET, testCode = '', fetchImpl } = {}) {
   check('handler: logs hold no email address', !r.logs.toLowerCase().includes('example.com'));
   check('handler: logs say what Meta answered', r.logs.includes('Meta answered 200') && r.logs.includes('events_received: 1'));
   check('handler: did not throw', !r.threw);
+}
+{
+  const r = await run({ ...good, ip: '203.0.113.9' });
+  const sent = JSON.parse(r.calls[0].opts.body);
+  check('handler: the IP Netlify recorded is sent to Meta, and the logs only say "found"', sent.data[0].user_data.client_ip_address === '203.0.113.9' && !r.logs.includes('203.0.113.9') && r.logs.includes('ip found: true'));
 }
 {
   const r = await run({ ...good, capi_consent: 'not-given' });

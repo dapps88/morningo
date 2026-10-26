@@ -26,6 +26,9 @@ const PIXEL_ID = '1103025172536118';   // the "Morningo" dataset; keep the same 
 const GRAPH_VERSION = 'v26.0';         // Meta's Graph API version (each version is supported for at least two years)
 const TIMEOUT_MS = 8000;
 
+// Logs are written as ONE string each: Netlify's log viewer showed multi-argument console calls from this kind of function as empty lines.
+const say = (...parts) => console.log(parts.join(' '));
+const warn = (...parts) => console.warn(parts.join(' '));
 const sha256 = (text) => createHash('sha256').update(text).digest('hex');
 const looksLikeEmail = (text) => text.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text);
 const looksLikeIp = (text) => typeof text === 'string' && /^(\d{1,3}(\.\d{1,3}){3}|[0-9a-fA-F:]{3,45})$/.test(text);
@@ -44,7 +47,9 @@ export function buildRequest(data, { now = Date.now(), testCode = '', ip = '' } 
   const userData = { em: [sha256(email)] };
   if (data.capi_fbp) userData.fbp = String(data.capi_fbp).slice(0, 200);
   if (data.capi_fbc) userData.fbc = String(data.capi_fbc).slice(0, 300);
-  if (data.capi_ua) userData.client_user_agent = String(data.capi_ua).slice(0, 500);
+  // The browser details Netlify itself recorded with the submission (user_agent) are preferred; the page's own copy is the fallback.
+  const userAgent = String(data.user_agent || data.capi_ua || '');
+  if (userAgent) userData.client_user_agent = userAgent.slice(0, 500);
   if (looksLikeIp(ip)) userData.client_ip_address = ip;
 
   const body = {
@@ -65,14 +70,17 @@ export default {
   async formSubmitted(event) {
     const data = (event && event.data) || {};
 
-    // Diagnostics: names only, never values.
-    console.log('capi-lead: submission received. event keys:', Object.keys(event || {}).join(','), '| field names:', Object.keys(data).join(','));
-
     const token = process.env.META_CAPI_TOKEN;
     const ip = [event && event.ip, event && event.clientIp, data.ip, data.client_ip_address].find(looksLikeIp) || '';
+
+    // Diagnostics: field NAMES and yes/no facts only, never values.
+    say('capi-lead: submission received. event keys:', Object.keys(event || {}).join(',') || '(none)',
+      '| field names:', Object.keys(data).join(',') || '(none)',
+      '| ip found:', Boolean(ip), '| netlify user_agent found:', Boolean(data.user_agent));
+
     const built = buildRequest(data, { testCode: process.env.META_TEST_EVENT_CODE || '', ip });
-    if (built.skip) { console.log('capi-lead: skipped (' + built.skip + ')'); return; }
-    if (!token) { console.warn('capi-lead: META_CAPI_TOKEN is not set, nothing sent'); return; }
+    if (built.skip) { say('capi-lead: skipped (' + built.skip + ')'); return; }
+    if (!token) { warn('capi-lead: META_CAPI_TOKEN is not set, nothing sent'); return; }
 
     const url = 'https://graph.facebook.com/' + GRAPH_VERSION + '/' + PIXEL_ID + '/events?access_token=' + encodeURIComponent(token);
     const controller = new AbortController();
@@ -86,7 +94,7 @@ export default {
       });
       const reply = await res.json().catch(() => ({}));
       const u = built.body.data[0].user_data;
-      console.log(
+      say(
         'capi-lead: Meta answered', res.status,
         '| events_received:', reply.events_received,
         '| fbtrace_id:', reply.fbtrace_id,
@@ -95,7 +103,7 @@ export default {
         reply.error ? '| ERROR ' + reply.error.code + ': ' + reply.error.message : ''
       );
     } catch (err) {
-      console.warn('capi-lead: sending to Meta failed:', err && err.name ? err.name : 'unknown error');
+      warn('capi-lead: sending to Meta failed:', err && err.name ? err.name : 'unknown error');
     } finally {
       clearTimeout(timer);
     }
