@@ -389,6 +389,16 @@
         <input type="hidden" name="utm_content" value="">
         <input type="hidden" name="utm_term" value="">
         <input type="hidden" name="ad_id" value="">
+        <!-- Facebook Conversions API (2026-10-25). The submit script below fills these in. capi_event_id is a random reference that the browser
+             Pixel's Lead on the survey page reuses, so Meta counts the browser and the server copy of one sign-up once. The other five are
+             filled ONLY when the visitor pressed Accept on the cookie banner, and the server function sends nothing to Meta unless
+             capi_consent is "accepted". -->
+        <input type="hidden" name="capi_event_id" value="">
+        <input type="hidden" name="capi_consent" value="">
+        <input type="hidden" name="capi_fbp" value="">
+        <input type="hidden" name="capi_fbc" value="">
+        <input type="hidden" name="capi_url" value="">
+        <input type="hidden" name="capi_ua" value="">
         <p aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
           <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
         </p>
@@ -619,9 +629,25 @@
       sendError.style.display = 'none';
       cta.disabled = true;
       cta.textContent = 'Saving your place…';
+
+      // Facebook Conversions API fields (the hidden capi_* inputs in the form). The reference is always made. The identifiers and
+      // browser details are only filled in when the visitor accepted cookies, and the server function only sends anything to Meta
+      // when capi_consent says "accepted".
+      const accepted = !!(window.morningoConsent && window.morningoConsent.get() === 'accepted');
+      const eventId = 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+      const cookie = (name) => { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; };
+      form.elements['capi_event_id'].value = eventId;
+      form.elements['capi_consent'].value = accepted ? 'accepted' : 'not-given';
+      form.elements['capi_fbp'].value = accepted ? cookie('_fbp') : '';
+      form.elements['capi_fbc'].value = accepted ? cookie('_fbc') : '';
+      form.elements['capi_url'].value = accepted ? location.origin + location.pathname : '';
+      form.elements['capi_ua'].value = accepted ? navigator.userAgent : '';
+
       window.morningoPostForm(new FormData(form))
         .then(() => {
           try { sessionStorage.setItem('morningo-signup-email', input.value.trim()); } catch (e) {}
+          // The survey page's browser Lead reuses this reference (analytics.js, fireLead) so Meta merges it with the server copy.
+          try { sessionStorage.setItem('morningo-lead-event-id', eventId); } catch (e) {}
           window.location.href = window.morningoLink ? window.morningoLink('about-you.html') : 'about-you.html';
         })
         .catch(() => {

@@ -1,3 +1,8 @@
 # Netlify build settings. The site is plain static HTML in concepts/, with no build step.
 [build]
   publish = "concepts"
+
+# Serverless functions live at the project root, outside the published folder, so they are never served as pages.
+# netlify/functions/capi-lead.mjs sends the sign-up Lead to Meta (see the notes at the top of that file).
+[functions]
+  directory = "netlify/functions"
