@@ -466,7 +466,7 @@
   /* "Buy now" button colour (owner choice, 2026-11-06). The hero, product section and sticky buttons all use it. */
   .cta-buy { background: #581E85; }
 
-  /* The pressed "Buy now": a small ring turning beside "Checking stock…", at full colour (not the dimmed look other disabled buttons get). */
+  /* The pressed "Buy now": a small ring turning beside "One moment…", at full colour (not the dimmed look other disabled buttons get). */
   .cta-button.is-loading { display: flex; align-items: center; justify-content: center; gap: 10px; }
   .cta-button.is-loading:disabled { opacity: 1; cursor: progress; }
   .buy-spinner { flex-shrink: 0; width: 18px; height: 18px; border-radius: 9999px; border: 2px solid rgba(255, 255, 255, 0.35); border-top-color: #ffffff; animation: buy-spin 800ms linear infinite; }
@@ -1118,7 +1118,7 @@
   </div>
 </div>
 
-<!-- Read out by screen readers when a "Buy now" button is pressed ("Checking stock…"). -->
+<!-- Read out by screen readers when a "Buy now" button is pressed ("One moment…"). -->
 <span id="buy-status" role="status" aria-live="polite" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;"></span>
 
 <div id="cookie-banner" class="cookie-banner">
@@ -1474,10 +1474,12 @@
 
   (function() {
     // Wires the hero, product-section and sticky "Buy now" buttons to the waitlist page (email-capture-v3.html), with a gentle pause first
-    // (owner, 2026-11-06): the pressed button becomes a small spinner and "Checking stock…" for about a second and a half, so the move to
-    // "sorry, none available" does not feel like a dead end. Change CHECKING_LABEL or WAIT_MS to adjust. The click is still counted by analytics.js
+    // (owner, 2026-11-06): the pressed button becomes a small spinner and "One moment…" for about a second and a half, so the move to
+    // "sorry, none available" does not feel like a dead end. The wording was "Checking stock…" first; the owner changed it to a neutral
+    // "One moment…" (2026-11-06) because a stock check that always ends the same way implies a lookup that does not happen.
+    // Change LOADING_LABEL or WAIT_MS to adjust. The click is still counted by analytics.js
     // (it listens for the same click). If the visitor comes back with the Back button the buttons are put right again.
-    const CHECKING_LABEL = 'Checking stock…';
+    const LOADING_LABEL = 'One moment…';
     const WAIT_MS = 1600;
     const buttons = ['hero-cta', 'product-cta', 'sticky-cta-button'].map(id => document.getElementById(id)).filter(Boolean);
     const status = document.getElementById('buy-status');
@@ -1503,9 +1505,9 @@
         btn.dataset.original = btn.innerHTML;
         btn.classList.add('is-loading');
         btn.setAttribute('aria-busy', 'true');
-        btn.innerHTML = '<span class="buy-spinner" aria-hidden="true"></span><span>' + CHECKING_LABEL + '</span>';
+        btn.innerHTML = '<span class="buy-spinner" aria-hidden="true"></span><span>' + LOADING_LABEL + '</span>';
         btn.disabled = true;
-        if (status) status.textContent = CHECKING_LABEL;
+        if (status) status.textContent = LOADING_LABEL;
         setTimeout(() => {
           window.location.href = window.morningoLink ? window.morningoLink('email-capture-v3.html') : 'email-capture-v3.html';
         }, WAIT_MS);
