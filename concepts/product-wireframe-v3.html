@@ -10,6 +10,7 @@
 <title>Morningo Product Page (redesign)</title>
 <script src="consent.js"></script>
 <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
@@ -478,9 +479,9 @@
   .formula-strip { position: relative; overflow: hidden; background: #080811; height: 72px; }
   .formula-track { position: absolute; top: 0; bottom: 0; left: 0; display: flex; align-items: center; width: max-content; animation: formula-scroll var(--formula-time, 24s) linear infinite; }
   .formula-strip:hover .formula-track { animation-play-state: paused; }  .formula-group { display: flex; flex-shrink: 0; }
-  /* Regular weight only. Until fonts/bebas-neue-latin.woff2 is on the site the browser uses the next font in the list (a plain narrow face); the
-     heavy Impact face used before was the reason the text looked far too bold. Two-line items have 24px lines so the words do not crowd. */
-  .formula-item { display: flex; align-items: center; gap: 8px; padding-right: 24px; flex-shrink: 0; font-family: 'Bebas Neue', 'Arial Narrow', 'Roboto Condensed', sans-serif; font-size: 20px; font-weight: 400; line-height: 24px; letter-spacing: 1px; text-transform: uppercase; color: #f9f8c1; white-space: nowrap; }
+  /* Regular weight only, Bebas Neue first (Arial Narrow is only the fallback if the file ever fails to load; the heavy Impact face used
+     earlier as a stand-in was the reason the text looked far too bold). 48px between items; two-line items have 24px lines so the words do not crowd. */
+  .formula-item { display: flex; align-items: center; gap: 8px; padding-right: 48px; flex-shrink: 0; font-family: 'Bebas Neue', 'Arial Narrow', 'Roboto Condensed', sans-serif; font-size: 20px; font-weight: 400; line-height: 24px; letter-spacing: 1px; text-transform: uppercase; color: #f9f8c1; white-space: nowrap; }
   .formula-item svg { flex-shrink: 0; }
   @media (prefers-reduced-motion: reduce) { .formula-track { animation: none; } .formula-strip { overflow-x: auto; } }
 
