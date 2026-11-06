@@ -63,6 +63,8 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  /* REDESIGN: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
+  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -340,6 +342,8 @@
     box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
   }
   @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
+  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
+  .site-footer { background: #1b0014; }
 
   /* The button purple (owner choice, 2026-11-06), the same as "Buy now" on the product page. */
   .cta-buy { background: #581E85; }
@@ -395,7 +399,7 @@
         <p class="body-lg" id="capture-subcopy">Leave your email and you&rsquo;ll hear before anyone else.</p>
       </div>
 
-      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="about-you.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <form class="flex flex-col gap-3 mt-8" id="capture-form" name="signup" method="POST" action="about-you-v3.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="signup">
         <input type="hidden" name="subject" value="✅ Morningo SIGN-UP: new subscriber">
         <!-- Which ad brought the visitor. attribution.js fills these in from the address bar; they stay empty for visitors who did not come from a tagged ad. -->
@@ -432,7 +436,7 @@
         <button type="submit" form="capture-form" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="capture-cta">
           Join waitlist
         </button>
-        <p class="cta-caption body-sm text-gray-500">No payment. We'll email when your place opens, and may ask what brought you here. <a href="privacy.html" class="underline">Privacy notice</a></p>
+        <p class="cta-caption body-sm text-gray-500">No payment. We'll email when your place opens, and may ask what brought you here. <a href="privacy-v3.html" class="underline">Privacy notice</a></p>
       </div>
       <!-- Marks where the button bar sits when it is not floating (zero height). -->
       <div id="capture-actions-end" aria-hidden="true"></div>
@@ -442,7 +446,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-primary text-white mt-section-gap">
+<footer class="site-footer text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -450,8 +454,8 @@
 
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
-      <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
-      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
+      <a href="privacy-v3.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy-v3.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -461,7 +465,7 @@
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy-v3.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
         <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
@@ -483,7 +487,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -503,7 +507,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -643,9 +647,9 @@
       showValidity(valid);
       if (!valid) { input.focus(); return; }
 
-      // Posts to the "signup" Netlify form (see window.morningoPostForm) and only moves on to the survey page (about-you.html)
+      // Posts to the "signup" Netlify form (see window.morningoPostForm) and only moves on to the survey page (about-you-v3.html)
       // once the submission has really gone through; on failure the visitor stays here with an error and can retry.
-      // The Lead tracking event fires on about-you.html load, so it only ever counts submissions that succeeded.
+      // The Lead tracking event fires on about-you-v3.html load, so it only ever counts submissions that succeeded.
       // The email is handed to the survey page through this tab's sessionStorage (never the address bar), so its row can carry
       // the email next to the answers. The survey page removes it again on Done and on Skip, and the thank-you page does too.
       if (cta.disabled) return;
@@ -671,7 +675,7 @@
           try { sessionStorage.setItem('morningo-signup-email', input.value.trim()); } catch (e) {}
           // The survey page's browser Lead reuses this reference (analytics.js, fireLead) so Meta merges it with the server copy.
           try { sessionStorage.setItem('morningo-lead-event-id', eventId); } catch (e) {}
-          window.location.href = window.morningoLink ? window.morningoLink('about-you.html') : 'about-you.html';
+          window.location.href = window.morningoLink ? window.morningoLink('about-you-v3.html') : 'about-you-v3.html';
         })
         .catch(() => {
           sendError.style.display = 'block';
@@ -886,6 +890,30 @@
     window.addEventListener('resize', update);
     window.addEventListener('load', update);
     update();
+  })();
+</script>
+
+<script>
+  // Arriving from another page of the site (not Back, not a reload): start at the top. Some wrappers, for example the Claude test link, keep the
+  // surrounding page's scroll position when the next page opens, so a short page opened from a long one landed at its bottom. scrollIntoView also
+  // asks a surrounding frame to scroll back up. Skipped once the visitor has touched, scrolled or typed, so it never yanks the page from under them.
+  (function() {
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type !== 'navigate') return;
+    } catch (e) {}
+    var touched = false;
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(name) {
+      window.addEventListener(name, function() { touched = true; }, { passive: true, once: true });
+    });
+    function toTop() {
+      if (touched) return;
+      window.scrollTo(0, 0);
+      try { document.documentElement.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) {}
+    }
+    toTop();
+    document.addEventListener('DOMContentLoaded', toTop);
+    window.addEventListener('load', toTop);
   })();
 </script>
 

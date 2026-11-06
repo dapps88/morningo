@@ -82,6 +82,8 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  /* REDESIGN: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
+  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -443,6 +445,8 @@
     box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
   }
   @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
+  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
+  .site-footer { background: #1b0014; }
   .nav-row { display: flex; align-items: center; gap: 8px; min-height: 62px; }
   .nav-row .logo-mark { align-self: center; flex-shrink: 0; }
   .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: -8px; }
@@ -461,6 +465,13 @@
 
   /* "Buy now" button colour (owner choice, 2026-11-06). The hero, product section and sticky buttons all use it. */
   .cta-buy { background: #581E85; }
+
+  /* The pressed "Buy now": a small ring turning beside "Checking stock…", at full colour (not the dimmed look other disabled buttons get). */
+  .cta-button.is-loading { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .cta-button.is-loading:disabled { opacity: 1; cursor: progress; }
+  .buy-spinner { flex-shrink: 0; width: 18px; height: 18px; border-radius: 9999px; border: 2px solid rgba(255, 255, 255, 0.35); border-top-color: #ffffff; animation: buy-spin 800ms linear infinite; }
+  @keyframes buy-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .buy-spinner { animation: none; } }
 
   /* Two soft capsules under the button: tint only, no outline, 24px outline icon, bold 16px text. */
   .assurance-row { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1080,7 +1091,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-primary text-white mt-section-gap">
+<footer class="site-footer text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -1088,8 +1099,8 @@
 
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
-      <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
-      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
+      <a href="privacy-v3.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy-v3.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -1107,10 +1118,13 @@
   </div>
 </div>
 
+<!-- Read out by screen readers when a "Buy now" button is pressed ("Checking stock…"). -->
+<span id="buy-status" role="status" aria-live="polite" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;"></span>
+
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy-v3.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
         <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
@@ -1227,7 +1241,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -1247,7 +1261,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -1459,11 +1473,47 @@
   })();
 
   (function() {
-    // Wires the hero, product-section and sticky CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
-    ['hero-cta', 'product-cta', 'sticky-cta-button'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture-v3.html') : 'email-capture-v3.html'; });
+    // Wires the hero, product-section and sticky "Buy now" buttons to the waitlist page (email-capture-v3.html), with a gentle pause first
+    // (owner, 2026-11-06): the pressed button becomes a small spinner and "Checking stock…" for about a second and a half, so the move to
+    // "sorry, none available" does not feel like a dead end. Change CHECKING_LABEL or WAIT_MS to adjust. The click is still counted by analytics.js
+    // (it listens for the same click). If the visitor comes back with the Back button the buttons are put right again.
+    const CHECKING_LABEL = 'Checking stock…';
+    const WAIT_MS = 1600;
+    const buttons = ['hero-cta', 'product-cta', 'sticky-cta-button'].map(id => document.getElementById(id)).filter(Boolean);
+    const status = document.getElementById('buy-status');
+    let waiting = false;
+
+    function reset() {
+      waiting = false;
+      if (status) status.textContent = '';
+      buttons.forEach(btn => {
+        if (btn.dataset.original === undefined) return;
+        btn.innerHTML = btn.dataset.original;
+        btn.classList.remove('is-loading');
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        delete btn.dataset.original;
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (waiting) return;
+        waiting = true;
+        btn.dataset.original = btn.innerHTML;
+        btn.classList.add('is-loading');
+        btn.setAttribute('aria-busy', 'true');
+        btn.innerHTML = '<span class="buy-spinner" aria-hidden="true"></span><span>' + CHECKING_LABEL + '</span>';
+        btn.disabled = true;
+        if (status) status.textContent = CHECKING_LABEL;
+        setTimeout(() => {
+          window.location.href = window.morningoLink ? window.morningoLink('email-capture-v3.html') : 'email-capture-v3.html';
+        }, WAIT_MS);
+      });
     });
+
+    // Back / forward from the waitlist page can restore this page as it was left, spinner and all.
+    window.addEventListener('pageshow', e => { if (e.persisted) reset(); });
   })();
 
   (function() {
@@ -1696,6 +1746,30 @@
         emailSendBtn.textContent = 'Send message';
       });
     });
+  })();
+</script>
+
+<script>
+  // Arriving from another page of the site (not Back, not a reload): start at the top. Some wrappers, for example the Claude test link, keep the
+  // surrounding page's scroll position when the next page opens, so a short page opened from a long one landed at its bottom. scrollIntoView also
+  // asks a surrounding frame to scroll back up. Skipped once the visitor has touched, scrolled or typed, so it never yanks the page from under them.
+  (function() {
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type !== 'navigate') return;
+    } catch (e) {}
+    var touched = false;
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(name) {
+      window.addEventListener(name, function() { touched = true; }, { passive: true, once: true });
+    });
+    function toTop() {
+      if (touched) return;
+      window.scrollTo(0, 0);
+      try { document.documentElement.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) {}
+    }
+    toTop();
+    document.addEventListener('DOMContentLoaded', toTop);
+    window.addEventListener('load', toTop);
   })();
 </script>
 
