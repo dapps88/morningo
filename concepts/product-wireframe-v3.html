@@ -4,7 +4,7 @@
 <!-- REDESIGN VARIANT (v3), built 2026-11-06 on the "redesign" branch from the design canvas the owner iterated on.
      product-wireframe-v2.html is the live page and is untouched. Changes against v2: new nav (soft glow, basket, Question as a text
      link); hero title, intro, four bold-lead bullets, "Buy now" button, two assurance pills in place of the limited-release box,
-     a scrolling formula strip, no gallery progress bar; Feel-style body text (16px on 26px lines, near-black) in the hero and the
+     a scrolling formula strip, no gallery progress bar, six new gallery pictures and no video; Feel-style body text (16px on 26px lines, near-black) in the hero and the
      product section; new product section copy and button. "Buy now" still goes to the email capture page because there is no shop yet,
      and the basket does nothing yet. Notes and open items: references/redesign-v3.md. -->
 <title>Morningo Product Page (redesign)</title>
@@ -600,32 +600,26 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide order (owner decision 2026-10-22): the five gallery pictures the owner supplied, in the order he numbered them
-             (gallery-1 to gallery-5; the text on pictures 1 to 5 is baked into the artwork, so the alt text repeats it), then the video last.
-             Slide 1 carries fetchpriority="high" because it is the first thing painted. Replaces the earlier hero-main, box-main,
-             sachet-main and quote slides, whose files are still in images/ but no longer used. -->
-        <img src="images/gallery-1.webp" fetchpriority="high" data-analytics-name="Sachet and drink" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front. Beside it: natural caffeine, thick on purpose, blackcurrant warmed with ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-2.webp" data-analytics-name="Loic review" alt="Five-star tester review from Loic P: &ldquo;I&rsquo;ve been pleasantly surprised through the morning. It&rsquo;s nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-3.webp" data-analytics-name="Box and drink on a chair" alt="A Morningo box on a purple velvet chair beside a glass of purple drink, blackcurrants, sliced ginger and a sachet. The new morning drink that needs a seat." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-4.webp" data-analytics-name="One sachet, one glass" alt="A hand holding a cut-glass tumbler of purple drink with a pale foam head, a Morningo sachet beside it. One sachet. One glass of water." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-5.webp" data-analytics-name="28 beautiful mornings" alt="A hand taking a Morningo sachet from an open box of sachets. 28 beautiful mornings." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <!-- Slide 6: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
-             after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
-        <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" data-analytics-name="Video" style="position:relative; overflow:hidden; background:#1b1714;">
-          <img id="hero-video-poster" src="images/hero-poster.webp" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
-          <video id="hero-video" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0;" muted playsinline preload="none" aria-hidden="true">
-            <source data-src="video/hero-drink.mp4" type="video/mp4">
-          </video>
-        </div>
+        <!-- Slide order (owner decision 2026-11-06, redesign): six new pictures, in the order the owner numbered them (his frames Hero1 to Hero6: box, reviews, coffee, mix, laptop, sleep; gallery-v3-1 to
+             gallery-v3-6, 1600x1200 WebP made with the site's usual image settings). The video slide is gone. The text on the pictures is
+             baked into the artwork, so the alt text repeats it. Slide 1 carries fetchpriority="high" because it is the first thing painted.
+             The live page's gallery-1 to gallery-5 files and the video are untouched in images/ and video/ and still used by v2.
+             Check before release: the box in picture 6 says 26 servings (the page says 28), and the claims on pictures 4 to 6. -->
+        <img src="images/gallery-v3-1.webp" fetchpriority="high" data-analytics-name="Box and four benefits" alt="A Morningo box beside a glass of purple drink and a sachet, with blackcurrants and sliced ginger in front. Across the top, four benefits: support concentration, steady energy, defend focus, fight fatigue." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-2.webp" data-analytics-name="Amber and Loic reviews" alt="Two people with a purple foam moustache each, holding glasses of Morningo. Above them, two reviews. Amber H, four stars: &ldquo;Feels like I'm drinking a luxury smoothie with some nice extras&rdquo;. Loic P, five stars: &ldquo;I've been pleasantly surprised through the morning. It's nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-3.webp" data-analytics-name="Could replace your coffee" alt="A glass of purple Morningo and a sachet among empty espresso cups. Could replace your morning coffee: less caffeine than a big coffee, L-theanine works with caffeine, ginger lights up the taste buds." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-4.webp" data-analytics-name="Mix with water" alt="A hand pouring purple powder from a Morningo sachet into a glass of the drink. Mix with water &amp; take a moment to yourself." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-5.webp" data-analytics-name="Head down at work" alt="A glass of purple Morningo on a desk beside a laptop with two sticky notes on it, &ldquo;Focus!&rdquo; and &ldquo;Get yourself together&rdquo;. Great for days when you need your head down." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-6.webp" data-analytics-name="Won't help you sleep" alt="A hand reaching for a glass of purple Morningo beside a sachet on a bedside table. Won&rsquo;t help you sleep. Will help you get going." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-1.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-2.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-3.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-4.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-5.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View video 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-1.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-3.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-4.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-5.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-6.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
@@ -1702,100 +1696,6 @@
         emailSendBtn.textContent = 'Send message';
       });
     });
-  })();
-</script>
-
-<script>
-  // Hero video (gallery slide 1). The poster image underneath is what loads and paints first. The video has no source until
-  // the page has finished loading, stays invisible until it is really playing, and only starts once the browser says it can
-  // play the whole clip without stalling. If it can't (slow connection, stall, error) the visitor just keeps the poster.
-  (function() {
-    const video = document.getElementById('hero-video');
-    if (!video || !('IntersectionObserver' in window)) return;
-
-    const HOLD_MS = 1500;      // rest on the final frame at the end of the clip
-    const FADE_MS = 800;       // then dissolve back to the poster (= the first frame) before restarting
-    const FADE_IN_MS = 250;    // video appearing over its identical poster
-    const STALL_MS = 1200;     // stuck buffering this long mid-play: give up and show the poster
-    const NO_DATA_MS = 4000;   // nothing downloaded after this long: try play() anyway (iOS Safari won't buffer until asked)
-
-    // Poster only (video never downloaded) for reduced motion, data-saver, or a 2G-or-slower connection.
-    // Chrome/Android report connection type; other browsers rely on the stall guard below.
-    const conn = navigator.connection || {};
-    const slowConnection = ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || conn.saveData === true || slowConnection) return;
-
-    let attached = false, inView = false;
-    let ready = false;       // the browser predicts the whole clip can play through without stalling
-    let stallTimer;
-    let phase = 'playing';   // 'playing' | 'holding' | 'fading': the loop timers own playback outside 'playing'
-
-    function setOpacity(value, duration) {
-      video.style.transitionProperty = 'opacity';
-      video.style.transitionTimingFunction = 'ease-in-out';
-      video.style.transitionDuration = duration + 'ms';
-      video.style.opacity = value;
-    }
-
-    function sync() {
-      if (!attached || !ready || phase !== 'playing') return;
-      if (inView && !document.hidden) video.play().catch(() => {});
-      else video.pause();
-    }
-
-    video.addEventListener('canplaythrough', () => { ready = true; sync(); });
-
-    // The video only becomes visible once it is actually playing.
-    video.addEventListener('playing', () => {
-      clearTimeout(stallTimer);
-      if (phase === 'playing') setOpacity(1, FADE_IN_MS);
-    });
-
-    // Stalled mid-play, or errored: fade back to the poster instead of leaving a frozen frame, and try again from the
-    // start when the browser next reports it can play through.
-    function backToPoster() {
-      clearTimeout(stallTimer);
-      ready = false;
-      video.pause();
-      setOpacity(0, FADE_MS);
-      if (!video.error) video.currentTime = 0;
-    }
-    video.addEventListener('waiting', () => {
-      if (phase !== 'playing' || video.paused) return;
-      clearTimeout(stallTimer);
-      stallTimer = setTimeout(backToPoster, STALL_MS);
-    });
-    video.addEventListener('error', backToPoster);
-
-    // End of clip: rest on the last frame, dissolve to the poster, then start over.
-    video.addEventListener('ended', () => {
-      phase = 'holding';
-      setTimeout(() => {
-        phase = 'fading';
-        setOpacity(0, FADE_MS);
-        setTimeout(() => {
-          video.currentTime = 0;
-          phase = 'playing';
-          sync();
-        }, FADE_MS);
-      }, HOLD_MS);
-    });
-
-    function attach() {
-      if (attached) return;
-      attached = true;
-      video.querySelectorAll('source[data-src]').forEach(s => { s.src = s.dataset.src; });
-      video.preload = 'auto';
-      video.load();
-      setTimeout(() => { if (!ready && video.readyState < 2) { ready = true; sync(); } }, NO_DATA_MS);
-    }
-
-    // Play only while at least half the video is on screen (e.g. it pauses once swiped to another slide).
-    new IntersectionObserver(entries => { inView = entries[0].isIntersecting; sync(); }, { threshold: 0.5 }).observe(video);
-    document.addEventListener('visibilitychange', sync);
-
-    const start = () => ('requestIdleCallback' in window ? requestIdleCallback(attach, { timeout: 2000 }) : setTimeout(attach, 200));
-    if (document.readyState === 'complete') start(); else addEventListener('load', start);
   })();
 </script>
 
