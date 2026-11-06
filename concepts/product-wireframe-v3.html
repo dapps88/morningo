@@ -459,7 +459,7 @@
   .hero-intro { gap: 16px; }
   .hero-flavour { margin-top: -8px; }
 
-  /* "Buy now" button colour (owner choice, 2026-11-06). The hero and sticky buttons use it; the product section button stays plum. */
+  /* "Buy now" button colour (owner choice, 2026-11-06). The hero, product section and sticky buttons all use it. */
   .cta-buy { background: #581E85; }
 
   /* Two soft capsules under the button: tint only, no outline, 24px outline icon, bold 16px text. */
@@ -838,7 +838,7 @@
   <!-- 4. THE PRODUCT -->
   <section id="the-product" class="pt-section">
     <div class="split-columns">
-    <img src="images/lady-holding-sachet.webp" alt="Woman holding a Morningo sachet in front of her" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+    <img src="images/product-glass-sachet.webp" alt="A Morningo sachet leaning against a cut-glass tumbler of purple drink with a pale foam head, on a stone block in front of a purple velvet backdrop. Calm, focussed, no crash. Blackcurrant warmed with ginger. Morning drink, 1 serving." class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="flex flex-col gap-3 px-4">
       <h2 class="headline-sm title-fade">A morning drink that keeps you switched on.</h2>
@@ -847,7 +847,7 @@
         <p class="body-lg">Thick and dark, with a dense foam head. It took 47 versions to make one worth the glass.</p>
         <p class="body-lg">A sachet, a glass of water, a good shake. Keep your coffee, or swap it some mornings.</p>
         <div class="pt-4">
-          <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="product-cta">
+          <button class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="product-cta">
             Buy now
           </button>
         </div>
@@ -1462,7 +1462,7 @@
     // Wires the hero, product-section and sticky CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
     ['hero-cta', 'product-cta', 'sticky-cta-button'].forEach(id => {
       const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture.html') : 'email-capture.html'; });
+      if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture-v3.html') : 'email-capture-v3.html'; });
     });
   })();
 

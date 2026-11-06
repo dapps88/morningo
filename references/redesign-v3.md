@@ -14,8 +14,20 @@ View it: `python3 scripts/dev-server.py 8744 concepts`, then http://localhost:87
 - **Body copy colour:** every `.body-lg` is now near-black `#17150F` instead of grey `#585858` across the page (Problem, Comparison, "Steady isn't an accident", "47+ versions", Questions). Links in plum and the plum comparison card's white text are unchanged. Small grey captions (the italic labels on the ingredient cards, footnotes, sticky caption) and the nutrition modal are unchanged. Line spacing outside the hero and product section is still the old 1.45.
 - **Questions section:** the first accordion, "It's not on sale yet. What am I signing up for?", is removed (owner, 2026-11-06). The other three stay, all closed.
 - **Gallery:** the progress bar on the main image is gone (the thumbnails still show the active picture). Six new pictures (the owner's numbered 1 to 6, 2000x1500 WebP) replace the live page's five plus video, in the order from the owner's design frames Hero1 to Hero6: 1 box with four benefits, 2 the two reviews (Amber and Loic), 3 "Could replace your morning coffee...", 4 "Mix with water...", 5 "Great for days when you need your head down", 6 "Won't help you sleep...". (The owner's file names did not reach the assistant, only the order they were pasted in, so the first two attempts at the order were wrong; the frames screenshot settled it.) Files `gallery-v3-1` to `gallery-v3-6`, resized to 1600x1200 and re-encoded at quality 82 with the same settings as `scripts/optimize-images.sh` (landscape, 4:3). Each went from 213 to 345 KB as supplied to 88 to 137 KB. The sources sit as PNGs in `assets/web images/` (git-ignored, local only); outputs are in `assets/web-optimized/` with the copies the page loads in `concepts/images/`. The video slide and its player script are gone from v3 only; `gallery-1` to `gallery-5` and the video file are untouched and still used by v2. (The script was not run as a whole because it would re-convert every other picture too.)
-- **Product section:** title "A morning drink that keeps you switched on.", three new paragraphs, button "Buy now" (still plum `#39002A`).
+- **Product section:** title "A morning drink that keeps you switched on.", three new paragraphs, button "Buy now" in the same `#581E85` purple as the hero's (owner, 2026-11-06). The picture beside it is now a sachet leaning on a cut-glass tumbler of the drink on a stone block (`product-glass-sachet`, 1600x1200 WebP at quality 82, 268 KB as supplied to 83 KB), replacing the woman holding the sachet; the live page still uses the old one.
 - **Sticky bar:** "Buy now" in `#581E85`, caption "30 day money back guarantee. Free shipping."
+
+## The waitlist page (`email-capture-v3.html`)
+
+A copy of `email-capture.html` (untouched, still the live page), built 2026-11-06. The redesigned product page's "Buy now" buttons now lead here, and its back button and logo lead back to the redesigned product page. It still saves to the same `signup` form and goes on to `about-you.html`.
+
+- **Words (owner's):** headline "Sorry, none available right now. Join the waitlist."; line "Leave your email and you'll hear before anyone else."; button "Join waitlist". The line under the button is unchanged ("No payment. We'll email when your place opens, and may ask what brought you here. Privacy notice").
+- **Nav:** the same dark glow bar as the redesigned product page (`.site-nav`, copied into this page). The footer is still the old plum on both redesigned pages. The survey, thank-you and privacy pages still have the old plum nav until they are copied too.
+- **Button:** `#581E85`, the same as "Buy now".
+- **Picture:** the sachet-and-glass picture from the product section (`product-glass-sachet`) at the top: edge to edge under the nav on a phone, rounded and the width of the form column on a desktop. On phones shorter than 760px it is flatter (2:1), and shorter than 680px flatter again (5:2), so the email box fits above the button bar.
+- **Queue animation:** removed from this copy for now (the 12 person icons). The live page still has it.
+- **Button always in view on a phone:** the button and the line under it sit just outside the form (joined to it with `form="capture-form"`) in a bar that sticks to the bottom of the screen on screens under 768px, with a hairline and soft shadow only while it floats. On taller phones it simply sits in its normal place. Tested at 390x844, 390x600 and 375x667: the button is fully in view on load, the email box is clear of the bar at 844 and 667 and under it at 600, and checking the empty and invalid email errors and a valid send (which moves on to the survey page) all still work. On a first visit the cookie banner covers the bar until the visitor chooses (the same as on the other pages).
+- **Desktop:** the button is below the fold at 1440x900 because the picture is tall (468px); not asked for, so not changed.
 
 ## Owner decisions these override
 
@@ -27,7 +39,6 @@ View it: `python3 scripts/dev-server.py 8744 concepts`, then http://localhost:87
 - The sticky bar's label and caption follow the hero (the canvas did not have a sticky bar).
 - "Buy now" still goes to `email-capture.html`, because there is no shop. The basket button does nothing.
 - The strip uses the four callouts already on the page (Vegan, No artificial sweeteners, Research-led formula, Gluten free), not the reference site's wording. "No sweeteners or fillers" and "No bulking agents" would clash with the citrus fibre.
-- The product section's button stays plum while the hero's is `#581E85` (the owner only said "on the hero").
 - Letter spacing on the strip is 1px (the owner's own tweak).
 
 ## Open before this can go live
