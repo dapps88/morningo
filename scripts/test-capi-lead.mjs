@@ -19,7 +19,7 @@ const SECRET = 'EAAsecrettokenvalue123';
 {
   const { body } = buildRequest(good, { now: 1_800_000_000_000, testCode: 'TEST999', ip: '203.0.113.7' });
   const ev = body.data[0];
-  check('builder: event name and id', ev.event_name === 'Lead' && ev.event_id === 'lead-abc-123');
+  check('builder: event name and id', ev.event_name === 'CompleteRegistration' && ev.event_id === 'lead-abc-123');
   check('builder: time in seconds', ev.event_time === 1_800_000_000);
   check('builder: email is lowercased, trimmed, then SHA-256 hashed', ev.user_data.em[0] === sha('claude-test-ignore@example.com'));
   check('builder: no plain email anywhere in the body', !JSON.stringify(body).toLowerCase().includes('example.com'));

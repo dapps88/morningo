@@ -12,6 +12,7 @@ Single source of truth for all on-page copy on the page that sits between the em
 3. Order of pages is locked: product page, email capture, survey page, thank-you page. The survey page opens only after the email has really been saved.
 
 4. The Facebook Pixel Lead event and the GA4 `generate_lead` event fire on page load of THIS page (changed from the thank-you page on 2026-10-21, owner decision). The thank-you page no longer fires them. Details: `references/analytics-tracking-plan.md`.
+   **Changed 2026-11-06 (v2 website):** on this page's load Meta now gets `CompleteRegistration` (with the event ID shared with the server copy), not `Lead`. GA4 `generate_lead` is unchanged. `Lead` now fires on the waitlist page. Details: `references/analytics-tracking-plan.md`.
 
 5. Logo only in the header (links to the product page), like the thank-you page. No back button, no question pill. Standard site footer, cookie banner and "Have a question?" modal, identical to the other pages.
 

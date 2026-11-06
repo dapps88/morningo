@@ -1,5 +1,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- v2 website (2026-11-06): the survey page. It took over the file name of the v1 website's survey page (kept in archive/v1-website/).
+     Dark glow nav, the Done button in the same purple as "Buy now", Done / Skip lead on to thank-you.html. On phones the Done / Skip bar sticks to the
+     bottom of the screen once the cookie choice has been made. The sign-up conversion for Meta ("CompleteRegistration") fires on this page's load.
+     Reached from email-capture.html. Notes: references/redesign-v3.md. -->
 <title>Morningo: About you</title>
 <script src="consent.js"></script>
 <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -56,6 +60,8 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  /* v2 website: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
+  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -393,9 +399,35 @@
     footer .logo-mark { height: 42.9px; }
     .chat-sheet .cta-button { width: 100%; }
   }
+
+  /* ===== v2 website (2026-11-06). The nav and the button colour are copied from product-wireframe-v2.html. ===== */
+
+  /* Nav: dark bar with a soft warm glow in the top-left corner and a faint white key line along the bottom edge (same recipe as the product page). */
+  .site-nav {
+    --nav-edge: max(0px, (100vw - 430px) / 2);
+    background: radial-gradient(ellipse 210px 170px at calc(var(--nav-edge) + 60px) -60px, rgba(255,193,110,0.5) 0%, rgba(243,129,60,0.5) 20%, rgba(200,74,51,0.5) 40%, rgba(122,29,51,0.5) 62%, rgba(58,10,42,0.5) 82%, rgba(27,0,20,0.5) 100%), #1b0014;
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
+  }
+  @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
+  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
+  .site-footer { background: #1b0014; }
+
+  /* The primary button purple (owner choice, 2026-11-06), the same as "Buy now" on the product page. */
+  .cta-buy { background: #581E85; }
+
+  /* Phones: Done and Skip stay stuck to the bottom of the screen (the answers fill more than one screen, so Done was out of view). Where the form
+     ends they sit in their normal place. The hairline and soft shadow show only while the bar is floating above its normal place (a small script
+     near the end of the page adds .is-stuck). The bar is a direct child of the tall form, which is what lets it float above its own place. */
+  @media (max-width: 767px) {
+    .survey-actions { margin: 0 -16px; padding: 12px 16px 4px; background: #ffffff; transition: box-shadow 150ms ease; }
+    /* Pinned only once the visitor has answered the cookie banner (same rule as the product page's sticky bar); until then Done and Skip sit at the
+       end of the form, so the banner never covers them. */
+    .survey-actions.is-pinned { position: sticky; bottom: 0; z-index: 30; }
+    .survey-actions.is-pinned.is-stuck { box-shadow: 0 -1px 0 #e5e7eb, 0 -10px 20px -12px rgba(23, 21, 15, 0.18); }
+  }
 </style>
 <!-- 1. NAVIGATION (logo only, like the thank-you page: no back button, no question pill) -->
-<header class="bg-primary">
+<header class="site-nav">
   <div class="max-w-phone mx-auto px-4 py-5 relative flex items-center justify-center">
     <a href="product-wireframe-v2.html" style="display:block;">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -475,9 +507,10 @@
           </div>
         </fieldset>
 
-        <div class="flex flex-col gap-2">
+        <!-- Done and Skip (with the error line above them). On a phone this bar is stuck to the bottom of the screen so Done is always in view. -->
+        <div class="survey-actions flex flex-col gap-2" id="survey-actions">
           <p class="body-sm" id="survey-send-error" style="color:#b91c1c; display:none;">Something went wrong saving that. Please try again.</p>
-          <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="survey-done">Done</button>
+          <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="survey-done">Done</button>
           <button type="button" class="text-action body-lg underline text-primary" id="survey-skip" style="font-weight:500;">Skip</button>
         </div>
       </form>
@@ -487,7 +520,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-primary text-white mt-section-gap">
+<footer class="site-footer text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -528,7 +561,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -548,7 +581,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -637,6 +670,7 @@
       // analytics.js loads Google Analytics / the Meta Pixel only after 'accepted'; this tells it the choice just changed.
       document.dispatchEvent(new CustomEvent('morningo-consent', { detail: value }));
       banner.classList.remove('visible');
+      if (window.updateStickyVisibility) window.updateStickyVisibility();
     }
 
     if (!cookieConsent.get()) {
@@ -919,6 +953,56 @@
     });
   })();
 
+</script>
+
+<script>
+  // Phones: Done and Skip are a sticky bar. This adds a hairline and a soft shadow only while it floats above its normal place, i.e. while the end
+  // of the form is still below the bottom of the screen. The bar is the last thing in the form, so the form's bottom edge is where it would sit.
+  (function() {
+    const bar = document.getElementById('survey-actions');
+    const form = document.getElementById('survey-form');
+    if (!bar || !form) return;
+    function update() {
+      bar.classList.toggle('is-stuck', form.getBoundingClientRect().bottom > window.innerHeight + 1);
+    }
+    // Pin the bar only once the cookie choice has been made (accepted or declined), like the sticky Buy now bar on the product page. The banner's
+    // decide() calls window.updateStickyVisibility() the moment a choice is made, and returning visitors who chose before are pinned straight away.
+    function pin() {
+      let decided = false;
+      try { decided = !!(window.morningoConsent && window.morningoConsent.get()); } catch (e) {}
+      bar.classList.toggle('is-pinned', decided);
+      update();
+    }
+    window.updateStickyVisibility = pin;
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    pin();
+  })();
+</script>
+
+<script>
+  // Arriving from another page of the site (not Back, not a reload): start at the top. Some wrappers, for example the Claude test link, keep the
+  // surrounding page's scroll position when the next page opens, so a short page opened from a long one landed at its bottom. scrollIntoView also
+  // asks a surrounding frame to scroll back up. Skipped once the visitor has touched, scrolled or typed, so it never yanks the page from under them.
+  (function() {
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type !== 'navigate') return;
+    } catch (e) {}
+    var touched = false;
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(name) {
+      window.addEventListener(name, function() { touched = true; }, { passive: true, once: true });
+    });
+    function toTop() {
+      if (touched) return;
+      window.scrollTo(0, 0);
+      try { document.documentElement.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) {}
+    }
+    toTop();
+    document.addEventListener('DOMContentLoaded', toTop);
+    window.addEventListener('load', toTop);
+  })();
 </script>
 
 <script src="attribution.js"></script>

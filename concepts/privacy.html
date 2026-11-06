@@ -1,5 +1,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- v2 website (2026-11-06): the privacy policy with the dark glow nav and purple question-box buttons. Text unchanged from the v1 website's page
+     (kept in archive/v1-website/). -->
 <title>Morningo — Privacy Policy</title>
 <script src="consent.js"></script>
 <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -57,6 +59,8 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  /* v2 website: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
+  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -344,12 +348,26 @@
     footer .logo-mark { height: 42.9px; }
     .chat-sheet .cta-button { width: 100%; }
   }
+
+  /* ===== REDESIGN additions (same nav and purple as product-wireframe-v2.html) ===== */
+  .site-nav {
+    --nav-edge: max(0px, (100vw - 430px) / 2);
+    background: radial-gradient(ellipse 210px 170px at calc(var(--nav-edge) + 60px) -60px, rgba(255,193,110,0.5) 0%, rgba(243,129,60,0.5) 20%, rgba(200,74,51,0.5) 40%, rgba(122,29,51,0.5) 62%, rgba(58,10,42,0.5) 82%, rgba(27,0,20,0.5) 100%), #1b0014;
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
+  }
+  @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
+  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
+  .site-footer { background: #1b0014; }
+  .nav-link { display: flex; align-items: center; gap: 6px; padding: 10px 4px; color: #f9f8c1; text-decoration: none; flex-shrink: 0; transition: opacity 150ms ease; }
+  .nav-link:hover { opacity: 0.75; }
+  .nav-link span { font-size: 14px; line-height: 1.45; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+  .cta-buy { background: #581E85; }
 </style>
 
 <div id="page-sheet" class="page-sheet">
 
 <!-- 1. NAVIGATION (logo only, no nav CTA — rule 4. Close button replaces the back button's arrow with an X) -->
-<header class="bg-primary">
+<header class="site-nav">
   <div class="max-w-phone mx-auto px-4 py-5 relative flex items-center justify-center">
     <a href="product-wireframe-v2.html" id="close-button" class="back-button bg-primary-mid text-white" style="position:absolute; left:16px; top:50%; transform:translateY(-50%);" aria-label="Close privacy policy">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -357,9 +375,9 @@
     <a href="product-wireframe-v2.html" style="display:block;">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
     </a>
-    <a href="#" class="chat-trigger nav-pill bg-primary-mid text-white" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); text-decoration:none;" aria-label="Have a question?">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-      <span class="body-sm" style="font-weight:500;">Question</span>
+    <a href="#" class="chat-trigger nav-link" style="position:absolute; right:12px; top:50%; transform:translateY(-50%);" aria-label="Have a question?">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
+      <span>Question</span>
     </a>
   </div>
 </header>
@@ -522,7 +540,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-primary text-white mt-section-gap">
+<footer class="site-footer text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -572,7 +590,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -592,7 +610,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 

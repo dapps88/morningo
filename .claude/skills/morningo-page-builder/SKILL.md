@@ -88,3 +88,16 @@ From the project's own copy files (`references/*.md`), which take precedence ove
 - One CTA per page, matching that page's locked copy exactly — currently **"Get first access"** on both the product page (hero + sticky) and the capture page's own submit button (was "Reserve My Place"/"Reserve my place" earlier; changed sitewide, not just on one page).
 - The footer (logo, "Have a question?" link, Privacy Policy, Cookie settings, copyright; plum `.bg-primary`; the "Better energy, not more energy" strapline was removed from it on 2026-10-21 by the owner) is identical across all five site pages — build it once, reuse it exactly, don't redesign it per page.
 - **Email-capture page specifically: never fake the crowd.** No claimed sign-up count, "500", or "limited" anywhere on this page tied to real numbers — there is no confirmed cap, and the queue row (see Components) is explicitly fixed/decorative rather than reflecting real submissions, on purpose. **This rule is scoped to the capture page only** — the product page's hero deliberately does say "Limited first release. Not on sale yet." in its grey CTA card; that's a confirmed, separate copy decision for that one page, not an inconsistency to "fix" by copying either page's wording onto the other.
+
+## v2 website overrides (owner decisions, 2026-11-06; read before touching colour, nav, buttons or copy)
+
+The redesigned site ("v2 website"; the previous site is the "v1 website", kept in `archive/v1-website/` and as the git tag `v1-website`) overrides these tokens above. Full list in `references/redesign-v3.md`.
+- **Nav and footer:** dark `#1b0014` (`.site-nav` with a soft warm glow behind the logo, `.site-footer` solid), not the plum `#39002A`. The product nav has "Question" as a text link and a basket placeholder.
+- **Primary buttons:** `#581E85` (`.cta-buy`) everywhere, including both "Send message" buttons in the question box; the old plum is gone from buttons. Close/back circles on the dark nav still use `.bg-primary-mid`.
+- **Fonts:** Bebas Neue (self-hosted, `fonts/bebas-neue-latin.woff2`) for the scrolling formula strip only; Instrument Sans everywhere else.
+- **Body copy:** near-black ink `#17150F` for `.body-lg` site-wide (was grey `#585858`); hero and product section use 16px on 26px lines.
+- **Phones:** the page column has no 1px side lines under 431px so full-width pictures reach both edges.
+- **Sticky bars wait for the cookie choice** on every page (see `references/cookie-banner.md`, rule 10).
+- **Buy now** shows a spinner and "One moment..." before moving to the waitlist page; the page honestly says there is no shop yet (see `references/redesign-v3.md` for the wording decisions).
+- **Page files keep the v1 names** (`product-wireframe-v2.html` is the v2 website's product page, `/home` rewrites to it; `email-capture.html`, `about-you.html`, `thank-you.html`, `privacy.html`).
+- **Events:** Meta `Lead` = landing on the waitlist page (buy intent); Meta `CompleteRegistration` = the real sign-up (see `references/analytics-tracking-plan.md`).

@@ -1,10 +1,14 @@
-/* capi-lead.mjs: the server copy of the sign-up "Lead" for Meta (the Facebook Conversions API).
+/* capi-lead.mjs: the server copy of the sign-up for Meta (the Facebook Conversions API).
+ *
+ * NAMING (v2 website, 2026-11-06): the file keeps its original name (capi-lead) so the deployed function does not change, but the event it sends
+ * is now Meta's standard "CompleteRegistration". Meta's "Lead" now means buy intent (landing on the waitlist page), which is browser only
+ * (analytics.js, fireIntent), because there is no email yet. On the v1 website this function sent "Lead".
  *
  * WHAT IT DOES
  * Netlify runs this after a form submission has been verified (spam is filtered out first) and already stored. For the "signup" form
- * only, it sends one Lead event from our server to Meta, so Meta still counts a sign-up when the visitor's browser blocked the Pixel
- * (iPhones, ad blockers, some in-app browsers). The page gives the browser Pixel's Lead the same event ID (analytics.js, fireLead),
- * and Meta counts the two copies once.
+ * only, it sends one CompleteRegistration event from our server to Meta, so Meta still counts a sign-up when the visitor's browser blocked the Pixel
+ * (iPhones, ad blockers, some in-app browsers). The page gives the browser Pixel's CompleteRegistration the same event ID (analytics.js, fireSignup),
+ * and Meta counts the two copies once. (Meta only merges a browser and a server event when the NAME and the ID both match.)
  *
  * WHAT IT NEVER DOES
  *  - It sends nothing unless the visitor pressed Accept on the cookie banner (the page records that in capi_consent).
@@ -54,7 +58,7 @@ export function buildRequest(data, { now = Date.now(), testCode = '', ip = '' } 
 
   const body = {
     data: [{
-      event_name: 'Lead',
+      event_name: 'CompleteRegistration',
       event_time: Math.floor(now / 1000),
       event_id: eventId,
       action_source: 'website',
