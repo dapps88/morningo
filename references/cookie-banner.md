@@ -23,6 +23,8 @@ We use analytics and advertising cookies to understand how this site is used and
 7. Banner closes on either button selection. No confirmation state required.
 8. No separate "Cookie settings" footer link. The footer contains only the privacy policy link (see brief.md).
 9. Meta Pixel Lead event and GA4 conversion event fire on page load of the survey page (`about-you.html`) only (moved there from the thank-you page on 2026-10-21, owner decision), and only if the consent cookie = accepted — never on form submission, per brief.md's tracking architecture (chosen for reliability: avoids missed or duplicate conversions from slow/repeat submits).
+   **Changed 2026-11-06 (v2 website):** the survey page now fires Meta `CompleteRegistration` (not `Lead`); `Lead` and GA4 `buy_intent` fire on the waitlist page load, same consent rule (accepted only).
+10. **Sticky bars wait for the cookie choice (v2 website, owner decision 2026-11-06, "follow that logic").** The product page's sticky Buy now bar has always stayed hidden until the visitor answers the banner (`consentDecided`). The waitlist page's Join waitlist bar and the survey page's Done/Skip bar follow the same rule: until a choice they are NOT pinned and sit in their normal place (under the email box / at the end of the form); after Accept or Reject (or for a returning visitor) they pin to the bottom on phones. The banner's `decide()` calls `window.updateStickyVisibility()`. The banner and a sticky bar must never overlap.
 
 ---
 

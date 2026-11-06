@@ -1,3 +1,5 @@
+> **v2 website, 2026-11-06:** the product page was redesigned (new hero title, intro and four bullets, "Buy now" button, assurance pills, formula strip, six new gallery pictures and no video, new product-section copy, the first Questions accordion removed, new nav and footer colour). This document still describes the v1 website's copy. For the v2 website read `references/redesign-v3.md` and the page itself; the v1 page is in `archive/v1-website/` and in git as the tag `v1-website`. Do not "fix" the v2 page back to the wording below.
+
 # MORNINGO — PAGE COPY
 Single source of truth for all on-page copy.
 Read this file in full before writing any code.

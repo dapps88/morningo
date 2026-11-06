@@ -1,5 +1,7 @@
 # Morningo — Analytics tracking plan
 
+> **v2 website change, 2026-11-06 (owner decision):** Meta's `Lead` now means BUY INTENT: it fires when the waitlist page (`email-capture.html`) loads, once per tab, browser only (no email yet, so no server copy). The real sign-up is Meta's standard `CompleteRegistration`: browser copy on the survey page load plus the server copy from `netlify/functions/capi-lead.mjs`, same event ID. GA4: new `buy_intent` on the waitlist page load (same moment as the Meta Lead; not yet a key event, star it in GA if wanted); `generate_lead` is unchanged and still means the real sign-up, so the saved explorations and the daily report keep their meaning. On the v1 website Meta's `Lead` was the real sign-up, so mark 2026-11-06 when comparing Meta reports. Wherever older text below says the Lead fires on the survey page, read it as `CompleteRegistration` (Meta) and `generate_lead` (GA).
+
 What we measure, why, and how to read it. Built 2026-10-01. Code: `concepts/attribution.js` (the ad "name tag", no consent needed) and `concepts/analytics.js` (the consent-gated "counters": Google Analytics 4 + Meta Pixel). Decisions behind it are in `brief.md` (Tech Stack, Locked Decisions).
 
 ## The three layers (and why)

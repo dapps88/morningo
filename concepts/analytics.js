@@ -15,13 +15,21 @@
  *
  * EVENTS (names are snake_case; the details are in references/analytics-tracking-plan.md)
  *   home:      section_view, carousel_slide_view, carousel_interact, accordion_open, nutrition_label_open, cta_click, question_open, question_asked, question_sent
- *   capture:   signup_start, question_open, question_asked, question_sent
- *   survey:    generate_lead (plus the Pixel "Lead"), survey_complete, survey_skip (both sent by the page's own script through
+ *   capture:   buy_intent (plus the Pixel "Lead"), signup_start, question_open, question_asked, question_sent
+ *   survey:    generate_lead (plus the Pixel "CompleteRegistration"), survey_complete, survey_skip (both sent by the page's own script through
  *              window.morningoTrack; the answers themselves are never sent), question_open, question_asked, question_sent
  *   thank-you: share_copy, question_open, question_asked, question_sent
  *   Google's own page_view and the Pixel's PageView fire automatically when the tags load, on all four pages.
- *   The lead event fires on survey page load only (moved from the thank-you page, owner decision 2026-10-21), never on the form
- *   submit (brief.md, Locked Decisions).
+ *
+ * WHAT COUNTS AS WHAT (v2 website, owner decision 2026-11-06)
+ *   Meta Lead                 = landing on the waitlist page (email-capture.html), i.e. someone pressed "Buy now": BUY INTENT. Once per tab. Browser only
+ *                               (there is no email yet for a server copy), so it misses visitors who rejected cookies or run blockers.
+ *   Meta CompleteRegistration = the real sign-up: fires on survey page (about-you.html) load, which only opens after the email was saved, once per tab, with
+ *                               the same event ID as the server copy (netlify/functions/capi-lead.mjs) so Meta counts the two once.
+ *   GA4 buy_intent            = the same moment as the Meta Lead (new; star it as a key event in GA if wanted).
+ *   GA4 generate_lead         = the real sign-up, unchanged from the v1 website (so the saved explorations and the daily report keep their meaning).
+ *   Both fire on page load only, never on a form submit (brief.md, Locked Decisions). Netlify Forms stays the source of truth for the real sign-up count.
+ *   Before 2026-11-06 (v1 website) Meta's "Lead" meant the real sign-up; mark that date when comparing Meta reports.
  */
 (function () {
   'use strict';
@@ -243,21 +251,35 @@
     if (button) button.addEventListener('click', function () { track('share_copy'); });
   }
 
-  // The conversion. Fires on survey page (about-you.html) load, which only opens after the email has really been saved, and only
+  // Buy intent (v2 website). Fires when the waitlist page (email-capture.html) loads: the visitor pressed "Buy now" on the product page and
+  // arrived here. Once per browser tab session, so a refresh or Back does not count the same visit twice. This is Meta's "Lead" for the campaign
+  // (owner decision 2026-11-06: what is measured is the intent to buy; leaving an email is a bonus). Browser only: there is no email yet, so no
+  // server copy exists.
+  function fireIntent() {
+    var already = false;
+    try { already = sessionStorage.getItem('morningo-intent-sent') === '1'; } catch (e) {}
+    if (already) return;
+    try { sessionStorage.setItem('morningo-intent-sent', '1'); } catch (e) {}
+    track('buy_intent');
+    pixel('Lead');
+  }
+
+  // The real sign-up. Fires on survey page (about-you.html) load, which only opens after the email has really been saved, and only
   // once per browser tab session, so a refresh does not count the same sign-up twice. It moved here from the thank-you page on
   // 2026-10-21 so that someone who leaves on the survey step is still counted. (Netlify Forms stays the source of truth for the
-  // real signup count.)
-  function fireLead() {
+  // real signup count.) On the v1 website this was Meta's "Lead"; since 2026-11-06 Lead means buy intent (fireIntent above) and the
+  // sign-up is Meta's standard "CompleteRegistration". GA4's generate_lead keeps meaning the real sign-up.
+  function fireSignup() {
     var already = false;
     try { already = sessionStorage.getItem('morningo-lead-sent') === '1'; } catch (e) {}
     if (already) return;
     try { sessionStorage.setItem('morningo-lead-sent', '1'); } catch (e) {}
-    // The reference the capture page made for this sign-up. The server copy of the Lead (netlify/functions/capi-lead.mjs) carries the
-    // same one, so Meta merges the two. With no reference (page opened directly) the Lead is sent as before, without one.
+    // The reference the capture page made for this sign-up. The server copy of the event (netlify/functions/capi-lead.mjs) carries the
+    // same one, so Meta merges the two. With no reference (page opened directly) the event is sent as before, without one.
     var eventId = '';
     try { eventId = sessionStorage.getItem('morningo-lead-event-id') || ''; sessionStorage.removeItem('morningo-lead-event-id'); } catch (e) {}
     track('generate_lead');
-    pixel('Lead', {}, eventId ? { eventID: eventId } : undefined);
+    pixel('CompleteRegistration', {}, eventId ? { eventID: eventId } : undefined);
   }
 
   // ---- Start (only after Accept) ------------------------------------------------------------------------------
@@ -269,8 +291,8 @@
     loadPixel();
     watchQuestionOpen();
     if (page === 'home') { watchSections(); watchCarousels(); watchAccordions(); watchCtas(); watchLabel(); }
-    if (page === 'capture') watchSignup();
-    if (page === 'survey') fireLead();
+    if (page === 'capture') { watchSignup(); fireIntent(); }
+    if (page === 'survey') fireSignup();
     if (page === 'thank-you') watchShare();
   }
 

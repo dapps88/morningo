@@ -15,6 +15,7 @@ Read this file in full before writing any code.
 4. On successful form submission, the user is redirected to the survey page (`about-you.html`, copy in `survey-page-text.md`, added 2026-10-21), and from there (Done or Skip) to the thank-you page. This is not an inline success state. Each is a separate, standalone HTML file.
 
 5. The Facebook Pixel Lead event and GA4 conversion event fire on page load of the survey page only (moved there from the thank-you page on 2026-10-21, owner decision). Do not fire either event on the capture page or the thank-you page. Technical implementation detail for both events is in brief.md.
+   **Changed 2026-11-06 (v2 website, owner decision):** the Meta `Lead` (buy intent) and GA4 `buy_intent` now fire on page load of THIS page (once per tab, consent-gated, browser only). The real sign-up conversion moved to Meta `CompleteRegistration` (survey page load + server copy); GA4 `generate_lead` still fires on the survey page. Never fire on form submit. Details: `references/analytics-tracking-plan.md`.
 
 6. Product photo on the capture page is a placeholder. Mark clearly in code. Do not use stock images.
 

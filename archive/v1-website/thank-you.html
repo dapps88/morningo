@@ -1,11 +1,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<!-- REDESIGN VARIANT (v3) of the survey page, built 2026-11-06 on the "redesign" branch. about-you.html is the live page and is untouched.
-     Changes against it: the dark glow nav from the redesigned pages, the Done button in the same purple as "Buy now", and Done / Skip lead on to
-     thank-you-v3.html. Everything else (questions, saving, tracking, scripts) is unchanged. It is reached from email-capture-v3.html.
-     Notes: references/redesign-v3.md. -->
-<title>Morningo About You (redesign)</title>
+<title>Morningo — You're In</title>
 <script src="consent.js"></script>
 <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/instrument-sans.css">
@@ -51,7 +46,6 @@
   .bg-ink { background: #17150F; }
   .bg-primary { background: #39002A; }
   .bg-primary-soft { background: #EDE0EA; }
-  .bg-primary-mid { background: #5E0045; }
   .text-white { color: #ffffff; }
   .text-gray-400 { color: #9ca3af; }
   .text-gray-500 { color: #6b7280; }
@@ -61,8 +55,6 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
-  /* REDESIGN: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
-  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -126,6 +118,7 @@
   .py-5 { padding-top: 20px; padding-bottom: 20px; }
   .pt-3 { padding-top: 12px; }
   .pt-4 { padding-top: 16px; }
+  .pt-5 { padding-top: 20px; }
   .pb-3 { padding-bottom: 12px; }
   .pb-6 { padding-bottom: 24px; }
   .pb-12 { padding-bottom: 48px; }
@@ -218,7 +211,19 @@
   .logo-mark { height: 22px; width: auto; display: block; align-self: flex-start; }
   footer .logo-mark { height: 33px; }
 
-  /* form field */
+  /* nav question pill — persistent top-right trigger for the chat modal */
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    transition: background-color 150ms ease;
+  }
+  .nav-pill:hover { background: #D4C0D0; }
+
+  /* form field, used by the chat modal */
   .field-input {
     width: 100%;
     border: 1px solid #e5e7eb;
@@ -232,94 +237,6 @@
   .field-input::placeholder { color: #9ca3af; }
   .field-input:focus { outline: none; border-color: #39002A; }
   .field-input.invalid { border-color: #b91c1c; }
-
-
-  /* ---- Survey page ---- */
-  .pt-5 { padding-top: 20px; }
-
-  /* Gold pill: a copy of the product page's hero "Early access offer" pill, with a small plain tick before the text. */
-  .offer-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    align-self: flex-start;
-    padding: 5px 12px;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, #d7aa55 0%, #fce5b6 50%, #d7aa55 100%);
-    color: #17150F;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .offer-pill svg { flex-shrink: 0; }
-  .survey-column .headline { text-wrap: balance; }
-
-  /* Centred column on desktop: the same width rule as the Questions section on the product page. */
-  @media (min-width: 768px) {
-    .survey-column { width: clamp(560px, 50%, 680px); padding-left: 0; padding-right: 0; }
-  }
-
-  /* One question = one fieldset (a native radio group, so the arrow keys and screen readers work). */
-  .survey-group { border: 0; padding: 0; margin: 0; min-width: 0; }
-  .survey-group legend { padding: 0; margin: 0 0 12px; }
-  .survey-group legend.has-hint { margin-bottom: 4px; }
-  .survey-hint { margin: 0 0 12px; }
-  .survey-error { margin: 0 0 12px; color: #b91c1c; display: none; }
-  .survey-group.invalid .survey-error { display: block; }
-
-  /* Option cards use the same outline as the text fields (.field-input): white fill, 1px grey line, 12px corners.
-     A chosen card takes the plum line the fields show on focus, thickened by a 1px ring (a ring rather than a wider
-     border, so nothing shifts) and a filled dot in the radio mark. Unanswered after Done: every card in that group goes red. */
-  .choice { position: relative; display: block; cursor: pointer; }
-  .choice-input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-  .choice-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #ffffff;
-    padding: 14px 16px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: #17150F;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  @media (hover: hover) { .choice:hover .choice-box { border-color: #9ca3af; } }
-  .choice-mark { position: relative; flex-shrink: 0; width: 20px; height: 20px; border: 1.5px solid #9ca3af; border-radius: 9999px; background: #ffffff; transition: border-color 150ms ease; }
-  .choice-mark::after { content: ""; position: absolute; inset: 4px; border-radius: 9999px; background: #39002A; transform: scale(0); transition: transform 150ms ease; }
-  .choice-input:checked + .choice-box { border-color: #39002A; box-shadow: 0 0 0 1px #39002A; }
-  .choice-input:checked + .choice-box .choice-mark { border-color: #39002A; }
-  .choice-input:checked + .choice-box .choice-mark::after { transform: scale(1); }
-  .choice-input:focus-visible + .choice-box { outline: 2px solid #39002A; outline-offset: 3px; }
-  .survey-group.invalid .choice-box { border-color: #b91c1c; }
-  .survey-group.invalid .choice-input:checked + .choice-box { border-color: #39002A; }
-
-  .gender-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .gender-grid .choice-box { flex-direction: column; justify-content: center; gap: 12px; padding: 16px 8px 14px; }
-  .choice-row { display: flex; align-items: center; gap: 8px; }
-  .age-list { display: flex; flex-direction: column; gap: 8px; }
-
-  /* Skip: the same plain underlined plum text as "Nutritional information" on the product page, behaving as a button. The padding is
-     only there to give a thumb a proper target; it does not change how the text looks. */
-  .text-action { padding: 12px 16px; align-self: center; }
-  .text-action:disabled { opacity: 0.6; cursor: default; }
-
-  /* nav question pill — persistent top-right trigger for the chat modal */
-  .nav-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 9999px;
-    flex-shrink: 0;
-    transition: background-color 150ms ease;
-  }
-  .nav-pill:hover { background: #D4C0D0; }
 
   /* "Have a question?" chat modal — a real overlay (unlike the privacy page's full-screen
      sheet): dimmed backdrop stays visible behind it, click-outside closes it. Reuses the
@@ -380,13 +297,14 @@
   .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
   .cta-caption { }
   @media (min-width: 768px) {
-    .split-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    /* One centred column, the same width as the email capture page's (the content width minus a 48px gap, halved). */
+    .thanks-column { width: calc((100% - 48px) / 2); }
     .md-order-last { order: 2; }
     .md-justify-start { justify-content: flex-start; }
     .md-pt-10 { padding-top: 40px; }
     .sticky-cta { max-width: 1440px; }
-    .cta-button { width: 100%; text-align: center; }
-    .cta-caption { max-width: none; margin-left: auto; margin-right: auto; }
+    .cta-button { width: 300px; text-align: center; }
+    .cta-caption { max-width: 300px; margin-left: auto; margin-right: auto; }
     .sticky-cta .cta-caption { max-width: 600px; }
     .price-row { justify-content: flex-start; }
     .card-carousel { overflow-x: visible; gap: 24px; }
@@ -400,34 +318,11 @@
     footer .logo-mark { height: 42.9px; }
     .chat-sheet .cta-button { width: 100%; }
   }
-
-  /* ===== v3 REDESIGN (2026-11-06). The nav and the button colour are copied from product-wireframe-v3.html. ===== */
-
-  /* Nav: dark bar with a soft warm glow in the top-left corner and a faint white key line along the bottom edge (same recipe as the product page). */
-  .site-nav {
-    --nav-edge: max(0px, (100vw - 430px) / 2);
-    background: radial-gradient(ellipse 210px 170px at calc(var(--nav-edge) + 60px) -60px, rgba(255,193,110,0.5) 0%, rgba(243,129,60,0.5) 20%, rgba(200,74,51,0.5) 40%, rgba(122,29,51,0.5) 62%, rgba(58,10,42,0.5) 82%, rgba(27,0,20,0.5) 100%), #1b0014;
-    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
-  }
-  @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
-  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
-  .site-footer { background: #1b0014; }
-
-  /* The primary button purple (owner choice, 2026-11-06), the same as "Buy now" on the product page. */
-  .cta-buy { background: #581E85; }
-
-  /* Phones: Done and Skip stay stuck to the bottom of the screen (the answers fill more than one screen, so Done was out of view). Where the form
-     ends they sit in their normal place. The hairline and soft shadow show only while the bar is floating above its normal place (a small script
-     near the end of the page adds .is-stuck). The bar is a direct child of the tall form, which is what lets it float above its own place. */
-  @media (max-width: 767px) {
-    .survey-actions { position: sticky; bottom: 0; z-index: 30; margin: 0 -16px; padding: 12px 16px 4px; background: #ffffff; transition: box-shadow 150ms ease; }
-    .survey-actions.is-stuck { box-shadow: 0 -1px 0 #e5e7eb, 0 -10px 20px -12px rgba(23, 21, 15, 0.18); }
-  }
 </style>
-<!-- 1. NAVIGATION (logo only, like the thank-you page: no back button, no question pill) -->
-<header class="site-nav">
+<!-- 1. NAVIGATION (logo only — no back button, no links, per email-capture-text.md rule 7) -->
+<header class="bg-primary">
   <div class="max-w-phone mx-auto px-4 py-5 relative flex items-center justify-center">
-    <a href="product-wireframe-v3.html" style="display:block;">
+    <a href="product-wireframe-v2.html" style="display:block;">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
     </a>
   </div>
@@ -435,90 +330,29 @@
 
 <div class="max-w-phone mx-auto border-x border-gray-200 min-h-screen">
 
-  <!-- 2. SURVEY: opens after the email has been saved. Copy: references/survey-page-text.md -->
-  <section id="survey" class="pt-5 md-pt-10">
-    <div class="survey-column mx-auto px-4">
+  <!-- 2. CONFIRMATION BLOCK. The picture that used to sit beside it (sachet-2.webp) was removed at the owner's request on 2026-10-22:
+       the block is now one centred column, the same width as the email capture page's. -->
+  <section id="confirmation" class="pt-5 md-pt-10">
+    <div class="thanks-column mx-auto px-4">
       <div class="flex flex-col gap-3">
-        <span class="offer-pill">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
-          You're on the list
-        </span>
-        <h1 class="headline">Help us find more people like you.</h1>
-        <p class="body-lg">Two taps. It tells us who else to let know.</p>
+        <h1 class="headline">You're in, share with friends</h1>
+        <p class="body-lg">We'll email you when your place opens. In the meantime, bring your friends in for better mornings too.</p>
       </div>
 
-      <!-- Saved to the Netlify form "survey" (Netlify finds it from this static markup at deploy). The email field is filled by the
-           script from the capture page's hand-over; the six ad fields are filled by attribution.js. -->
-      <form class="flex flex-col gap-8 mt-8" id="survey-form" name="survey" method="POST" action="thank-you-v3.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="survey">
-        <input type="hidden" name="subject" value="📋 Morningo SURVEY: answers from a subscriber">
-        <input type="hidden" name="email" id="survey-email" value="">
-        <input type="hidden" name="utm_source" value="">
-        <input type="hidden" name="utm_medium" value="">
-        <input type="hidden" name="utm_campaign" value="">
-        <input type="hidden" name="utm_content" value="">
-        <input type="hidden" name="utm_term" value="">
-        <input type="hidden" name="ad_id" value="">
-        <p aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
-          <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-        </p>
-
-        <fieldset class="survey-group" id="group-gender" role="radiogroup" aria-describedby="gender-error">
-          <legend class="card-title">I am a…</legend>
-          <p class="body-sm survey-error" id="gender-error">Choose one.</p>
-          <div class="gender-grid">
-            <label class="choice">
-              <input type="radio" class="choice-input" name="gender" value="woman" required>
-              <span class="choice-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M12 14v8M9 18h6"/></svg>
-                <span class="choice-row"><span class="choice-mark" aria-hidden="true"></span>Woman</span>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" class="choice-input" name="gender" value="man">
-              <span class="choice-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="14" r="5"/><path d="M13.5 10.5L20 4M14.5 4H20v5.5"/></svg>
-                <span class="choice-row"><span class="choice-mark" aria-hidden="true"></span>Man</span>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" class="choice-input" name="gender" value="other">
-              <span class="choice-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.75"/></svg>
-                <span class="choice-row"><span class="choice-mark" aria-hidden="true"></span>Other</span>
-              </span>
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset class="survey-group" id="group-age" role="radiogroup" aria-describedby="age-error">
-          <legend class="card-title has-hint">My age group is…</legend>
-          <p class="body-lg survey-hint">A real answer is more use than a guess.</p>
-          <p class="body-sm survey-error" id="age-error">Choose one.</p>
-          <div class="age-list">
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="18-24" required><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>18–24</span></label>
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="25-34"><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>25–34</span></label>
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="35-44"><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>35–44</span></label>
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="45-54"><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>45–54</span></label>
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="55-64"><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>55–64</span></label>
-            <label class="choice"><input type="radio" class="choice-input" name="age_group" value="65+"><span class="choice-box"><span class="choice-mark" aria-hidden="true"></span>65+</span></label>
-          </div>
-        </fieldset>
-
-        <!-- Done and Skip (with the error line above them). On a phone this bar is stuck to the bottom of the screen so Done is always in view. -->
-        <div class="survey-actions flex flex-col gap-2" id="survey-actions">
-          <p class="body-sm" id="survey-send-error" style="color:#b91c1c; display:none;">Something went wrong saving that. Please try again.</p>
-          <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="survey-done">Done</button>
-          <button type="button" class="text-action body-lg underline text-primary" id="survey-skip" style="font-weight:500;">Skip</button>
-        </div>
-      </form>
+      <div class="mt-8">
+        <span id="share-link-text" class="body-sm text-gray-500" style="display:block; padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">https://morningo.netlify.app/home?utm_source=share&amp;utm_medium=link</span>
+        <button type="button" id="copy-link-button" class="cta-button bg-primary text-white py-4 px-8 rounded-full mt-3" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;" aria-label="Copy share link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+          <span id="copy-button-label">Copy link</span>
+        </button>
+      </div>
     </div>
   </section>
 
 </div>
 
 <!-- FOOTER -->
-<footer class="site-footer text-white mt-section-gap">
+<footer class="bg-primary text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -526,8 +360,8 @@
 
     <div class="flex flex-col gap-3 mt-8">
       <a href="#" class="chat-trigger body-lg underline" style="color:#ffffff; font-weight:500;">Have a question? Ask us here.</a>
-      <a href="privacy-v3.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
-      <a href="privacy-v3.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
+      <a href="privacy.html" class="body-lg underline" style="color:#ffffff;">Privacy Policy</a>
+      <a href="privacy.html#cookies" class="cookie-settings-link body-lg underline" style="color:#ffffff;">Cookie settings</a>
     </div>
 
     <p class="body-sm mt-8" style="color:#9C9788;">© 2026 Morningo. All rights reserved.</p>
@@ -537,7 +371,7 @@
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
     <div class="cookie-banner-inner">
-      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy-v3.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
+      <p class="body-sm">We use analytics and advertising cookies to understand how this site is used and measure our ads. <a href="privacy.html#cookies" class="underline" style="font-weight:500;">Learn more</a></p>
       <div class="cookie-banner-actions">
         <button class="cookie-btn cookie-btn-outline" id="cookie-reject">Reject cookies</button>
         <button class="cookie-btn" id="cookie-accept">Accept cookies</button>
@@ -559,7 +393,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -579,7 +413,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -650,6 +484,10 @@
 </script>
 
 <script>
+  // The Facebook Pixel "Lead" event and the GA4 conversion event (generate_lead) are fired by analytics.js on this
+  // page's load only — never on form submit, never on the capture page (see brief.md, "Locked Decisions"), and only
+  // once the visitor has accepted cookies. The GA4 and Pixel IDs are at the top of analytics.js.
+
   // The saved cookie choice lives in consent.js (a first-party cookie that lasts 12 months, then the banner asks again).
   // If that file is ever missing or blocked, the choice is only remembered for this page load: the banner shows again on the
   // next page and nothing is saved, which is the safe way to fail.
@@ -688,77 +526,6 @@
       banner.setAttribute('tabindex', '-1');
       banner.focus({ preventScroll: true });
     }));
-  })();
-
-  (function() {
-    // Survey. Done needs both questions answered (anything unanswered turns red together); Skip needs neither and saves nothing.
-    // The email comes from the capture page, which left it in this tab's sessionStorage (never in the address bar, never sent to
-    // Google or Facebook). Done saves ONE row to the "survey" Netlify form: email + gender + age group + the six ad fields.
-    // The email is removed on Done, on Skip and on the thank-you page. With no email in memory (page opened directly, or a browser
-    // that blocks sessionStorage) the page still works, it just saves nothing. Answers are never sent to GA4 or the Pixel;
-    // only the counts survey_complete / survey_skip are.
-    const form = document.getElementById('survey-form');
-    if (!form) return;
-    const emailField = document.getElementById('survey-email');
-    const done = document.getElementById('survey-done');
-    const skip = document.getElementById('survey-skip');
-    const sendError = document.getElementById('survey-send-error');
-    const doneLabel = done.textContent.trim();
-    const EMAIL_KEY = 'morningo-signup-email';
-    const groups = Array.from(form.querySelectorAll('.survey-group'));
-
-    function savedEmail() { try { return sessionStorage.getItem(EMAIL_KEY) || ''; } catch (e) { return ''; } }
-    function forgetEmail() { try { sessionStorage.removeItem(EMAIL_KEY); } catch (e) {} }
-    function track(name) { if (window.morningoTrack) window.morningoTrack(name); }
-    // Through morningoLink so the ad tags travel to the thank-you page.
-    function goOn() { window.location.href = window.morningoLink ? window.morningoLink('thank-you-v3.html') : 'thank-you-v3.html'; }
-
-    // Coming back with the browser's Back button can restore this page frozen mid-save; reset the buttons.
-    window.addEventListener('pageshow', (e) => {
-      if (e.persisted) { done.disabled = false; skip.disabled = false; done.textContent = doneLabel; }
-    });
-
-    function mark(group) {
-      const answered = !!group.querySelector('input:checked');
-      group.classList.toggle('invalid', !answered);
-      group.setAttribute('aria-invalid', answered ? 'false' : 'true');
-      return answered;
-    }
-    // Choosing an answer clears that question's red straight away.
-    groups.forEach((group) => group.addEventListener('change', () => { if (group.classList.contains('invalid')) mark(group); }));
-
-    function validate() {
-      const results = groups.map(mark); // marks every question, so both turn red together
-      const firstUnanswered = groups[results.indexOf(false)];
-      if (!firstUnanswered) return true;
-      const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      firstUnanswered.querySelector('input').focus({ preventScroll: true });
-      firstUnanswered.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
-      return false;
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (done.disabled) return;
-      if (!validate()) return;
-      const email = savedEmail();
-      if (!email) { goOn(); return; }
-      emailField.value = email;
-      sendError.style.display = 'none';
-      done.disabled = true;
-      skip.disabled = true;
-      done.textContent = 'Saving…';
-      window.morningoPostForm(new FormData(form))
-        .then(() => { track('survey_complete'); forgetEmail(); goOn(); })
-        .catch(() => {
-          sendError.style.display = 'block';
-          done.disabled = false;
-          skip.disabled = false;
-          done.textContent = doneLabel;
-        });
-    });
-
-    skip.addEventListener('click', () => { track('survey_skip'); forgetEmail(); goOn(); });
   })();
 
   (function() {
@@ -950,48 +717,65 @@
     });
   })();
 
-</script>
-
-<script>
-  // Phones: Done and Skip are a sticky bar. This adds a hairline and a soft shadow only while it floats above its normal place, i.e. while the end
-  // of the form is still below the bottom of the screen. The bar is the last thing in the form, so the form's bottom edge is where it would sit.
   (function() {
-    const bar = document.getElementById('survey-actions');
-    const form = document.getElementById('survey-form');
-    if (!bar || !form) return;
-    function update() {
-      bar.classList.toggle('is-stuck', form.getBoundingClientRect().bottom > window.innerHeight + 1);
-    }
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    window.addEventListener('load', update);
-    update();
+    // The survey page (about-you.html) is skipped or finished before this page, but a visitor who closes it some other way
+    // could still have the sign-up email waiting in this tab's sessionStorage. It has no further use, so it goes.
+    try { sessionStorage.removeItem('morningo-signup-email'); } catch (e) {}
   })();
-</script>
 
-<script>
-  // Arriving from another page of the site (not Back, not a reload): start at the top. Some wrappers, for example the Claude test link, keep the
-  // surrounding page's scroll position when the next page opens, so a short page opened from a long one landed at its bottom. scrollIntoView also
-  // asks a surrounding frame to scroll back up. Skipped once the visitor has touched, scrolled or typed, so it never yanks the page from under them.
   (function() {
-    try {
-      var nav = performance.getEntriesByType('navigation')[0];
-      if (nav && nav.type !== 'navigate') return;
-    } catch (e) {}
-    var touched = false;
-    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(name) {
-      window.addEventListener(name, function() { touched = true; }, { passive: true, once: true });
-    });
-    function toTop() {
-      if (touched) return;
-      window.scrollTo(0, 0);
-      try { document.documentElement.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) {}
+    // Copy-link block. "Copy link" is the page's primary action (no separate share button).
+    // The shared link is always the real home page, never a local or test address (owner, 2026-10-25). On a real host
+    // (Netlify, a custom domain) it is worked out from the address the visitor is on, "https://<host>/home", so it follows
+    // the site to any new domain with no edit. On a test host (localhost, file://, github.io, Netlify preview links, the
+    // private Claude test link) it is the live address in HOME_URL below. If the Netlify site is renamed or a custom domain
+    // arrives, update HOME_URL and the same address in the markup (what shows if JavaScript is off).
+    var copyButton = document.getElementById('copy-link-button');
+    var copyLabel = document.getElementById('copy-button-label');
+    var shareLinkText = document.getElementById('share-link-text');
+    if (!copyButton) return;
+
+    var HOME_URL = 'https://morningo.netlify.app/home';
+    var isTestHost = /^(|localhost|127\.0\.0\.1|.+\.github\.io|.+--morningo\.netlify\.app|.+\.claudeusercontent\.com)$/.test(location.hostname);
+    var shareBase = isTestHost ? HOME_URL : location.origin + '/home';
+    // Tagged, so a visit that arrives through a shared link shows up in analytics as its own source ("share / link") and a sign-up
+    // that follows is saved with utm_source=share. It never carries the sharer's own ad tags.
+    var shareUrl = shareBase + (shareBase.indexOf('?') === -1 ? '?' : '&') + 'utm_source=share&utm_medium=link';
+    shareLinkText.textContent = shareUrl;
+    var copyResetTimer = null;
+
+    function fallbackCopy(text) {
+      var temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.focus();
+      temp.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(temp);
     }
-    toTop();
-    document.addEventListener('DOMContentLoaded', toTop);
-    window.addEventListener('load', toTop);
+
+    function copyLink() {
+      var showCopied = function() {
+        clearTimeout(copyResetTimer);
+        copyLabel.textContent = 'Copied';
+        copyResetTimer = setTimeout(function() { copyLabel.textContent = 'Copy link'; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(showCopied, function() {
+          fallbackCopy(shareUrl);
+          showCopied();
+        });
+      } else {
+        fallbackCopy(shareUrl);
+        showCopied();
+      }
+    }
+
+    copyButton.addEventListener('click', copyLink);
   })();
 </script>
 
 <script src="attribution.js"></script>
-<script src="analytics.js" data-page="survey"></script>
+<script src="analytics.js" data-page="thank-you"></script>

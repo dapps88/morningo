@@ -1,8 +1,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- v2 website (2026-11-06): the redesigned product page, built on the "redesign" branch from the design canvas the owner iterated on. It took over
+     the file name of the v1 website's product page (the v1 pages are kept in archive/v1-website/ and in git as the tag v1-website). What it has: the
+     dark glow nav (basket, Question as a text link), the hero copy and bullets, a "Buy now" button with a short "One moment..." pause, two assurance pills,
+     a scrolling formula strip, six gallery pictures and no video, Feel-style body text (16px on 26px lines, near-black) in the hero and the product
+     section. "Buy now" leads to the waitlist page (email-capture.html) because there is no shop yet; the basket does nothing yet.
+     Notes and open items: references/redesign-v3.md. -->
 <title>Morningo Product Page</title>
 <script src="consent.js"></script>
 <link rel="preload" href="fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/instrument-sans.css">
 <style>
   * { box-sizing: border-box; }
@@ -16,7 +23,9 @@
   .headline { font-size: clamp(32px, calc(27px + 1.31vw), 46px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
   .headline-sm { font-size: clamp(26px, calc(22px + 0.94vw), 36px); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
   .card-title { font-size: clamp(20px, calc(18.6px + 0.38vw), 24px); font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; }
-  .body-lg { font-size: clamp(16px, calc(15px + 0.19vw), 18px); font-weight: 400; line-height: 1.45; color: #585858; }
+  /* Body copy colour: near-black ink across the whole redesign page (owner, 2026-11-06). It was grey #585858 on the live page; the hero and
+     the product section already had the near-black. Links that carry .text-primary keep their plum, and the plum comparison card keeps its white. */
+  .body-lg { font-size: clamp(16px, calc(15px + 0.19vw), 18px); font-weight: 400; line-height: 1.45; color: #17150F; }
   .body-sm { font-size: 14px; font-weight: 400; line-height: 1.45; }
   @media (min-width: 768px) {
     .headline { letter-spacing: -0.025em; }
@@ -72,6 +81,8 @@
   .border-t { border-top: 1px solid #e5e7eb; }
   .border-b { border-bottom: 1px solid #e5e7eb; }
   .border-x { border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; }
+  /* v2 website: on phones the page column is the whole screen, so its 1px side lines only push full-width pictures 1px in from each edge. Gone under 431px; the column keeps its frame on tablets. */
+  @media (max-width: 430px) { .max-w-phone.border-x { border-left-width: 0; border-right-width: 0; } }
   .divide-y > * + * { border-top: 1px solid #e5e7eb; }
 
   /* layout */
@@ -422,6 +433,68 @@
   #hero .divide-y { border-top-color: rgba(57, 0, 42, 0.35); border-bottom-color: rgba(57, 0, 42, 0.35); }
   #hero .divide-y > * + * { border-top-color: rgba(57, 0, 42, 0.35); }
 
+  /* ===== v2 website additions (ported from the design canvas, 2026-11-06). Everything from here to the next section comment belongs to the redesign. ===== */
+
+  /* Nav: dark plum bar with a soft warm glow behind the logo (centred 60px from the logo's left edge, 60px above the bar), basket and
+     Question on the right in the logo's cream, and a faint white key line along the bottom edge. --nav-edge is where the page column
+     starts, so the glow stays with the logo on wide screens. */
+  .site-nav {
+    --nav-edge: max(0px, (100vw - 430px) / 2);
+    background: radial-gradient(ellipse 210px 170px at calc(var(--nav-edge) + 60px) -60px, rgba(255,193,110,0.5) 0%, rgba(243,129,60,0.5) 20%, rgba(200,74,51,0.5) 40%, rgba(122,29,51,0.5) 62%, rgba(58,10,42,0.5) 82%, rgba(27,0,20,0.5) 100%), #1b0014;
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
+  }
+  @media (min-width: 768px) { .site-nav { --nav-edge: max(0px, (100vw - 1440px) / 2); } }
+  /* Footer: the same dark as the nav (solid, no glow). Owner asked 2026-11-06. */
+  .site-footer { background: #1b0014; }
+  .nav-row { display: flex; align-items: center; gap: 8px; min-height: 62px; }
+  .nav-row .logo-mark { align-self: center; flex-shrink: 0; }
+  .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: -8px; }
+  .nav-link { display: flex; align-items: center; gap: 6px; padding: 10px 4px; color: #f9f8c1; text-decoration: none; flex-shrink: 0; transition: opacity 150ms ease; }
+  .nav-link:hover { opacity: 0.75; }
+  .nav-link span { font-size: 14px; line-height: 1.45; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+  .nav-basket { width: 40px; height: 40px; flex-shrink: 0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; color: #f9f8c1; transition: background-color 150ms ease; }
+  .nav-basket:hover { background: rgba(249,248,193,0.14); }
+
+  /* Hero and product section body text, after the Feel page: 16px on 26px lines in near-black (the size still grows on desktop like .body-lg).
+     The links that carry .text-primary keep their plum. */
+  #hero .body-lg:not(.text-primary), #the-product .body-lg { color: #17150F; line-height: 1.625; }
+  #hero .ingredient-group-title { color: #17150F; }
+  .hero-intro { gap: 16px; }
+  .hero-flavour { margin-top: -8px; }
+
+  /* "Buy now" button colour (owner choice, 2026-11-06). The hero, product section and sticky buttons all use it. */
+  .cta-buy { background: #581E85; }
+
+  /* The pressed "Buy now": a small ring turning beside "One moment…", at full colour (not the dimmed look other disabled buttons get). */
+  .cta-button.is-loading { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .cta-button.is-loading:disabled { opacity: 1; cursor: progress; }
+  .buy-spinner { flex-shrink: 0; width: 18px; height: 18px; border-radius: 9999px; border: 2px solid rgba(255, 255, 255, 0.35); border-top-color: #ffffff; animation: buy-spin 800ms linear infinite; }
+  @keyframes buy-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .buy-spinner { animation: none; } }
+
+  /* Two soft capsules under the button: tint only, no outline, 24px outline icon, bold 16px text. */
+  .assurance-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .assurance-pill { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px 10px 14px; border-radius: 9999px; background: rgba(57, 0, 42, 0.06); color: #17150F; font-size: 16px; line-height: 1.3; font-weight: 600; }
+
+  /* Formula strip: a near-black bar, edge to edge across the hero column, that scrolls right to left at a steady pace and never stops
+     (24s per loop). Two identical groups side by side, the track slides left by one group's width, so the loop has no jump. Pauses
+     while hovered or touched; stands still for visitors who ask for reduced motion. Bebas Neue is self-hosted like Instrument Sans. */
+  /* Bebas Neue, latin subset, served from our own site like Instrument Sans. Source: Google Fonts (fonts.google.com/specimen/Bebas+Neue),
+     downloaded 2026-11-06 with the owner's yes, SIL Open Font License 1.1. The strip's text is all basic latin. */
+  @font-face { font-family: 'Bebas Neue'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/bebas-neue-latin.woff2) format('woff2'); }
+  @keyframes formula-scroll { from { transform: translateX(0); } to { transform: translateX(var(--formula-shift, -50%)); } }
+  /* The strip is a full-width block under the hero (see the markup), 72px tall. The track is positioned inside it and centred vertically, so
+     its length never counts towards the page width (a track in the normal flow made the two-column desktop layout scroll sideways). The
+     script sets --formula-shift (one group's width) and --formula-time (that width at 26px a second); the values here are the no-script fallback. */
+  .formula-strip { position: relative; overflow: hidden; background: #080811; height: 72px; }
+  .formula-track { position: absolute; top: 0; bottom: 0; left: 0; display: flex; align-items: center; width: max-content; animation: formula-scroll var(--formula-time, 24s) linear infinite; }
+  .formula-strip:hover .formula-track { animation-play-state: paused; }  .formula-group { display: flex; flex-shrink: 0; }
+  /* Regular weight only, Bebas Neue first (Arial Narrow is only the fallback if the file ever fails to load; the heavy Impact face used
+     earlier as a stand-in was the reason the text looked far too bold). 48px between items; two-line items have 24px lines so the words do not crowd. */
+  .formula-item { display: flex; align-items: center; gap: 8px; padding-right: 48px; flex-shrink: 0; font-family: 'Bebas Neue', 'Arial Narrow', 'Roboto Condensed', sans-serif; font-size: 20px; font-weight: 400; line-height: 24px; letter-spacing: 1px; text-transform: uppercase; color: #f9f8c1; white-space: nowrap; }
+  .formula-item svg { flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .formula-track { animation: none; } .formula-strip { overflow-x: auto; } }
+
   /* responsive: shared 2-column reflow, used by Hero, Problem, Product */
   .hero-media { min-width: 0; }
   .cta-button { width: 100%; font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
@@ -510,13 +583,19 @@
 </style>
 <noscript><style>.title-fade { opacity: 1; transform: none; }</style></noscript>
 <!-- 1. NAVIGATION -->
-<header class="bg-primary">
-  <div class="max-w-phone mx-auto px-4 py-5 relative">
+<header class="site-nav">
+  <div class="max-w-phone mx-auto px-4 nav-row">
     <img src="images/logo.png" alt="Morningo" class="logo-mark">
-    <a href="#" class="chat-trigger nav-pill bg-primary-mid text-white" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); text-decoration:none;" aria-label="Have a question?">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
-      <span class="body-sm" style="font-weight:500;">Question</span>
-    </a>
+    <div class="nav-actions">
+      <a href="#" class="chat-trigger nav-link" aria-label="Have a question?">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z"/></svg>
+        <span>Question</span>
+      </a>
+      <!-- Placeholder: there is no shop or basket yet, so this does nothing. -->
+      <button type="button" class="nav-basket" aria-label="Open basket">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5h18l-1.7 9a2 2 0 0 1-2 1.6H6.7a2 2 0 0 1-2-1.6L3 9.5z"/><path d="M7.5 9.5L10.5 4M16.5 9.5L13.5 4"/><path d="M9.5 13.2v3.3M12 13.2v3.3M14.5 13.2v3.3"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -531,35 +610,26 @@
     <div id="hero-gallery-mobile">
     <div class="relative">
       <div id="hero-gallery" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        <!-- Slide order (owner decision 2026-10-22): the five gallery pictures the owner supplied, in the order he numbered them
-             (gallery-1 to gallery-5; the text on pictures 1 to 5 is baked into the artwork, so the alt text repeats it), then the video last.
-             Slide 1 carries fetchpriority="high" because it is the first thing painted. Replaces the earlier hero-main, box-main,
-             sachet-main and quote slides, whose files are still in images/ but no longer used. -->
-        <img src="images/gallery-1.webp" fetchpriority="high" data-analytics-name="Sachet and drink" alt="A Morningo sachet standing beside a cut-glass tumbler of purple drink with a pale foam head, with blackcurrants and sliced ginger in front. Beside it: natural caffeine, thick on purpose, blackcurrant warmed with ginger" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-2.webp" data-analytics-name="Loic review" alt="Five-star tester review from Loic P: &ldquo;I&rsquo;ve been pleasantly surprised through the morning. It&rsquo;s nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-3.webp" data-analytics-name="Box and drink on a chair" alt="A Morningo box on a purple velvet chair beside a glass of purple drink, blackcurrants, sliced ginger and a sachet. The new morning drink that needs a seat." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-4.webp" data-analytics-name="One sachet, one glass" alt="A hand holding a cut-glass tumbler of purple drink with a pale foam head, a Morningo sachet beside it. One sachet. One glass of water." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <img src="images/gallery-5.webp" data-analytics-name="28 beautiful mornings" alt="A hand taking a Morningo sachet from an open box of sachets. 28 beautiful mornings." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
-        <!-- Slide 6: hero video. The poster <img> underneath loads and paints first; the <video> on top gets its source
-             after the page has loaded and stays invisible until it is actually playing. See the loader script at the end of the page. -->
-        <div class="photo-frame aspect-4-3 w-full shrink-0 snap-start" data-analytics-name="Video" style="position:relative; overflow:hidden; background:#1b1714;">
-          <img id="hero-video-poster" src="images/hero-poster.webp" alt="Morningo drink being poured into a glass" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
-          <video id="hero-video" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0;" muted playsinline preload="none" aria-hidden="true">
-            <source data-src="video/hero-drink.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <div class="absolute bottom-4 left-50 translate-x-neg50 w-28 h-1-5 bg-white-40 rounded-full overflow-hidden relative">
-        <div id="hero-progress-fill" class="h-full bg-ink rounded-full absolute top-0" style="width:16.667%; left:0%;"></div>
+        <!-- Slide order (owner decision 2026-11-06, redesign): six new pictures, in the order the owner numbered them (his frames Hero1 to Hero6: box, reviews, coffee, mix, laptop, sleep; gallery-v3-1 to
+             gallery-v3-6, 1600x1200 WebP made with the site's usual image settings). The video slide is gone. The text on the pictures is
+             baked into the artwork, so the alt text repeats it. Slide 1 carries fetchpriority="high" because it is the first thing painted.
+             The live page's gallery-1 to gallery-5 files and the video are untouched in images/ and video/ and still used by v2.
+             Check before release: the box in picture 6 says 26 servings (the page says 28), and the claims on pictures 4 to 6. -->
+        <img src="images/gallery-v3-1.webp" fetchpriority="high" data-analytics-name="Box and four benefits" alt="A Morningo box beside a glass of purple drink and a sachet, with blackcurrants and sliced ginger in front. Across the top, four benefits: support concentration, steady energy, defend focus, fight fatigue." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-2.webp" data-analytics-name="Amber and Loic reviews" alt="Two people with a purple foam moustache each, holding glasses of Morningo. Above them, two reviews. Amber H, four stars: &ldquo;Feels like I'm drinking a luxury smoothie with some nice extras&rdquo;. Loic P, five stars: &ldquo;I've been pleasantly surprised through the morning. It's nice to take a moment with something different&rdquo;" class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-3.webp" data-analytics-name="Could replace your coffee" alt="A glass of purple Morningo and a sachet among empty espresso cups. Could replace your morning coffee: less caffeine than a big coffee, L-theanine works with caffeine, ginger lights up the taste buds." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-4.webp" data-analytics-name="Mix with water" alt="A hand pouring purple powder from a Morningo sachet into a glass of the drink. Mix with water &amp; take a moment to yourself." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-5.webp" data-analytics-name="Head down at work" alt="A glass of purple Morningo on a desk beside a laptop with two sticky notes on it, &ldquo;Focus!&rdquo; and &ldquo;Get yourself together&rdquo;. Great for days when you need your head down." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
+        <img src="images/gallery-v3-6.webp" data-analytics-name="Won't help you sleep" alt="A hand reaching for a glass of purple Morningo beside a sachet on a bedside table. Won&rsquo;t help you sleep. Will help you get going." class="photo-frame aspect-4-3 w-full shrink-0 snap-start" style="object-fit:cover;">
       </div>
     </div>
     <div class="flex gap-3 px-4 pt-4 pb-3">
-      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-1.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-2.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-3.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-4.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-5.webp); background-size:cover; background-position:center;"></button>
-      <button aria-label="View video 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/hero-poster.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 1 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-1.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 2 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-2.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 3 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-3.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 4 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-4.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 5 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-5.webp); background-size:cover; background-position:center;"></button>
+      <button aria-label="View image 6 of 6" class="hero-tile w-16 aspect-4-3 rounded-sm" style="background-image:url(images/gallery-v3-6.webp); background-size:cover; background-position:center;"></button>
     </div>
     </div>
     </div>
@@ -567,40 +637,40 @@
     <!-- product detail block -->
     <div class="flex flex-col gap-8 px-4 pt-3 pb-12">
 
-      <div class="flex flex-col gap-3">
-        <h1 class="headline">The new morning energy drink you sit down with</h1>
-        <p class="body-lg">Your first coffee stays. Morningo is its concentration partner in the second-coffee slot: thick, dark blackcurrant, warmed with ginger, stirred into a glass of water. We made 47 versions to get the thickness, taste and blend just right.</p>
+      <div class="flex flex-col hero-intro">
+        <h1 class="headline">Morning energy drink</h1>
+        <p class="body-lg hero-flavour">Flavour: Dark blackcurrant, warmed with ginger</p>
+        <p class="body-lg">The new, thicker, luxury way to get energised in the morning. Most energy comes thin, fizzy and in a can. This is thick enough to need a good shake. Not a big hit, on purpose.</p>
       </div>
 
-      <div class="flex flex-col gap-3">
-        <!-- h2 styled as a card title. No .title-fade: it sits above the fold, like the h1. -->
-        <h2 class="card-title">The core ingredients</h2>
-        <ul class="body-lg doc-list hero-list">
-          <li>80mg of natural caffeine, from green tea. About a small coffee's worth. Caffeine aids concentration.</li>
-          <li>Vitamin B12 contributes to normal energy-yielding metabolism and to the reduction of tiredness and fatigue.</li>
-          <li>Vitamin B5 contributes to normal mental performance.</li>
-          <li>And a few more: L-theanine, Rhodiola rosea root, blackcurrant extract and ginger.</li>
-        </ul>
-      </div>
+      <ul class="body-lg doc-list hero-list">
+        <li><strong>Support concentration</strong> - 80mg of caffeine, from green tea. About a small coffee&rsquo;s worth.</li>
+        <li><strong>Reduce tiredness</strong> - vitamins B12 and B5.</li>
+        <li><strong>Stay relaxed and switched on</strong> - L-theanine, an amino acid found in tea leaves.</li>
+        <li><strong>Keep mental fatigue at bay</strong> - Rhodiola rosea root extract.</li>
+      </ul>
 
-      <div>
-        <span class="offer-pill">Early access offer</span>
-        <div class="price-row">
-          <span class="card-title font-semibold">£60</span>
-          <span class="body-lg">28 servings, £2.14 per serving.</span>
-        </div>
-        <p class="body-lg mt-1">Flavour: Dark blackcurrant, warmed with ginger</p>
+      <div class="price-row">
+        <span class="card-title font-semibold">£60</span>
+        <span class="body-lg">28 servings, £2.14 per serving.</span>
       </div>
 
       <div class="flex flex-col gap-3" id="hero-cta-block">
-        <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="hero-cta">
-          Get first access
+        <button class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="hero-cta">
+          Buy now
         </button>
-        <div class="bg-gray-100 rounded-lg px-4 py-4">
-          <p class="body-lg font-semibold">Limited first release. Not on sale yet.</p>
-          <p class="cta-caption body-sm text-gray-500 mt-1">No payment now. We'll email you when your place opens.</p>
+        <div class="assurance-row">
+          <div class="assurance-pill">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>30 day money back guarantee</span>
+          </div>
+          <div class="assurance-pill">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+            <span>Free shipping</span>
+          </div>
         </div>
       </div>
+
 
       <!-- accordions -->
       <div class="divide-y divide-gray-200 border-t border-b border-gray-200">
@@ -717,6 +787,32 @@
     </div>
   </section>
 
+</div>
+
+<!-- FORMULA STRIP: full width, touching the bottom of the hero's lilac band. The page column closes before it and reopens after it (the same
+     pattern as the nav and footer), so it reaches both screen edges on any width. The four lines are the callouts already on the page
+     (Vegan, No artificial sweeteners, Research-led formula, Gluten free), not the wording from the reference site, which says "No sweeteners
+     or fillers" and "No bulking agents" (the citrus fibre is there to give the drink its body). A small script near the end of the page
+     copies the group until it is wider than the screen; the second group here is the no-script fallback and is hidden from screen readers. -->
+<div class="formula-strip" role="region" aria-label="What's in the formula">
+  <div class="formula-track">
+    <div class="formula-group">
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Vegan</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>No artificial<br>sweeteners</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Research-led<br>formula</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Gluten free</span></span>
+    </div>
+    <div class="formula-group" aria-hidden="true">
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Vegan</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>No artificial<br>sweeteners</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Research-led<br>formula</span></span>
+      <span class="formula-item"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#67209f"/><path d="M7 12.5l3.2 3.2L17 8.8" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Gluten free</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-phone mx-auto border-x border-gray-200">
+
   <!-- 3. PROBLEM -->
   <section id="problem" class="pt-section">
     <div class="split-columns">
@@ -752,25 +848,17 @@
   <!-- 4. THE PRODUCT -->
   <section id="the-product" class="pt-section">
     <div class="split-columns">
-    <img src="images/lady-holding-sachet.webp" alt="Woman holding a Morningo sachet in front of her" class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
+    <img src="images/product-glass-sachet.webp" alt="A Morningo sachet leaning against a cut-glass tumbler of purple drink with a pale foam head, on a stone block in front of a purple velvet backdrop. Calm, focussed, no crash. Blackcurrant warmed with ginger. Morning drink, 1 serving." class="photo-frame aspect-4-3 w-full mb-8" style="object-fit:cover;">
 
     <div class="flex flex-col gap-3 px-4">
-      <h2 class="headline-sm title-fade">Your first coffee is the one you look forward to. Now the second can be too.</h2>
+      <h2 class="headline-sm title-fade">A morning drink that keeps you switched on.</h2>
       <div class="flex flex-col gap-4">
-        <p class="body-lg">A thick, dark morning drink with a warm kick of ginger. It took us 47 versions to make one worth the glass.</p>
-        <p class="body-lg">Evenings get a table and some time. The second coffee gets a mug and a deadline, and it's gone before you notice.</p>
-        <p class="body-lg">We wanted that slot to have a drink of its own.</p>
-        <p class="body-lg">It's thick and it's not a quick drink, so you take your time with it.</p>
-        <ul class="body-lg doc-list hero-list">
-          <li>Thick. It needs a good shake.</li>
-          <li>Dark, with a foam head.</li>
-          <li>A warm kick of ginger at the end.</li>
-        </ul>
-        <p class="body-lg">It still has caffeine, from green tea.</p>
-        <p class="body-lg">If you want a dramatic hit, this isn't it. If you'd rather have a mid-morning worth stopping for, it's for you.</p>
+        <p class="body-lg">If your mornings start fine and slip by half ten, this is for you. It&rsquo;s a thick, dark drink to help you concentrate and keep tiredness away through the morning.</p>
+        <p class="body-lg">Thick and dark, with a dense foam head. It took 47 versions to make one worth the glass.</p>
+        <p class="body-lg">A sachet, a glass of water, a good shake. Keep your coffee, or swap it some mornings.</p>
         <div class="pt-4">
-          <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="product-cta">
-            Get first access
+          <button class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="product-cta">
+            Buy now
           </button>
         </div>
       </div>
@@ -958,15 +1046,7 @@
 
       <div class="px-6">
         <div class="divide-y divide-gray-200 border-t border-b border-gray-200">
-          <details class="py-4 group" open>
-            <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
-              It's not on sale yet. What am I signing up for?
-              <span class="text-ink font-normal text-2xl leading-none accordion-icon"></span>
-            </summary>
-            <p class="body-lg mt-3">Your email address, and nothing else. No payment, no card details.</p>
-            <p class="body-lg mt-3">When the first batch is ready, you hear about it before it opens to everyone else. We expect initial orders to be for 500 people.</p>
-            <p class="body-lg mt-3">We'll only email you when we're ready.</p>
-          </details>
+          <!-- The first question here, "It's not on sale yet. What am I signing up for?", was removed in the redesign (owner, 2026-11-06). -->
           <details class="py-4 group">
             <summary class="cursor-pointer body-lg flex justify-between items-center list-none" style="color:#17150F;">
               Does it work?
@@ -1010,7 +1090,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-primary text-white mt-section-gap">
+<footer class="site-footer text-white mt-section-gap">
   <div class="max-w-phone mx-auto px-6 pt-section pb-12">
     <div class="flex flex-col gap-3">
       <img src="images/logo.png" alt="Morningo" class="logo-mark">
@@ -1029,13 +1109,16 @@
 <div id="sticky-cta" class="sticky-cta">
   <div class="sticky-cta-inner">
     <div class="sticky-cta-group">
-      <button class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="sticky-cta-button">
-        Get first access
+      <button class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="sticky-cta-button">
+        Buy now
       </button>
-      <p class="cta-caption body-sm text-gray-500 text-center mt-3">No payment now. We'll email you when your place opens.</p>
+      <p class="cta-caption body-sm text-gray-500 text-center mt-3">30 day money back guarantee. Free shipping.</p>
     </div>
   </div>
 </div>
+
+<!-- Read out by screen readers when a "Buy now" button is pressed ("One moment…"). -->
+<span id="buy-status" role="status" aria-live="polite" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;"></span>
 
 <div id="cookie-banner" class="cookie-banner">
   <div class="max-w-phone mx-auto px-6">
@@ -1157,7 +1240,7 @@
   <form id="chat-form" class="flex flex-col gap-3 mt-8">
     <textarea id="chat-question" class="chat-textarea" placeholder="Type your question&hellip;" maxlength="1000" required></textarea>
     <p class="body-sm" id="chat-question-error" style="color:#b91c1c; display:none;">Please leave web links out of your question. They are blocked to stop spam.</p>
-    <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
+    <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-send">Send message</button>
   </form>
 
   <div id="chat-loading" class="chat-loading mt-6" style="display:none;">
@@ -1177,7 +1260,7 @@
         <p class="body-sm" id="chat-email-error" style="color:#b91c1c; display:none;">Enter a valid email address.</p>
       </div>
       <p class="body-sm" id="chat-send-error" style="color:#b91c1c; display:none;">Something went wrong sending that. Please try again.</p>
-      <button type="submit" class="cta-button bg-primary text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
+      <button type="submit" class="cta-button cta-buy text-white py-4 px-8 rounded-full" id="chat-email-send">Send message</button>
     </form>
   </div>
 
@@ -1258,16 +1341,14 @@
   (function() {
     const gallery = document.getElementById('hero-gallery');
     const tiles = Array.from(document.querySelectorAll('.hero-tile'));
-    const fill = document.getElementById('hero-progress-fill');
+    // The progress bar on the main image was removed in the redesign; the thumbnails still show which picture is showing.
     const count = tiles.length;
-    fill.style.width = (100 / count) + '%';
 
     function setActive(index) {
       tiles.forEach((tile, i) => {
         tile.classList.toggle('tile-active', i === index);
         tile.classList.toggle('opacity-50', i !== index);
       });
-      fill.style.left = (index * 100 / count) + '%';
     }
 
     tiles.forEach((tile, i) => {
@@ -1283,6 +1364,31 @@
 
     gallery.scrollLeft = 0;
     setActive(0);
+  })();
+
+  (function() {
+    // Formula strip: copies the first group until the track is wider than the screen plus one group, then slides the track left by exactly
+    // one group's width at about 26px a second, so the loop has no jump at any screen width or with whichever font has loaded.
+    const track = document.querySelector('.formula-track');
+    const first = track && track.querySelector('.formula-group');
+    if (!first) return;
+    const SPEED = 26; // pixels per second
+    function build() {
+      const groupWidth = first.getBoundingClientRect().width;
+      if (!groupWidth) return;
+      const wanted = Math.max(2, Math.ceil(window.innerWidth / groupWidth) + 1);
+      for (let i = track.querySelectorAll('.formula-group').length; i < wanted; i++) {
+        const copy = first.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        track.appendChild(copy);
+      }
+      track.style.setProperty('--formula-shift', '-' + groupWidth + 'px');
+      track.style.setProperty('--formula-time', (groupWidth / SPEED) + 's');
+    }
+    build();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+    let resizeTimer;
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(build, 200); });
   })();
 
   (function() {
@@ -1366,11 +1472,49 @@
   })();
 
   (function() {
-    // Wires the hero, product-section and sticky CTAs to the email capture page (see brief.md: "reached by clicking the CTA").
-    ['hero-cta', 'product-cta', 'sticky-cta-button'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => { window.location.href = window.morningoLink ? window.morningoLink('email-capture.html') : 'email-capture.html'; });
+    // Wires the hero, product-section and sticky "Buy now" buttons to the waitlist page (email-capture.html), with a gentle pause first
+    // (owner, 2026-11-06): the pressed button becomes a small spinner and "One moment…" for about a second and a half, so the move to
+    // "sorry, none available" does not feel like a dead end. The wording was "Checking stock…" first; the owner changed it to a neutral
+    // "One moment…" (2026-11-06) because a stock check that always ends the same way implies a lookup that does not happen.
+    // Change LOADING_LABEL or WAIT_MS to adjust. The click is still counted by analytics.js
+    // (it listens for the same click). If the visitor comes back with the Back button the buttons are put right again.
+    const LOADING_LABEL = 'One moment…';
+    const WAIT_MS = 1600;
+    const buttons = ['hero-cta', 'product-cta', 'sticky-cta-button'].map(id => document.getElementById(id)).filter(Boolean);
+    const status = document.getElementById('buy-status');
+    let waiting = false;
+
+    function reset() {
+      waiting = false;
+      if (status) status.textContent = '';
+      buttons.forEach(btn => {
+        if (btn.dataset.original === undefined) return;
+        btn.innerHTML = btn.dataset.original;
+        btn.classList.remove('is-loading');
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        delete btn.dataset.original;
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (waiting) return;
+        waiting = true;
+        btn.dataset.original = btn.innerHTML;
+        btn.classList.add('is-loading');
+        btn.setAttribute('aria-busy', 'true');
+        btn.innerHTML = '<span class="buy-spinner" aria-hidden="true"></span><span>' + LOADING_LABEL + '</span>';
+        btn.disabled = true;
+        if (status) status.textContent = LOADING_LABEL;
+        setTimeout(() => {
+          window.location.href = window.morningoLink ? window.morningoLink('email-capture.html') : 'email-capture.html';
+        }, WAIT_MS);
+      });
     });
+
+    // Back / forward from the waitlist page can restore this page as it was left, spinner and all.
+    window.addEventListener('pageshow', e => { if (e.persisted) reset(); });
   })();
 
   (function() {
@@ -1607,96 +1751,26 @@
 </script>
 
 <script>
-  // Hero video (gallery slide 1). The poster image underneath is what loads and paints first. The video has no source until
-  // the page has finished loading, stays invisible until it is really playing, and only starts once the browser says it can
-  // play the whole clip without stalling. If it can't (slow connection, stall, error) the visitor just keeps the poster.
+  // Arriving from another page of the site (not Back, not a reload): start at the top. Some wrappers, for example the Claude test link, keep the
+  // surrounding page's scroll position when the next page opens, so a short page opened from a long one landed at its bottom. scrollIntoView also
+  // asks a surrounding frame to scroll back up. Skipped once the visitor has touched, scrolled or typed, so it never yanks the page from under them.
   (function() {
-    const video = document.getElementById('hero-video');
-    if (!video || !('IntersectionObserver' in window)) return;
-
-    const HOLD_MS = 1500;      // rest on the final frame at the end of the clip
-    const FADE_MS = 800;       // then dissolve back to the poster (= the first frame) before restarting
-    const FADE_IN_MS = 250;    // video appearing over its identical poster
-    const STALL_MS = 1200;     // stuck buffering this long mid-play: give up and show the poster
-    const NO_DATA_MS = 4000;   // nothing downloaded after this long: try play() anyway (iOS Safari won't buffer until asked)
-
-    // Poster only (video never downloaded) for reduced motion, data-saver, or a 2G-or-slower connection.
-    // Chrome/Android report connection type; other browsers rely on the stall guard below.
-    const conn = navigator.connection || {};
-    const slowConnection = ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || conn.saveData === true || slowConnection) return;
-
-    let attached = false, inView = false;
-    let ready = false;       // the browser predicts the whole clip can play through without stalling
-    let stallTimer;
-    let phase = 'playing';   // 'playing' | 'holding' | 'fading': the loop timers own playback outside 'playing'
-
-    function setOpacity(value, duration) {
-      video.style.transitionProperty = 'opacity';
-      video.style.transitionTimingFunction = 'ease-in-out';
-      video.style.transitionDuration = duration + 'ms';
-      video.style.opacity = value;
-    }
-
-    function sync() {
-      if (!attached || !ready || phase !== 'playing') return;
-      if (inView && !document.hidden) video.play().catch(() => {});
-      else video.pause();
-    }
-
-    video.addEventListener('canplaythrough', () => { ready = true; sync(); });
-
-    // The video only becomes visible once it is actually playing.
-    video.addEventListener('playing', () => {
-      clearTimeout(stallTimer);
-      if (phase === 'playing') setOpacity(1, FADE_IN_MS);
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type !== 'navigate') return;
+    } catch (e) {}
+    var touched = false;
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(name) {
+      window.addEventListener(name, function() { touched = true; }, { passive: true, once: true });
     });
-
-    // Stalled mid-play, or errored: fade back to the poster instead of leaving a frozen frame, and try again from the
-    // start when the browser next reports it can play through.
-    function backToPoster() {
-      clearTimeout(stallTimer);
-      ready = false;
-      video.pause();
-      setOpacity(0, FADE_MS);
-      if (!video.error) video.currentTime = 0;
+    function toTop() {
+      if (touched) return;
+      window.scrollTo(0, 0);
+      try { document.documentElement.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) {}
     }
-    video.addEventListener('waiting', () => {
-      if (phase !== 'playing' || video.paused) return;
-      clearTimeout(stallTimer);
-      stallTimer = setTimeout(backToPoster, STALL_MS);
-    });
-    video.addEventListener('error', backToPoster);
-
-    // End of clip: rest on the last frame, dissolve to the poster, then start over.
-    video.addEventListener('ended', () => {
-      phase = 'holding';
-      setTimeout(() => {
-        phase = 'fading';
-        setOpacity(0, FADE_MS);
-        setTimeout(() => {
-          video.currentTime = 0;
-          phase = 'playing';
-          sync();
-        }, FADE_MS);
-      }, HOLD_MS);
-    });
-
-    function attach() {
-      if (attached) return;
-      attached = true;
-      video.querySelectorAll('source[data-src]').forEach(s => { s.src = s.dataset.src; });
-      video.preload = 'auto';
-      video.load();
-      setTimeout(() => { if (!ready && video.readyState < 2) { ready = true; sync(); } }, NO_DATA_MS);
-    }
-
-    // Play only while at least half the video is on screen (e.g. it pauses once swiped to another slide).
-    new IntersectionObserver(entries => { inView = entries[0].isIntersecting; sync(); }, { threshold: 0.5 }).observe(video);
-    document.addEventListener('visibilitychange', sync);
-
-    const start = () => ('requestIdleCallback' in window ? requestIdleCallback(attach, { timeout: 2000 }) : setTimeout(attach, 200));
-    if (document.readyState === 'complete') start(); else addEventListener('load', start);
+    toTop();
+    document.addEventListener('DOMContentLoaded', toTop);
+    window.addEventListener('load', toTop);
   })();
 </script>
 
